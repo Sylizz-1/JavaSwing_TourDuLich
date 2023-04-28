@@ -108,6 +108,7 @@ public class HotelDAO implements DAO<HotelDTO> {
         return result;
     }
 
+    // comment
     @Override
     public boolean update(HotelDTO HotelDTO) {
         boolean result = false;
