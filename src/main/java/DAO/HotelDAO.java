@@ -10,7 +10,7 @@ public class HotelDAO implements DAO<HotelDTO> {
 	public static HotelDAO getInstance() {
 		return new HotelDAO();
 	}
-
+//Comment
     @Override
     public ArrayList<HotelDTO> getAll() {
         ArrayList<HotelDTO> arr = new ArrayList<HotelDTO>();
