@@ -24,7 +24,7 @@ public class RoleDAO implements DAO<RoleDTO> {
                 role.setRole_name(rs.getString("role_name"));
                 arr.add(role);
             }
-
+// hhhhh
         }
         catch (Exception e) {
             e.printStackTrace();
