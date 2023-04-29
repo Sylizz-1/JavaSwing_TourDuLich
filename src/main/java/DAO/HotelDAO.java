@@ -75,8 +75,8 @@ public class HotelDAO implements DAO<HotelDTO> {
     @Override
     public boolean add(HotelDTO HotelDTO) {
         boolean result = false;
-        ConnectDatabase conndb = new ConnectDatabase();
         try {
+        	ConnectDatabase conndb = new ConnectDatabase();
 
         	String query = " INSERT INTO hotel (hotel_id,hotel_name,address,tel,website,star)"
 					+ "VALUES (?,?,?,?,?,?)";
@@ -97,13 +97,11 @@ public class HotelDAO implements DAO<HotelDTO> {
             if (st.executeUpdate()>=1)
                 result = true;
 
+            conndb.closeConnection();
         }
         catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-        }
-        finally {
-            conndb.closeConnection();
         }
         return result;
     }

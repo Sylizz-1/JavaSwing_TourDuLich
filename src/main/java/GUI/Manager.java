@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.BorderLayout;
@@ -16,10 +18,19 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import controller.ManagerControl;
+import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
+
 import java.awt.FlowLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -28,10 +39,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.awt.CardLayout;
 import java.awt.Insets;
 import javax.swing.border.EtchedBorder;
 import com.toedter.calendar.JDateChooser;
+
+import DAO.HotelDAO;
+import DTO.HotelDTO;
+
 import javax.swing.JCheckBox;
 
 
@@ -2882,6 +2900,36 @@ public class Manager extends JFrame {
 		pnlButtonHotel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 10));
 		
 		btnAddHotel = new JButton("Add");
+		btnAddHotel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdHotel.getText().trim();
+				int idhotel = Integer.parseInt(idString);
+				String nameString = txtNameHotel.getText();
+				String addressString = txtAddressHotel.getText();
+				String telString = txtPhoneHotel.getText().trim();
+				int telhotel = Integer.parseInt(telString);
+				String webString = txtWebHotel.getText();
+				String cbxString =(String) cbxStartHotel.getSelectedItem();
+				int starhotel = Integer.parseInt(cbxString);
+				if(idString == "" || nameString==""|| addressString==""|| telString==""|| webString=="") {
+					 JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+				}
+				else {
+					HotelDTO hotelDTO = new HotelDTO(idhotel,nameString,addressString,telhotel,webString,starhotel);
+					int result = JOptionPane.showConfirmDialog(null,
+	                        "Bạn có muốn them hotel  " +nameString,
+	                        "Xác nhận",
+	                        JOptionPane.YES_NO_OPTION,
+	                        JOptionPane.QUESTION_MESSAGE);
+	                if(result == JOptionPane.YES_OPTION){
+	                	  HotelDAO.getInstance().add(hotelDTO);
+	                      ClassLoaddataHotel();
+	                }
+//	                JOptionPane.showMessageDialog(null, "dsfasfasfasfasfas");
+	                RefreshHotel();
+				}
+			}
+		});
 		btnAddHotel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAddHotel.setFocusPainted(false);
 		btnAddHotel.setBackground(new Color(66, 165, 243));
@@ -2889,6 +2937,22 @@ public class Manager extends JFrame {
 		pnlButtonHotel.add(btnAddHotel);	
 		
 		btnDeleteHotel = new JButton("Delete");
+		btnDeleteHotel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdHotel.getText().trim();
+				int idhotel = Integer.parseInt(idString);
+				int result = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc muốn xoa hotel id: " +idhotel,
+                        "Xác nhận",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(result == JOptionPane.YES_OPTION){
+    				HotelDAO.getInstance().delete(idhotel);
+    				ClassLoaddataHotel();
+                }
+				RefreshHotel();
+			}
+		});
 		btnDeleteHotel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDeleteHotel.setBackground(new Color(66, 165, 243));
 		btnDeleteHotel.setFocusPainted(false);
@@ -2896,6 +2960,12 @@ public class Manager extends JFrame {
 		pnlButtonHotel.add(btnDeleteHotel);
 		
 		btnRefreshHotel = new JButton("Refresh");
+		btnRefreshHotel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RefreshHotel();
+			    
+			}
+		});
 		btnRefreshHotel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRefreshHotel.setBackground(new Color(66, 165, 243));
 		btnRefreshHotel.setFocusPainted(false);
@@ -2911,48 +2981,48 @@ public class Manager extends JFrame {
 		sclListHotel = new JScrollPane();
 		pnlListHotel.add(sclListHotel, BorderLayout.CENTER);
 		
-		Object [][] data6 = {
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-				
-		};
-		
-		String [] items6 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-		hotelListTable = new JTable(data6,items6);
-		sclListHotel.setViewportView(hotelListTable);
-		
-		panel_3 = new JPanel();
-		panel_3.setPreferredSize(new Dimension(50, 10));
-		pnlContentHotelDetail.add(panel_3, BorderLayout.EAST);
-		
+//		Object [][] data6 = {
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
+//				
+//		};
+//		
+//		String [] items6 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
+//		hotelListTable = new JTable(data6,items6);
+//		sclListHotel.setViewportView(hotelListTable);
+//		
+//		panel_3 = new JPanel();
+//		panel_3.setPreferredSize(new Dimension(50, 10));
+//		pnlContentHotelDetail.add(panel_3, BorderLayout.EAST);
+		ClassLoaddataHotel();
 		panel_4 = new JPanel();
 		panel_4.setPreferredSize(new Dimension(50, 10));
 		pnlContentHotelDetail.add(panel_4, BorderLayout.WEST);
@@ -3246,7 +3316,7 @@ public class Manager extends JFrame {
 		};
 		
 		String [] items7 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-		accListTable = new JTable(data6,items6);
+		accListTable = new JTable(data7,items7);
 		sclListAcc.setViewportView(accListTable);
 		
 		panel_3 = new JPanel();
@@ -3278,6 +3348,63 @@ public class Manager extends JFrame {
 		
 			
 	}
+//	render list Hotel --------------------------------------------------------------------
+	public void ClassLoaddataHotel() {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("ID");;
+		model.addColumn("Name");
+		model.addColumn("Address");
+		model.addColumn("Tell");
+		model.addColumn("Website");
+		model.addColumn("Star");
+		ArrayList<HotelDTO> htDTO = HotelDAO.getInstance().getAll();
+		for(HotelDTO itemHotel : htDTO) {
+			model.addRow(new Object[] {
+				itemHotel.getHotel_id(),itemHotel.getHotel_name(),itemHotel.getAddress(),itemHotel.getTel(),itemHotel.getWebsite(),itemHotel.getStar()
+			});				
+		}
+		hotelListTable = new JTable();
+		hotelListTable.setModel(model);
+		sclListHotel.setViewportView(hotelListTable);
+		panel_3 = new JPanel();
+		panel_3.setPreferredSize(new Dimension(50, 10));
+		pnlContentHotelDetail.add(panel_3, BorderLayout.EAST);
+		getDataFromJtable();
+		
+}
+	public void RefreshHotel() {
+		txtIdHotel.setText(" ");
+		txtNameHotel.setText(" ");
+		txtAddressHotel.setText(" ");
+		txtPhoneHotel.setText(" ");
+		txtWebHotel.setText(" ");
+	}
+	public void getDataFromJtable() {
+		List<HotelDTO> hotelDTO = new ArrayList<HotelDTO>();
+		hotelListTable.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	        	 int i = hotelListTable.getSelectedRow();
+	        	 TableModel model = hotelListTable.getModel();
+	        	 int idhotel = Integer.parseInt(model.getValueAt(i,0).toString());
+	        	 String nameHotelString = model.getValueAt(i,1).toString();
+	        	 String addressHotelString = model.getValueAt(i,2).toString();
+	        	 int telhotel = Integer.parseInt(model.getValueAt(i,3).toString());
+	        	 String webHotelString = model.getValueAt(i,4).toString();
+	        	 int starthotel = Integer.parseInt(model.getValueAt(i,5).toString());
+//	        	add  table to txt
+	        	String idhotelString = String.valueOf(idhotel);
+	        	txtIdHotel.setText(idhotelString);
+	     		txtNameHotel.setText(nameHotelString);
+	     		txtAddressHotel.setText(addressHotelString);
+	     		 String telhotelString = String.valueOf(telhotel);
+	     		txtPhoneHotel.setText(telhotelString);
+	     		txtWebHotel.setText(webHotelString);
+	     		cbxStartHotel.setSelectedItem(starthotel);
+	         }
+	      });
+		
+	}
+//	end Hotel----------------------------------------------------------------------------
 	
 	public void ChangeForm() {
 		cardLayout = (CardLayout)(pnlMainContent.getLayout());

@@ -74,6 +74,7 @@ public class HotelDTO {
 		return "HotelDTO [hotel_id=" + hotel_id + ", hotel_name=" + hotel_name + ", address=" + address + ", tel=" + tel
 				+ ", website=" + website + ", star=" + star + "]";
 	}
+
     
 
 }

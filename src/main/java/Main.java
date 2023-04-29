@@ -39,9 +39,10 @@ public class Main {
 //    	 }
 //    	ArrayList<CustomerDTO> dddArrayList = CustomerDAO.getInstance().getAll();
 //    	for(CustomerDTO dddCustomerDTO : dddArrayList) {
-//    		System.out.println(dddArrayList.toString());
+////    		System.out.println(dddArrayList.toString());
     	Manager manager = new Manager();
 		manager.setVisible(true);
+
     	}
     }
 
