@@ -6,15 +6,15 @@ public class CustomerDTO {
     private int customer_id;
     private String customer_name;
     private int tel;
-    private Date birthday;
+    private String birthday;
     private String email;
-    private Date create_at;
+    private String create_at;
 
     public CustomerDTO() {
 
     }
     
-    public CustomerDTO(int customer_id, String customer_name, int tel, Date birthday, String email, Date create_at) {
+    public CustomerDTO(int customer_id, String customer_name, int tel, String birthday, String email, String create_at) {
 		super();
 		this.customer_id = customer_id;
 		this.customer_name = customer_name;
@@ -48,11 +48,11 @@ public class CustomerDTO {
         this.tel = tel;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -64,11 +64,11 @@ public class CustomerDTO {
         this.email = email;
     }
 
-    public Date getCreate_at() {
+    public String getCreate_at() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
+    public void setCreate_at(String create_at) {
         this.create_at = create_at;
     }
 
