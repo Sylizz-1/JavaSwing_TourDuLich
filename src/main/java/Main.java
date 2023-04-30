@@ -1,4 +1,5 @@
 import DAO.*;
+
 import DTO.CustomerDTO;
 import DTO.HotelDTO;
 import DTO.PlaceDTO;
@@ -12,11 +13,15 @@ import java.awt.event.ActionListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Vector;
-
 
 public class Main {
-
+	public static boolean isURL(String url) {
+		  try {
+		     (new java.net.URL(url)).openStream().close();
+		     return true;
+		  } catch (Exception ex) { }
+		  return false;
+		}
     public static void main(String[] args) throws SQLException {
 //        TourDAO abc = new TourDAO();
 //
@@ -42,7 +47,8 @@ public class Main {
 ////    		System.out.println(dddArrayList.toString());
     	Manager manager = new Manager();
 		manager.setVisible(true);
-
+		
+		
     	}
     }
 
