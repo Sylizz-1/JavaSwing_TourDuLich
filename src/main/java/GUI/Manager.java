@@ -25,11 +25,13 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import controller.ManagerControl;
-import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
+
 
 import java.awt.FlowLayout;
 import java.awt.Component;
@@ -45,6 +47,9 @@ import javax.swing.table.TableModel;
 import java.awt.CardLayout;
 import java.awt.Insets;
 import javax.swing.border.EtchedBorder;
+
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.toedter.calendar.JDateChooser;
 
 import DAO.HotelDAO;
@@ -2743,8 +2748,50 @@ public class Manager extends JFrame {
 		pnlIconSrc_Txt.add(txtSearchHotel, BorderLayout.CENTER);
 		txtSearchHotel.setMargin(new Insets(2, 10, 2, 10));
 		txtSearchHotel.addFocusListener(focusListener);
-		
+//		tìm kiem nang cao ------------------------------------------------------------------------------------------------------------------------------------------
 		lblSearchHotel = new JLabel("");
+		lblSearchHotel.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	         String shString = txtSearchHotel.getText().trim();
+	         if(isNumeric(shString)== true) {
+	        	 int idhotel = Integer.parseInt(shString.trim());
+	        	 HotelDTO hotelDTO = HotelDAO.getInstance().getById(idhotel);
+	        	 String idhotelString = String.valueOf(hotelDTO.getHotel_id());
+		        	txtIdHotel.setText(idhotelString);
+		     		txtNameHotel.setText(hotelDTO.getHotel_name());
+		     		txtAddressHotel.setText(hotelDTO.getAddress());
+		     		 String telhotelString = String.valueOf(hotelDTO.getTel());
+		     		txtPhoneHotel.setText(telhotelString);
+		     		txtWebHotel.setText(hotelDTO.getWebsite());
+		     		cbxStartHotel.setSelectedItem(hotelDTO.getStar());
+	         }
+	         if (isNumeric(shString)== false) {
+	        	 ArrayList<HotelDTO> arrhHotelDTOs = HotelDAO.getInstance().getAll();
+	        	 Boolean checkKQ = false;
+		         for(HotelDTO jjjHotelDTO: arrhHotelDTOs) {
+		        	 String temp = Normalizer.normalize(jjjHotelDTO.getHotel_name(), Normalizer.Form.NFD);
+		        	 String temp2 = Normalizer.normalize(shString, Normalizer.Form.NFD);
+		   		     Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+		        	 if(pattern.matcher(temp).replaceAll("").equalsIgnoreCase(pattern.matcher(temp2).replaceAll(""))) {
+		        		 String idhotelString = String.valueOf(jjjHotelDTO.getHotel_id());
+		        		  txtIdHotel.setText(idhotelString);
+				     		txtNameHotel.setText(jjjHotelDTO.getHotel_name());
+				     		txtAddressHotel.setText(jjjHotelDTO.getAddress());
+				     		 String telhotelString = String.valueOf(jjjHotelDTO.getTel());
+				     		txtPhoneHotel.setText(telhotelString);
+				     		txtWebHotel.setText(jjjHotelDTO.getWebsite());
+				     		cbxStartHotel.setSelectedItem(jjjHotelDTO.getStar());
+				     		checkKQ = true;
+		        	 }
+		         }
+		         if(checkKQ == false) {
+		        	 JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Hotel !");		        
+		         }
+	         }
+	         }
+	         
+	      });
+//	end serach ----------------------------------------------------------------------------------------------------------------------------------
 		lblSearchHotel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		pnlIconSrc_Txt.add(lblSearchHotel, BorderLayout.EAST);
 		lblSearchHotel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
@@ -2902,31 +2949,42 @@ public class Manager extends JFrame {
 		btnAddHotel = new JButton("Add");
 		btnAddHotel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String idString = txtIdHotel.getText().trim();
-				int idhotel = Integer.parseInt(idString);
+				String idString = txtIdHotel.getText();
+				int idhotel = 0 ;
+				if(isNumeric(idString)==true) {
+					 idhotel = Integer.parseInt(idString.trim());					
+				}
 				String nameString = txtNameHotel.getText();
 				String addressString = txtAddressHotel.getText();
-				String telString = txtPhoneHotel.getText().trim();
-				int telhotel = Integer.parseInt(telString);
+				String telString = txtPhoneHotel.getText();
+				int telhotel= 0;
+				if(isNumeric(telString)==true) {
+					telhotel = Integer.parseInt(telString.trim());					
+				}
 				String webString = txtWebHotel.getText();
 				String cbxString =(String) cbxStartHotel.getSelectedItem();
 				int starhotel = Integer.parseInt(cbxString);
-				if(idString == "" || nameString==""|| addressString==""|| telString==""|| webString=="") {
-					 JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+				if( isNumeric(idString)==false ) {
+					JOptionPane.showMessageDialog(null, "Định dạng id phải là số  !");
 				}
+				if(checkPhone(telString)==false) {
+					JOptionPane.showMessageDialog(null, "Định dạng số điện thoại không dúng  !");
+				}
+//				if(isURL(webString)==false) {
+//					JOptionPane.showMessageDialog(null, "Định dạng website khong dung !");
+//				}
 				else {
 					HotelDTO hotelDTO = new HotelDTO(idhotel,nameString,addressString,telhotel,webString,starhotel);
 					int result = JOptionPane.showConfirmDialog(null,
-	                        "Bạn có muốn them hotel  " +nameString,
-	                        "Xác nhận",
-	                        JOptionPane.YES_NO_OPTION,
-	                        JOptionPane.QUESTION_MESSAGE);
-	                if(result == JOptionPane.YES_OPTION){
-	                	  HotelDAO.getInstance().add(hotelDTO);
-	                      ClassLoaddataHotel();
-	                }
-//	                JOptionPane.showMessageDialog(null, "dsfasfasfasfasfas");
-	                RefreshHotel();
+		                        "Bạn có muốn them hotel  " +nameString,
+		                        "Xác nhận",
+		                        JOptionPane.YES_NO_OPTION,
+		                        JOptionPane.QUESTION_MESSAGE);
+		             if(result == JOptionPane.YES_OPTION){
+		                	  HotelDAO.getInstance().add(hotelDTO);
+		                      ClassLoaddataHotel();
+		             }
+		             RefreshHotel();
 				}
 			}
 		});
@@ -2982,33 +3040,6 @@ public class Manager extends JFrame {
 		pnlListHotel.add(sclListHotel, BorderLayout.CENTER);
 		
 //		Object [][] data6 = {
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
 //				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
 //				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
 //				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
@@ -3404,6 +3435,31 @@ public class Manager extends JFrame {
 	      });
 		
 	}
+	public boolean checkPhone(String str){
+        String reg = "^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$";
+        boolean kt = str.matches(reg);
+        return kt;
+    }
+	public boolean isURL(String url) {
+		  try {
+		     (new java.net.URL(url)).openStream().close();
+		     return true;
+		  } catch (Exception ex) { }
+		  return false;
+		}
+	public static boolean isNumeric(final CharSequence cs) {
+        if (cs.isEmpty()) {
+            return false;
+        }
+        final int sz = cs.length();
+        for (int i = 0; i < sz; i++) {
+            if (!Character.isDigit(cs.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+	}
+
 //	end Hotel----------------------------------------------------------------------------
 	
 	public void ChangeForm() {
