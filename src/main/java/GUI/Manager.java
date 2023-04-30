@@ -25,11 +25,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-<<<<<<< Updated upstream
 import java.util.ArrayList;
 import java.util.List;
-
-=======
 import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.ParseException;
@@ -38,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.text.SimpleDateFormat;
->>>>>>> Stashed changes
 import controller.ManagerControl;
 
 import java.awt.FlowLayout;
@@ -55,10 +51,6 @@ import javax.swing.table.TableModel;
 import java.awt.CardLayout;
 import java.awt.Insets;
 import javax.swing.border.EtchedBorder;
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 import com.toedter.calendar.JDateChooser;
 
 import DAO.CustomerDAO;
