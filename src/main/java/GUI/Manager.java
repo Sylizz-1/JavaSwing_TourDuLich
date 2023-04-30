@@ -2952,27 +2952,27 @@ public class Manager extends JFrame {
 				String idString = txtIdHotel.getText();
 				int idhotel = 0 ;
 				if(isNumeric(idString)==true) {
-					 idhotel = Integer.parseInt(idString.trim());					
+					 idhotel = Integer.parseInt(idString.trim());			
 				}
-				String nameString = txtNameHotel.getText();
-				String addressString = txtAddressHotel.getText();
+				String nameString = txtNameHotel.getText().trim();
+				String addressString = txtAddressHotel.getText().trim();
 				String telString = txtPhoneHotel.getText();
 				int telhotel= 0;
 				if(isNumeric(telString)==true) {
 					telhotel = Integer.parseInt(telString.trim());					
 				}
-				String webString = txtWebHotel.getText();
+				String webString = txtWebHotel.getText().trim();
 				String cbxString =(String) cbxStartHotel.getSelectedItem();
 				int starhotel = Integer.parseInt(cbxString);
-				if( isNumeric(idString)==false ) {
+				if( isNumeric(idString)== false ) {
 					JOptionPane.showMessageDialog(null, "Định dạng id phải là số  !");
 				}
 				if(checkPhone(telString)==false) {
 					JOptionPane.showMessageDialog(null, "Định dạng số điện thoại không dúng  !");
 				}
-//				if(isURL(webString)==false) {
-//					JOptionPane.showMessageDialog(null, "Định dạng website khong dung !");
-//				}
+				if(isURL(webString)==false) {
+					JOptionPane.showMessageDialog(null, "Định dạng website khong dung !");
+				}
 				else {
 					HotelDTO hotelDTO = new HotelDTO(idhotel,nameString,addressString,telhotel,webString,starhotel);
 					int result = JOptionPane.showConfirmDialog(null,
@@ -3409,6 +3409,7 @@ public class Manager extends JFrame {
 		txtAddressHotel.setText(" ");
 		txtPhoneHotel.setText(" ");
 		txtWebHotel.setText(" ");
+		txtSearchHotel.setText("");
 	}
 	public void getDataFromJtable() {
 		List<HotelDTO> hotelDTO = new ArrayList<HotelDTO>();
@@ -3440,7 +3441,7 @@ public class Manager extends JFrame {
         boolean kt = str.matches(reg);
         return kt;
     }
-	public boolean isURL(String url) {
+	public static boolean isURL(String url) {
 		  try {
 		     (new java.net.URL(url)).openStream().close();
 		     return true;

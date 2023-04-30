@@ -1,8 +1,6 @@
 package DAO;
 
 import DTO.HotelDTO;
-
-
 import java.sql.*;
 import java.util.ArrayList;
 
