@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.ManagerControl;
-import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 import java.awt.FlowLayout;
 import java.awt.Component;

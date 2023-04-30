@@ -4,7 +4,7 @@ import DTO.HotelDTO;
 import DTO.PlaceDTO;
 import DTO.TourDTO;
 import GUI.*;
-import view.Manager;
+import GUI.Manager;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
