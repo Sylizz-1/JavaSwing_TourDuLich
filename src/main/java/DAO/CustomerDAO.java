@@ -23,16 +23,15 @@ public class CustomerDAO implements DAO<CustomerDTO> {
             String query = "Select * from customer";
             ResultSet rs = conn.createStatement().executeQuery(query);
             while (rs.next()) {
-                CustomerDTO customer = new CustomerDTO();
-                customer.setCustomer_id(rs.getInt("customer_id"));
-                customer.setCustomer_name(rs.getString("customer_name"));
-                customer.setTel(rs.getInt("tel"));
-                customer.setBirthday(rs.getDate("birthday"));
-                customer.setEmail(rs.getString("email"));
-                customer.setCreate_at(rs.getDate("create_at"));
-                arr.add(customer);
+                CustomerDTO customerDTO = new CustomerDTO();
+                customerDTO.setCustomer_id(rs.getInt("customer_id"));
+                customerDTO.setCustomer_name(rs.getString("customer_name"));
+                customerDTO.setTel(rs.getInt("tel"));
+                customerDTO.setBirthday(rs.getString("birthday"));
+                customerDTO.setEmail(rs.getString("email"));
+                customerDTO.setCreate_at(rs.getString("create_at"));
+                arr.add(customerDTO);
             }
-
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -59,9 +58,9 @@ public class CustomerDAO implements DAO<CustomerDTO> {
                 customer.setCustomer_id(rs.getInt("customer_id"));
                 customer.setCustomer_name(rs.getString("customer_name"));
                 customer.setTel(rs.getInt("tel"));
-                customer.setBirthday(rs.getDate("birthday"));
+                customer.setBirthday(rs.getString("birthday"));
                 customer.setEmail(rs.getString("email"));
-                customer.setCreate_at(rs.getDate("create_at"));
+                customer.setCreate_at(rs.getString("create_at"));
             }
             else return null;
 
@@ -87,7 +86,7 @@ public class CustomerDAO implements DAO<CustomerDTO> {
             st.setInt(1,customerDTO.getCustomer_id());
             st.setString(2,customerDTO.getCustomer_name());
             st.setInt(3,customerDTO.getTel());
-            st.setDate(4,customerDTO.getBirthday());
+            st.setString(4,customerDTO.getBirthday());
             st.setString(5,customerDTO.getEmail());
             int checkRS = st.executeUpdate();
             if(checkRS> 0 ) {
@@ -126,7 +125,7 @@ public class CustomerDAO implements DAO<CustomerDTO> {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1,customerDTO.getCustomer_name());
             st.setInt(2,customerDTO.getTel());
-            st.setDate(3,customerDTO.getBirthday());
+            st.setString(3,customerDTO.getBirthday());
             st.setString(4,customerDTO.getEmail());
             int checkRS = st.executeUpdate();
             if(checkRS> 0 ) {
