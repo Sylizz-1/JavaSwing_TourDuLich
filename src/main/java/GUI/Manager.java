@@ -2828,6 +2828,22 @@ public class Manager extends JFrame {
 		pnlButtonSer.add(btnAddSer);	
 		
 		btnDeleteSer = new JButton("Delete");
+		btnDeleteSer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdSer.getText().trim();
+				int idser = Integer.parseInt(idString);
+				int result = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc muốn xoa hotel id: " +idser,
+                        "Xác nhận",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(result == JOptionPane.YES_OPTION){
+    				ServiceDAO.getInstance().delete(idser);
+    				ClassLoaddataService();
+                }
+				RefreshService();
+			}
+		});
 		btnDeleteSer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDeleteSer.setBackground(new Color(66, 165, 243));
 		btnDeleteSer.setFocusPainted(false);
@@ -2835,6 +2851,12 @@ public class Manager extends JFrame {
 		pnlButtonSer.add(btnDeleteSer);
 		
 		btnRefreshSer = new JButton("Refresh");
+		btnRefreshSer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RefreshService();
+			    
+			}
+		});
 		btnRefreshSer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRefreshSer.setBackground(new Color(66, 165, 243));
 		btnRefreshSer.setFocusPainted(false);
