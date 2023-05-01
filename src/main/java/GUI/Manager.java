@@ -1700,8 +1700,66 @@ public class Manager extends JFrame {
 		pnlIconSrc_Txt.add(txtSearchCus, BorderLayout.CENTER);
 		txtSearchCus.setMargin(new Insets(2, 10, 2, 10));
 		txtSearchCus.addFocusListener(focusListener);
-		
+//		serach ------------------------------------------------------------------------------------------------------------------------------------
 		lblSearchCus = new JLabel("");
+		lblSearchCus.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	        
+	         String shString = txtSearchCus.getText().trim();
+	         if(isNumeric(shString)== true) {
+	        	 int idcustomer = Integer.parseInt(shString.trim());
+	        	 CustomerDTO customerDTO = CustomerDAO.getInstance().getById(idcustomer);
+	        	 if(customerDTO != null) {
+	        		 String idcustomerString = String.valueOf(customerDTO.getCustomer_id());
+		        	 txtIdCus.setText(idcustomerString);
+			        	txtNameCus.setText(customerDTO.getCustomer_name());
+			     		 String telcusString = String.valueOf(customerDTO.getTel());
+			     		txtPhoneCus.setText(telcusString);
+			     		txtEmailCus.setText(customerDTO.getEmail());
+			     		try {
+							Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(customerDTO.getBirthday());
+			     		   OldCus.setDate(date1);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	        	 }
+	        	 if(customerDTO == null) {
+	        		 JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Customer !");	
+	        	 }
+	         }
+	          if (isNumeric(shString)== false) {
+	        	 ArrayList<CustomerDTO> arrhCustomerDTOs = CustomerDAO.getInstance().getAll();
+	        	 Boolean checkKQ = false;
+		         for(CustomerDTO itemCustomerDTO: arrhCustomerDTOs) {
+		        	 String temp = Normalizer.normalize(itemCustomerDTO.getCustomer_name(), Normalizer.Form.NFD);
+		        	 String temp2 = Normalizer.normalize(shString, Normalizer.Form.NFD);
+		   		     Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+		        	 if(pattern.matcher(temp).replaceAll("").equalsIgnoreCase(pattern.matcher(temp2).replaceAll(""))) {
+		        		 String idhotelString = String.valueOf(itemCustomerDTO.getCustomer_id());
+		        		  txtIdCus.setText(idhotelString);
+				     		txtNameCus.setText(itemCustomerDTO.getCustomer_name());
+				     		 String telcusString = String.valueOf(itemCustomerDTO.getTel());
+					     		txtPhoneCus.setText(telcusString);
+					     		txtEmailCus.setText(itemCustomerDTO.getEmail());
+					     		try {
+									Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(itemCustomerDTO.getBirthday());
+					     		   OldCus.setDate(date1);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+				     		checkKQ = true;
+		        	 }
+		         }
+		         if(checkKQ == false) {
+		        	 JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Customer !");		        
+		         }
+	         }
+	         }
+	         
+	      });
+//		end serach ------------------------------------------------------------------------------------------------------------------------------------
 		lblSearchCus.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		pnlIconSrc_Txt.add(lblSearchCus, BorderLayout.EAST);
 		lblSearchCus.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
@@ -1904,15 +1962,10 @@ public class Manager extends JFrame {
 		                        JOptionPane.QUESTION_MESSAGE);
 		             if(result == JOptionPane.YES_OPTION){
 		                	  CustomerDAO.getInstance().add(csCustomerDTO);
-		                      ClassLoaddataCustomer();;
+		                      ClassLoaddataCustomer();
 		             }
 		             RefreshCustomer();
 				}
-			}
-
-			private DateFormat SimpleDateFormat(String string) {
-				// TODO Auto-generated method stub
-				return null;
 			}
 		});
 		btnAddCus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -1922,11 +1975,76 @@ public class Manager extends JFrame {
 		pnlButtonCus.add(btnAddCus);	
 		
 		btnDeleteCus = new JButton("Delete");
+		btnDeleteCus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdCus.getText().trim();
+				int idcs = Integer.parseInt(idString);
+				int result = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc muốn xoa Customer id: " +idcs,
+                        "Xác nhận",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(result == JOptionPane.YES_OPTION){
+    				CustomerDAO.getInstance().delete(idcs);
+    				ClassLoaddataCustomer();
+                }
+				RefreshCustomer();
+			}
+		});
 		btnDeleteCus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDeleteCus.setBackground(new Color(66, 165, 243));
 		btnDeleteCus.setFocusPainted(false);
 		btnDeleteCus.setPreferredSize(new Dimension(100, 25));
 		pnlButtonCus.add(btnDeleteCus);
+		
+		btnAddCus = new JButton("Update");
+		btnAddCus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdCus.getText();
+				int idcs = 0 ;
+				if(isNumeric(idString)==true) {
+					 idcs = Integer.parseInt(idString.trim());			
+				}
+				String nameString = txtNameCus.getText().trim();
+				String telString = txtPhoneCus.getText();
+				int telcs= 0;
+				if(isNumeric(telString)==true) {
+					telcs = Integer.parseInt(telString.trim());					
+				}
+				Date date1 = OldCus.getDate();
+				SimpleDateFormat dddDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String dateString = dddDateFormat.format(date1);
+
+				String emailString = txtEmailCus.getText().trim();
+				if( isNumeric(idString)== false ) {
+					JOptionPane.showMessageDialog(null, "Định dạng id phải là số  !");
+				}
+				if(checkPhone(telString)==false) {
+					JOptionPane.showMessageDialog(null, "Định dạng số điện thoại không dúng  !");
+				}
+				if(isEmail(emailString)== false) {
+					JOptionPane.showMessageDialog(null, "Định dạng email khong dung !");
+				}
+				else {
+					CustomerDTO csCustomerDTO = new CustomerDTO(idcs,nameString,telcs,dateString,emailString,"");
+					int result = JOptionPane.showConfirmDialog(null,
+		                        "Bạn có muốn sửa :  " +nameString,
+		                        "Xác nhận",
+		                        JOptionPane.YES_NO_OPTION,
+		                        JOptionPane.QUESTION_MESSAGE);
+		             if(result == JOptionPane.YES_OPTION){
+		                	  CustomerDAO.getInstance().update(csCustomerDTO);
+		                      ClassLoaddataCustomer();
+		             }
+		             RefreshCustomer();
+				}
+			}
+		});
+		btnAddCus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAddCus.setBackground(new Color(66, 165, 243));
+		btnAddCus.setFocusPainted(false);
+		btnAddCus.setPreferredSize(new Dimension(100, 25));
+		pnlButtonCus.add(btnAddCus);
 		
 		btnRefreshCus = new JButton("Refresh");
 		btnRefreshCus.addActionListener(new ActionListener() {
@@ -2776,7 +2894,55 @@ public class Manager extends JFrame {
 		txtSearchHotel.setMargin(new Insets(2, 10, 2, 10));
 		txtSearchHotel.addFocusListener(focusListener);
 		
+		//		tìm kiem nang cao ------------------------------------------------------------------------------------------------------------------------------------------
 		lblSearchHotel = new JLabel("");
+		lblSearchHotel.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	         String shString = txtSearchHotel.getText().trim();
+	         if(isNumeric(shString)== true) {
+	        	 int idhotel = Integer.parseInt(shString.trim());
+	        	 HotelDTO hotelDTO = HotelDAO.getInstance().getById(idhotel);
+	        	if(hotelDTO != null) {
+	        		 String idhotelString = String.valueOf(hotelDTO.getHotel_id());
+			        	txtIdHotel.setText(idhotelString);
+			     		txtNameHotel.setText(hotelDTO.getHotel_name());
+			     		txtAddressHotel.setText(hotelDTO.getAddress());
+			     		 String telhotelString = String.valueOf(hotelDTO.getTel());
+			     		txtPhoneHotel.setText(telhotelString);
+			     		txtWebHotel.setText(hotelDTO.getWebsite());
+			     		cbxStartHotel.setSelectedItem(hotelDTO.getStar());
+	        	}
+	        	if(hotelDTO ==null) {
+	        		 JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Hotel !");		   
+	        	}
+	         }
+	         if (isNumeric(shString)== false) {
+	        	 ArrayList<HotelDTO> arrhHotelDTOs = HotelDAO.getInstance().getAll();
+	        	 Boolean checkKQ = false;
+		         for(HotelDTO jjjHotelDTO: arrhHotelDTOs) {
+		        	 String temp = Normalizer.normalize(jjjHotelDTO.getHotel_name(), Normalizer.Form.NFD);
+		        	 String temp2 = Normalizer.normalize(shString, Normalizer.Form.NFD);
+		   		     Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+		        	 if(pattern.matcher(temp).replaceAll("").equalsIgnoreCase(pattern.matcher(temp2).replaceAll(""))) {
+		        		 String idhotelString = String.valueOf(jjjHotelDTO.getHotel_id());
+		        		  txtIdHotel.setText(idhotelString);
+				     		txtNameHotel.setText(jjjHotelDTO.getHotel_name());
+				     		txtAddressHotel.setText(jjjHotelDTO.getAddress());
+				     		 String telhotelString = String.valueOf(jjjHotelDTO.getTel());
+				     		txtPhoneHotel.setText(telhotelString);
+				     		txtWebHotel.setText(jjjHotelDTO.getWebsite());
+				     		cbxStartHotel.setSelectedItem(jjjHotelDTO.getStar());
+				     		checkKQ = true;
+		        	 }
+		         }
+		         if(checkKQ == false) {
+		        	 JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Hotel !");		        
+		         }
+	         }
+	         }
+	         
+	      });
+//	end serach ----------------------------------------------------------------------------------------------------------------------------------
 		lblSearchHotel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		pnlIconSrc_Txt.add(lblSearchHotel, BorderLayout.EAST);
 		lblSearchHotel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
@@ -2990,6 +3156,43 @@ public class Manager extends JFrame {
 		btnDeleteHotel.setFocusPainted(false);
 		btnDeleteHotel.setPreferredSize(new Dimension(100, 25));
 		pnlButtonHotel.add(btnDeleteHotel);
+		
+		btnAddHotel = new JButton("Update");
+		btnAddHotel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdHotel.getText().trim();
+				int idhotel = Integer.parseInt(idString);
+				String nameString = txtNameHotel.getText();
+				String addressString = txtAddressHotel.getText();
+				String telString = txtPhoneHotel.getText().trim();
+				int telhotel = Integer.parseInt(telString);
+				String webString = txtWebHotel.getText();
+				String cbxString =(String) cbxStartHotel.getSelectedItem();
+				int starhotel = Integer.parseInt(cbxString);
+				if(idString == "" || nameString==""|| addressString==""|| telString==""|| webString=="") {
+					 JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+				}
+				else {
+					HotelDTO hotelDTO = new HotelDTO(idhotel,nameString,addressString,telhotel,webString,starhotel);
+					int result = JOptionPane.showConfirmDialog(null,
+	                        "Bạn có muốn update hotel  " +nameString,
+	                        "Xác nhận",
+	                        JOptionPane.YES_NO_OPTION,
+	                        JOptionPane.QUESTION_MESSAGE);
+	                if(result == JOptionPane.YES_OPTION){
+	                	  HotelDAO.getInstance().update(hotelDTO);
+	                      ClassLoaddataHotel();
+	                }
+//	                JOptionPane.showMessageDialog(null, "dsfasfasfasfasfas");
+	                RefreshHotel();
+				}
+			}
+		});
+		btnAddHotel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAddHotel.setBackground(new Color(66, 165, 243));
+		btnAddHotel.setFocusPainted(false);
+		btnAddHotel.setPreferredSize(new Dimension(100, 25));
+		pnlButtonHotel.add(btnAddHotel);
 		
 		btnRefreshHotel = new JButton("Refresh");
 		btnRefreshHotel.addActionListener(new ActionListener() {
@@ -3380,7 +3583,7 @@ public class Manager extends JFrame {
 		
 			
 	}
-//	Ninh  Hotel --------------------------------------------------------------------
+//	Ninh  Hotel --------------------------------------------------------------------------------------------------------------------------------------------------
 	public void ClassLoaddataHotel() {
 		DefaultTableModel model = new DefaultTableModel();
 		model.addColumn("ID");;
@@ -3410,6 +3613,7 @@ public class Manager extends JFrame {
 		txtAddressHotel.setText(" ");
 		txtPhoneHotel.setText(" ");
 		txtWebHotel.setText(" ");
+		txtSearchHotel.setText("");
 	}
 	public void getDataFromJtable() {
 		List<HotelDTO> hotelDTO = new ArrayList<HotelDTO>();
@@ -3528,6 +3732,7 @@ public  void  RefreshCustomer() {
 	txtPhoneCus.setText("");
 	txtEmailCus.setText("");
 	OldCus.setDate(null);
+	 txtSearchCus.setText("");
 }
 //  end customer ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	public void ChangeForm() {
