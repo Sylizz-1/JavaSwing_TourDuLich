@@ -1968,7 +1968,7 @@ public class Manager extends JFrame {
 		                        JOptionPane.QUESTION_MESSAGE);
 		             if(result == JOptionPane.YES_OPTION){
 		                	  CustomerDAO.getInstance().add(csCustomerDTO);
-		                      ClassLoaddataCustomer();;
+		                      ClassLoaddataCustomer();
 		                      ClassLoaddataCustomer();
 		             }
 		             RefreshCustomer();
@@ -2816,9 +2816,9 @@ public class Manager extends JFrame {
 	                        JOptionPane.QUESTION_MESSAGE);
 	                if(result == JOptionPane.YES_OPTION){
 	                	  ServiceDAO.getInstance().add(serviceDTO);
-	                      ClassLoaddataHotel();
+	                      ClassLoaddataService();
 	                }
-	                RefreshHotel();
+	                RefreshService();
 				}
 			}
 		});
