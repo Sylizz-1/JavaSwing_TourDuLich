@@ -401,7 +401,6 @@ public class Manager extends JFrame {
 	private JTextField txtDescribeDes;
 	private JPanel pnlAddDes;
 	private JLabel lblAddDes;
-	private JComboBox cbxAddDes;
 	private JPanel pnlButtonDes;
 	private JButton btnAddDes;
 	private JButton btnDeleteDes;
@@ -425,6 +424,11 @@ public class Manager extends JFrame {
 	private JPanel pnlListBill;
 	private JPanel pnlListSer1;
 	private JTable ser1ListTable;
+	private JTextField txtAddressDes;
+	private JPanel pnlRegionCodeDes;
+	private JLabel lblRegionCodeDes;
+	private JTextField txtRegionCodeDes;
+	private JButton btnUpdateRegionCode;
 
 	
 	public Manager(JPanel pnlZoom, JPanel pnlHome, JPanel pnlSetting, JPanel pnlLogOut, JLabel lblIconZoomOut, JLabel lblIconZoomIn,
@@ -2239,6 +2243,17 @@ public class Manager extends JFrame {
 		pnlDescribeDes.add(txtDescribeDes);
 		txtDescribeDes.setColumns(20);
 		
+		pnlRegionCodeDes = new JPanel();
+		pnlFillDes.add(pnlRegionCodeDes);
+		
+		lblRegionCodeDes = new JLabel("Region Code");
+		lblRegionCodeDes.setPreferredSize(new Dimension(125, 25));
+		pnlRegionCodeDes.add(lblRegionCodeDes);
+		
+		txtRegionCodeDes = new JTextField();
+		pnlRegionCodeDes.add(txtRegionCodeDes);
+		txtRegionCodeDes.setColumns(20);
+		
 		pnlAddDes = new JPanel();
 		pnlAddDes.setPreferredSize(new Dimension(320, 35));
 		pnlFillDes.add(pnlAddDes);
@@ -2247,18 +2262,10 @@ public class Manager extends JFrame {
 		lblAddDes.setPreferredSize(new Dimension(125, 25));
 		pnlAddDes.add(lblAddDes);
 		
-		cbxAddDes = new JComboBox();
-		cbxAddDes.setPreferredSize(new Dimension(225, 25));
-		cbxAddDes.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		cbxAddDes.setModel(new DefaultComboBoxModel(new String[] {"An Giang", "Bà Rịa-Vũng Tàu", "Bạc Liêu",
-				"Bắc Kạn","Bắc Giang","Bắc Ninh","Bến Tre","Bình Dương","Bình Định","Bình Phước","Bình Thuận","Cà Mau",
-				"Cao Bằng","Cần Thơ","Đà Nẵng","Đắk Lắk","Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai",
-				"Hà Giang","Hà Nam","Hà Nội","Hà Tây","Hà Tĩnh","Hải Dương","Hải Phòng","Hòa Bình","Hồ Chí Minh",
-				"Hậu Giang","Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Lào Cai","Lạng Sơn","Lâm Đồng",
-				"Long An","Nam Định","Nghệ An","Ninh Bình","Ninh Thuận","Phú Thọ","Phú Yên","Quảng Bình","Quảng Nam",
-				"Quảng Ngãi","Quảng Ninh","Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên","Thanh Hóa",
-				"Thừa Thiên - Huế","Tiền Giang","Trà Vinh","Tuyên Quang","Vĩnh Long","Vĩnh Phúc","Yên Bái"}));
-		pnlAddDes.add(cbxAddDes);
+		txtAddressDes = new JTextField();
+		pnlAddDes.add(txtAddressDes);
+		txtAddressDes.setColumns(20);
+		
 			
 		pnlButtonDes = new JPanel();
 		pnlButtonDes.setBorder(null);
@@ -2286,6 +2293,13 @@ public class Manager extends JFrame {
 		btnRefreshDes.setBackground(new Color(66, 165, 243));
 		btnRefreshDes.setPreferredSize(new Dimension(100, 25));
 		pnlButtonDes.add(btnRefreshDes);
+		
+		btnUpdateRegionCode = new JButton("Update");
+		btnUpdateRegionCode.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnUpdateRegionCode.setFocusPainted(false);
+		btnUpdateRegionCode.setBackground(new Color(66, 165, 243));
+		btnUpdateRegionCode.setPreferredSize(new Dimension(100, 25));
+		pnlButtonDes.add(btnUpdateRegionCode);
 		
 		pnlListDes = new JPanel();
 		pnlListDes.setBorder(new TitledBorder(null, "List tourist attraction", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -3846,6 +3860,16 @@ public  void  RefreshCustomer() {
 	 txtSearchCus.setText("");
 }
 //  end customer ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+
+// 												Start Tourist Atraction
+
+
+
+
+
+
+//												End Tourist Atraction
 	public void ChangeForm() {
 		cardLayout = (CardLayout)(pnlMainContent.getLayout());
 		cardLayoutEdit_ListTourDetail = (CardLayout)(pnlEdit_ListTourDetail.getLayout());
