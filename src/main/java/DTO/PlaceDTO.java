@@ -4,17 +4,29 @@ public class PlaceDTO {
     private int place_id;
     private String place_name;
     private String place_describe;
+    private String place_address;
+    private String region_code;
+    
+    
 
-    public String getPlace_address() {
+    public PlaceDTO(int place_id, String place_name, String place_describe, String place_address, String region_code) {
+		super();
+		this.place_id = place_id;
+		this.place_name = place_name;
+		this.place_describe = place_describe;
+		this.place_address = place_address;
+		this.region_code = region_code;
+	}
+
+
+	public String getPlace_address() {
         return place_address;
     }
+    
 
     public void setPlace_address(String place_address) {
         this.place_address = place_address;
     }
-
-    private String place_address;
-    private String region_code;
 
     public PlaceDTO() {
 

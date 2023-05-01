@@ -84,20 +84,26 @@ public class PlaceDAO implements DAO<PlaceDTO> {
             st.setInt(1,placeDTO.getPlace_id());
             st.setString(2,placeDTO.getPlace_name());
             st.setString(3,placeDTO.getPlace_describe());
-            st.setString(4,placeDTO.getPlace_address());
-            st.setString(5,placeDTO.getRegion_code());
+            st.setString(4,placeDTO.getRegion_code());
+            st.setString(5,placeDTO.getPlace_address());
+            
+            int checkRS = st.executeUpdate();
+            if(checkRS > 0 ) {
+            	System.out.println("Them thanh cong  !");
+            }
+            else {
+            	System.out.println("Them khong thanh cong !");
+            }
 
             if (st.executeUpdate()>=1)
                 result = true;
+            conndb.closeConnection();
 
-        } catch (SQLException e) {
+        }  catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-
         }
-        finally {
-            conndb.closeConnection();
-        }
+        
         return result;
     }
 

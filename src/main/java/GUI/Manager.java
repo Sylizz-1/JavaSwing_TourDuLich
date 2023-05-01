@@ -2282,23 +2282,25 @@ public class Manager extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String idString = txtIdDes.getText().trim();
 				int iddes = Integer.parseInt(idString);
-				String nameserString = txtNameSer.getText();
-				String
-				if(nameserString==""|| serpriceString=="" ) {
+				String namedesString = txtNameDes.getText();
+				String describeDesString = txtDescribeDes.getText();
+				String regioncodeDesString = txtRegionCodeDes.getText();
+				String addressDesString = txtAddressDes.getText();
+				if(namedesString==""|| describeDesString =="" || regioncodeDesString== "" || addressDesString == "" ) {
 					 JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
 				}
 				else {
-					ServiceDTO serviceDTO = new ServiceDTO(idser,nameserString,priceser);
+					PlaceDTO PlaceDTO = new PlaceDTO(iddes,namedesString,describeDesString,regioncodeDesString,addressDesString);
 					int result = JOptionPane.showConfirmDialog(null,
-	                        "Bạn có muốn them Service  " +nameserString,
+	                        "Bạn có muốn them Tourist   " +namedesString,
 	                        "Xác nhận",
 	                        JOptionPane.YES_NO_OPTION,
 	                        JOptionPane.QUESTION_MESSAGE);
 	                if(result == JOptionPane.YES_OPTION){
-	                	  ServiceDAO.getInstance().add(serviceDTO);
-	                      ClassLoaddataHotel();
+	                	  PlaceDAO.getInstance().add(PlaceDTO);
+	                      ClassLoaddataDes();
 	                }
-	                RefreshHotel();
+	                RefreshDes();
 				}
 			}
 		});
