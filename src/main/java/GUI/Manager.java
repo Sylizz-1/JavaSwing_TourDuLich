@@ -55,8 +55,10 @@ import com.toedter.calendar.JDateChooser;
 
 import DAO.CustomerDAO;
 import DAO.HotelDAO;
+import DAO.PlaceDAO;
 import DAO.ServiceDAO;
 import DTO.HotelDTO;
+import DTO.PlaceDTO;
 import DTO.ServiceDTO;
 
 import DTO.CustomerDTO;
@@ -399,6 +401,7 @@ public class Manager extends JFrame {
 	private JLabel lblDescribeDes;
 	private JPanel pnlDescribeDes;
 	private JTextField txtDescribeDes;
+	private JTextField txtRegionCode;
 	private JPanel pnlAddDes;
 	private JLabel lblAddDes;
 	private JPanel pnlButtonDes;
@@ -428,7 +431,8 @@ public class Manager extends JFrame {
 	private JPanel pnlRegionCodeDes;
 	private JLabel lblRegionCodeDes;
 	private JTextField txtRegionCodeDes;
-	private JButton btnUpdateRegionCode;
+	private JButton btnUpdateDes;
+	private JButton btnUpdateSer;
 
 	
 	public Manager(JPanel pnlZoom, JPanel pnlHome, JPanel pnlSetting, JPanel pnlLogOut, JLabel lblIconZoomOut, JLabel lblIconZoomIn,
@@ -2274,6 +2278,30 @@ public class Manager extends JFrame {
 		pnlButtonDes.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 10));
 		
 		btnAddDes = new JButton("Add");
+		btnAddDes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdDes.getText().trim();
+				int iddes = Integer.parseInt(idString);
+				String nameserString = txtNameSer.getText();
+				String
+				if(nameserString==""|| serpriceString=="" ) {
+					 JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+				}
+				else {
+					ServiceDTO serviceDTO = new ServiceDTO(idser,nameserString,priceser);
+					int result = JOptionPane.showConfirmDialog(null,
+	                        "Bạn có muốn them Service  " +nameserString,
+	                        "Xác nhận",
+	                        JOptionPane.YES_NO_OPTION,
+	                        JOptionPane.QUESTION_MESSAGE);
+	                if(result == JOptionPane.YES_OPTION){
+	                	  ServiceDAO.getInstance().add(serviceDTO);
+	                      ClassLoaddataHotel();
+	                }
+	                RefreshHotel();
+				}
+			}
+		});
 		btnAddDes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAddDes.setFocusPainted(false);
 		btnAddDes.setBackground(new Color(66, 165, 243));
@@ -2294,12 +2322,12 @@ public class Manager extends JFrame {
 		btnRefreshDes.setPreferredSize(new Dimension(100, 25));
 		pnlButtonDes.add(btnRefreshDes);
 		
-		btnUpdateRegionCode = new JButton("Update");
-		btnUpdateRegionCode.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnUpdateRegionCode.setFocusPainted(false);
-		btnUpdateRegionCode.setBackground(new Color(66, 165, 243));
-		btnUpdateRegionCode.setPreferredSize(new Dimension(100, 25));
-		pnlButtonDes.add(btnUpdateRegionCode);
+		btnUpdateDes = new JButton("Update");
+		btnUpdateDes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnUpdateDes.setFocusPainted(false);
+		btnUpdateDes.setBackground(new Color(66, 165, 243));
+		btnUpdateDes.setPreferredSize(new Dimension(100, 25));
+		pnlButtonDes.add(btnUpdateDes);
 		
 		pnlListDes = new JPanel();
 		pnlListDes.setBorder(new TitledBorder(null, "List tourist attraction", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -2310,43 +2338,44 @@ public class Manager extends JFrame {
 		sclListDes = new JScrollPane();
 		pnlListDes.add(sclListDes, BorderLayout.CENTER);
 		
-		Object [][] data3 = {
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-				
-		};
-		
-		String [] items3 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-		desListTable = new JTable(data3,items3);
-		sclListDes.setViewportView(desListTable);
+//		Object [][] data3 = {
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
+//				
+//		};
+//		
+//		String [] items3 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
+//		desListTable = new JTable(data3,items3);
+//		sclListDes.setViewportView(desListTable);
+		ClassLoaddataDes();
 		
 		panel_3 = new JPanel();
 		panel_3.setPreferredSize(new Dimension(50, 10));
@@ -2876,6 +2905,9 @@ public class Manager extends JFrame {
 		btnRefreshSer.setFocusPainted(false);
 		btnRefreshSer.setPreferredSize(new Dimension(100, 25));
 		pnlButtonSer.add(btnRefreshSer);
+		
+		btnUpdateSer = new JButton("Update");
+		pnlButtonSer.add(btnUpdateSer);
 		
 		pnlListSer = new JPanel();
 		pnlListSer.setBorder(new TitledBorder(null, "List Service", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -3863,7 +3895,60 @@ public  void  RefreshCustomer() {
 	
 
 // 												Start Tourist Atraction
+	
+public void ClassLoaddataDes() {
+	DefaultTableModel model = new DefaultTableModel();
+	model.addColumn("ID");;
+	model.addColumn("Name Place");
+	model.addColumn("Describe");
+	model.addColumn("Region Code");
+	model.addColumn("Address");
+	ArrayList<PlaceDTO> desDTO = PlaceDAO.getInstance().getAll();
+	for(PlaceDTO itemDes : desDTO) {
+		model.addRow(new Object[] {
+			itemDes.getPlace_id(),itemDes.getPlace_name(),itemDes.getPlace_describe(),itemDes.getRegion_code(),itemDes.getPlace_address()
+		});				
+	}
+	desListTable = new JTable();
+	desListTable.setModel(model);
+	sclListDes.setViewportView(desListTable);
+	panel_4 = new JPanel();
+	panel_4.setPreferredSize(new Dimension(50, 10));
+	pnlContentDesDetail.add(panel_3, BorderLayout.EAST);
+	getDataFromJtableDes();
 
+}
+public void RefreshDes() {
+	txtIdDes.setText(" ");
+	txtNameDes.setText(" ");
+	txtDescribeDes.setText(" ");
+	txtRegionCodeDes.setText(" ");
+	txtAddressDes.setText(" ");
+}
+public void getDataFromJtableDes() {
+	List<PlaceDTO> placeDTO = new ArrayList<PlaceDTO>();
+	desListTable.addMouseListener(new MouseAdapter() {
+         public void mouseClicked(MouseEvent me) {
+        	 int i = desListTable.getSelectedRow();
+        	 TableModel model = desListTable.getModel();
+        	 int iddes = Integer.parseInt(model.getValueAt(i,0).toString());
+        	 String nameDesString = model.getValueAt(i,1).toString();
+        	 String decribeDesString = model.getValueAt(i,2).toString();
+        	 String regioncodeDesString = model.getValueAt(i,3).toString();
+        	 String addressDesString = model.getValueAt(i,4).toString();
+        	 
+
+
+        	String iddesString = String.valueOf(iddes);
+        	txtIdDes.setText(iddesString);
+     		txtNameDes.setText(nameDesString);
+     		txtDescribeDes.setText(decribeDesString);
+     		txtRegionCodeDes.setText(regioncodeDesString);
+     		txtAddressDes.setText(addressDesString);
+     		
+         }
+	});
+}
 
 
 

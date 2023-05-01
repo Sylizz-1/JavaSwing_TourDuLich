@@ -1,6 +1,7 @@
 package DAO;
 
 import DTO.PlaceDTO;
+import DTO.ServiceDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PlaceDAO implements DAO<PlaceDTO> {
+		public static PlaceDAO getInstance() {
+			return new PlaceDAO();
+		}
 
     @Override
     public ArrayList<PlaceDTO> getAll() {
