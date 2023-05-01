@@ -1,14 +1,21 @@
 package DAO;
 
+import DTO.HotelDTO;
 import DTO.ServiceDTO;
 
+import java.awt.Container;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+
 public class ServiceDAO implements DAO<ServiceDTO> {
+	public static ServiceDAO getInstance() {
+		return new ServiceDAO();
+	}
     @Override
     public ArrayList<ServiceDTO> getAll() {
         ArrayList<ServiceDTO> arr = new ArrayList<ServiceDTO>();
@@ -64,31 +71,36 @@ public class ServiceDAO implements DAO<ServiceDTO> {
     }
 
     @Override
-    public boolean add(ServiceDTO serviceDTO) {
+    public boolean add(ServiceDTO ServiceDTO) {
         boolean result = false;
-        ConnectDatabase conndb = new ConnectDatabase();
-
         try {
-            Connection conn = conndb.getConnection();
-            String sql = "insert into place value (?,?,?)";
-            PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1,serviceDTO.getService_id());
-            st.setString(2,serviceDTO.getService_name());
-            st.setDouble(3,serviceDTO.getService_price());
+        	ConnectDatabase conndb = new ConnectDatabase();
 
+        	String query = " INSERT INTO service (service_id,service_name,service_price)"
+					+ "VALUES (?,?,?)";
+            PreparedStatement st = conndb.getConnection().prepareStatement(query);
+            st.setInt(1,ServiceDTO.getService_id());
+            st.setString(2, ServiceDTO.getService_name());
+            st.setDouble(3,ServiceDTO.getService_price());
+            int checkRS = st.executeUpdate();
+            if(checkRS > 0 ) {
+            	System.out.println("Them thanh cong  !");
+            }
+            else {
+            	System.out.println("Them khong thanh cong !");
+            }
             if (st.executeUpdate()>=1)
                 result = true;
 
-        } catch (SQLException e) {
+            conndb.closeConnection();
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-
-        }
-        finally {
-            conndb.closeConnection();
         }
         return result;
     }
+
 
     @Override
     public boolean update(ServiceDTO serviceDTO) {
@@ -165,4 +177,5 @@ public class ServiceDAO implements DAO<ServiceDTO> {
         }
         return result;
     }
+
 }

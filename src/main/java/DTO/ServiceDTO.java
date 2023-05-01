@@ -6,8 +6,20 @@ public class ServiceDTO {
     private double service_price;
 
     public ServiceDTO() {}
+    
+    
 
-    public int getService_id() {
+    public ServiceDTO(int service_id, String service_name, double service_price) {
+		super();
+		this.service_id = service_id;
+		this.service_name = service_name;
+		this.service_price = service_price;
+	}
+
+
+
+
+	public int getService_id() {
         return service_id;
     }
 
@@ -30,4 +42,11 @@ public class ServiceDTO {
     public void setService_price(double service_price) {
         this.service_price = service_price;
     }
+
+	@Override
+	public String toString() {
+		return "ServiceDTO [service_id=" + service_id + ", service_name=" + service_name + ", service_price="
+				+ service_price + "]";
+	}
+    
 }

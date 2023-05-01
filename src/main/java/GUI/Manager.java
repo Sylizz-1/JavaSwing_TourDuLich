@@ -27,7 +27,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.text.DateFormat;
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.text.SimpleDateFormat;
 import controller.ManagerControl;
 
 import java.awt.FlowLayout;
@@ -46,11 +53,17 @@ import java.awt.Insets;
 import javax.swing.border.EtchedBorder;
 import com.toedter.calendar.JDateChooser;
 
+import DAO.CustomerDAO;
 import DAO.HotelDAO;
+import DAO.ServiceDAO;
 import DTO.HotelDTO;
+import DTO.ServiceDTO;
 
+import DTO.CustomerDTO;
+import DTO.HotelDTO;
+import java.text.SimpleDateFormat;
 import javax.swing.JCheckBox;
-
+import java.util.Date;
 
 public class Manager extends JFrame {
 	
@@ -1799,30 +1812,30 @@ public class Manager extends JFrame {
 		OldCus.setPreferredSize(new Dimension(225, 25));
 		pnlOldCus.add(OldCus);
 				
-		pnlGenderCus = new JPanel();
-		pnlFillCus.add(pnlGenderCus);
-		pnlGenderCus.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 5));
-		
-		lblGenderCus = new JLabel("Gender");
-		lblGenderCus.setPreferredSize(new Dimension(43, 25));
-		pnlGenderCus.add(lblGenderCus);
-		
-		bgGenderCus = new ButtonGroup();
-		rdbtnMale = new JRadioButton("Male");
-		rdbtnMale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		rdbtnMale.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		rdbtnMale.setFocusPainted(false);
-		rdbtnMale.setPreferredSize(new Dimension(72, 25));
-		pnlGenderCus.add(rdbtnMale);
-		bgGenderCus.add(rdbtnMale);
-		
-		rdbtnFemale = new JRadioButton("Female");
-		rdbtnFemale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		rdbtnFemale.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		rdbtnFemale.setFocusPainted(false);
-		rdbtnFemale.setPreferredSize(new Dimension(72, 25));
-		pnlGenderCus.add(rdbtnFemale);
-		bgGenderCus.add(rdbtnFemale);
+//		pnlGenderCus = new JPanel();
+//		pnlFillCus.add(pnlGenderCus);
+//		pnlGenderCus.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 5));
+//		
+//		lblGenderCus = new JLabel("Gender");
+//		lblGenderCus.setPreferredSize(new Dimension(43, 25));
+//		pnlGenderCus.add(lblGenderCus);
+//		
+//		bgGenderCus = new ButtonGroup();
+//		rdbtnMale = new JRadioButton("Male");
+//		rdbtnMale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//		rdbtnMale.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+//		rdbtnMale.setFocusPainted(false);
+//		rdbtnMale.setPreferredSize(new Dimension(72, 25));
+//		pnlGenderCus.add(rdbtnMale);
+//		bgGenderCus.add(rdbtnMale);
+//		
+//		rdbtnFemale = new JRadioButton("Female");
+//		rdbtnFemale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//		rdbtnFemale.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+//		rdbtnFemale.setFocusPainted(false);
+//		rdbtnFemale.setPreferredSize(new Dimension(72, 25));
+//		pnlGenderCus.add(rdbtnFemale);
+//		bgGenderCus.add(rdbtnFemale);
 			
 		pnlPhoneCus = new JPanel();
 		pnlPhoneCus.setPreferredSize(new Dimension(320, 35));
@@ -1859,6 +1872,53 @@ public class Manager extends JFrame {
 		pnlButtonCus.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 10));
 		
 		btnAddCus = new JButton("Add");
+		btnAddCus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdCus.getText();
+				int idcs = 0 ;
+				if(isNumeric(idString)==true) {
+					 idcs = Integer.parseInt(idString.trim());			
+				}
+				String nameString = txtNameCus.getText().trim();
+				String telString = txtPhoneCus.getText();
+				int telcs= 0;
+				if(isNumeric(telString)==true) {
+					telcs = Integer.parseInt(telString.trim());					
+				}
+				Date date1 = OldCus.getDate();
+				SimpleDateFormat dddDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String dateString = dddDateFormat.format(date1);
+
+				String emailString = txtEmailCus.getText().trim();
+				if( isNumeric(idString)== false ) {
+					JOptionPane.showMessageDialog(null, "Định dạng id phải là số  !");
+				}
+				if(checkPhone(telString)==false) {
+					JOptionPane.showMessageDialog(null, "Định dạng số điện thoại không dúng  !");
+				}
+				if(isEmail(emailString)== false) {
+					JOptionPane.showMessageDialog(null, "Định dạng email khong dung !");
+				}
+				else {
+					CustomerDTO csCustomerDTO = new CustomerDTO(idcs,nameString,telcs,dateString,emailString,"");
+					int result = JOptionPane.showConfirmDialog(null,
+		                        "Bạn có muốn them hotel  " +nameString,
+		                        "Xác nhận",
+		                        JOptionPane.YES_NO_OPTION,
+		                        JOptionPane.QUESTION_MESSAGE);
+		             if(result == JOptionPane.YES_OPTION){
+		                	  CustomerDAO.getInstance().add(csCustomerDTO);
+		                      ClassLoaddataCustomer();;
+		             }
+		             RefreshCustomer();
+				}
+			}
+
+			private DateFormat SimpleDateFormat(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
 		btnAddCus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAddCus.setFocusPainted(false);
 		btnAddCus.setBackground(new Color(66, 165, 243));
@@ -1873,6 +1933,11 @@ public class Manager extends JFrame {
 		pnlButtonCus.add(btnDeleteCus);
 		
 		btnRefreshCus = new JButton("Refresh");
+		btnRefreshCus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RefreshCustomer();
+			}
+		});
 		btnRefreshCus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRefreshCus.setFocusPainted(false);
 		btnRefreshCus.setBackground(new Color(66, 165, 243));
@@ -1888,50 +1953,22 @@ public class Manager extends JFrame {
 		
 		sclListCus = new JScrollPane();
 		pnlListCus.add(sclListCus, BorderLayout.CENTER);
-		
-		Object [][] data2 = {
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-				
-		};
-		
-		String [] items2 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-		cusListTable = new JTable(data2,items2);
-		sclListCus.setViewportView(cusListTable);
-		
-		
-		panel_3 = new JPanel();
-		panel_3.setPreferredSize(new Dimension(50, 10));
-		pnlContentCusDetail.add(panel_3, BorderLayout.EAST);
-		
+//		
+//		Object [][] data2 = {
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
+//				
+//		};
+//		
+//		String [] items2 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
+//		cusListTable = new JTable(data2,items2);
+//		sclListCus.setViewportView(cusListTable);
+//		
+//		
+//		panel_3 = new JPanel();
+//		panel_3.setPreferredSize(new Dimension(50, 10));
+//		pnlContentCusDetail.add(panel_3, BorderLayout.EAST);
+		ClassLoaddataCustomer();
 		panel_4 = new JPanel();
 		panel_4.setPreferredSize(new Dimension(50, 10));
 		pnlContentCusDetail.add(panel_4, BorderLayout.WEST);
@@ -2634,6 +2671,31 @@ public class Manager extends JFrame {
 		pnlButtonSer.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 10));
 		
 		btnAddSer = new JButton("Add");
+		btnAddSer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdSer.getText().trim();
+				int idser = Integer.parseInt(idString);
+				String nameserString = txtNameSer.getText();
+				String serpriceString = txtPriceSer.getText().trim();
+				Double priceser = Double.parseDouble(serpriceString);
+				if(nameserString==""|| serpriceString=="" ) {
+					 JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+				}
+				else {
+					ServiceDTO serviceDTO = new ServiceDTO(idser,nameserString,priceser);
+					int result = JOptionPane.showConfirmDialog(null,
+	                        "Bạn có muốn them Service  " +nameserString,
+	                        "Xác nhận",
+	                        JOptionPane.YES_NO_OPTION,
+	                        JOptionPane.QUESTION_MESSAGE);
+	                if(result == JOptionPane.YES_OPTION){
+	                	  ServiceDAO.getInstance().add(serviceDTO);
+	                      ClassLoaddataHotel();
+	                }
+	                RefreshHotel();
+				}
+			}
+		});
 		btnAddSer.setFocusPainted(false);
 		btnAddSer.setBackground(new Color(66, 165, 243));
 		btnAddSer.setPreferredSize(new Dimension(100, 25));
@@ -2662,43 +2724,44 @@ public class Manager extends JFrame {
 		sclListSer = new JScrollPane();
 		pnlListSer.add(sclListSer, BorderLayout.CENTER);
 		
-		Object [][] data5 = {
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-				
-		};
-		
-		String [] items5 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-		serListTable = new JTable(data5,items5);
-		sclListSer.setViewportView(serListTable);
+//		Object [][] data5 = {
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
+//				
+//		};
+//		
+//		String [] items5 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
+//		serListTable = new JTable(data5,items5);
+//		sclListSer.setViewportView(serListTable);
+		ClassLoaddataService();
 		
 		panel_3 = new JPanel();
 		panel_3.setPreferredSize(new Dimension(50, 10));
@@ -3347,7 +3410,7 @@ public class Manager extends JFrame {
 		
 			
 	}
-//	render list Hotel --------------------------------------------------------------------
+//	Ninh  Hotel --------------------------------------------------------------------
 	public void ClassLoaddataHotel() {
 		DefaultTableModel model = new DefaultTableModel();
 		model.addColumn("ID");;
@@ -3403,8 +3466,149 @@ public class Manager extends JFrame {
 	      });
 		
 	}
+
+	public boolean checkPhone(String str){
+        String reg = "^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$";
+        boolean kt = str.matches(reg);
+        return kt;
+    }
+	public static boolean isEmail(String url) {
+		String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+	       Boolean b = url.matches(EMAIL_REGEX);
+		  return b;
+  }
+	public static boolean isURL(String url) {
+		  try {
+		     (new java.net.URL(url)).openStream().close();
+		     return true;
+		  } catch (Exception ex) { }
+		  return false;
+		}
+	public static boolean isNumeric(final CharSequence cs) {
+        if (cs.isEmpty()) {
+            return false;
+        }
+        final int sz = cs.length();
+        for (int i = 0; i < sz; i++) {
+            if (!Character.isDigit(cs.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+	}
+
 //	end Hotel----------------------------------------------------------------------------
 	
+//									Start Service
+	public void ClassLoaddataService() {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("ID");;
+		model.addColumn("Name Service");
+		model.addColumn("Price");
+		ArrayList<ServiceDTO> serDTO = ServiceDAO.getInstance().getAll();
+		for(ServiceDTO itemService : serDTO) {
+			model.addRow(new Object[] {
+				itemService.getService_id(),itemService.getService_name(),itemService.getService_price()
+			});				
+		}
+		serListTable = new JTable();
+		serListTable.setModel(model);
+		sclListSer.setViewportView(serListTable);
+		panel_3 = new JPanel();
+		panel_3.setPreferredSize(new Dimension(50, 10));
+		pnlContentSerDetail.add(panel_3, BorderLayout.EAST);
+		getDataFromJtableSer();
+		
+}
+	public void RefreshService() {
+		txtIdSer.setText(" ");
+		txtNameSer.setText(" ");
+		txtPriceSer.setText(" ");
+	}
+	public void getDataFromJtableSer() {
+		List<ServiceDTO> serviceDTO = new ArrayList<ServiceDTO>();
+		serListTable.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	        	 int i = serListTable.getSelectedRow();
+	        	 TableModel model = serListTable.getModel();
+	        	 int idser = Integer.parseInt(model.getValueAt(i,0).toString());
+	        	 String nameServiceString = model.getValueAt(i,1).toString();
+	        	 Double priceService = Double.parseDouble(model.getValueAt(i,2).toString());
+	        	 
+	        	 
+	        	String idhotelString = String.valueOf(idser);
+	        	txtIdSer.setText(idhotelString);
+	     		txtNameSer.setText(nameServiceString);
+	     		String priceSerlString = String.valueOf(priceService);
+	     		txtPriceSer.setText(priceSerlString);
+	         }
+		}
+	}
+//  Ninh customer ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	public void ClassLoaddataCustomer() {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("ID");;
+		model.addColumn("Name");
+		model.addColumn("Tel");
+		model.addColumn("Birthday");
+		model.addColumn("Email");
+		model.addColumn("Create_At");
+		ArrayList<CustomerDTO> csDTO = CustomerDAO.getInstance().getAll();
+		for(CustomerDTO itemCustomer : csDTO) {
+			model.addRow(new Object[] {
+				itemCustomer.getCustomer_id(),itemCustomer.getCustomer_name(),itemCustomer.getTel(),itemCustomer.getBirthday(),itemCustomer.getEmail(),itemCustomer.getCreate_at()
+			});				
+		}
+		cusListTable = new JTable();
+		cusListTable.setModel(model);
+		sclListCus.setViewportView(cusListTable);
+		panel_3 = new JPanel();
+		panel_3.setPreferredSize(new Dimension(50, 10));
+		pnlContentCusDetail.add(panel_3, BorderLayout.EAST);
+		getDataFromJtableCustomer();
+		
+}
+	public void getDataFromJtableCustomer() {
+		List<CustomerDTO> customerDTO = new ArrayList<CustomerDTO>();
+		cusListTable.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	        	 int i = cusListTable.getSelectedRow();
+	        	 TableModel model = cusListTable.getModel();
+	        	 int idcs = Integer.parseInt(model.getValueAt(i,0).toString());
+	        	 String namecs = model.getValueAt(i,1).toString();
+	        	 int telhotel = Integer.parseInt(model.getValueAt(i,2).toString());
+	        	 String birthdaycs = model.getValueAt(i,3).toString();
+	        	 String  emailcs = model.getValueAt(i,4).toString();
+	        	 String  create_atcs =model.getValueAt(i,5).toString();
+//	        	add  table to txt
+	        	String idhotelString = String.valueOf(idcs);
+	        	txtIdCus.setText(idhotelString);
+	        	txtNameCus.setText(namecs);
+	     		 String telhotelString = String.valueOf(telhotel);
+	     		txtPhoneCus.setText(telhotelString);
+	     		txtEmailCus.setText(emailcs);
+	     		try {
+					Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(birthdaycs);
+	     		   OldCus.setDate(date1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	         }
+	      });
+		
+	}
+		
+	
+//								    End Service
+public  void  RefreshCustomer() {
+	txtIdCus.setText("");
+	txtNameCus.setText("");
+	txtPhoneCus.setText("");
+	txtEmailCus.setText("");
+	OldCus.setDate(null);
+}
+//  end customer ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	public void ChangeForm() {
 		cardLayout = (CardLayout)(pnlMainContent.getLayout());
 		cardLayoutEdit_ListTourDetail = (CardLayout)(pnlEdit_ListTourDetail.getLayout());
