@@ -1,13 +1,17 @@
 package DAO;
 
 import DTO.PlaceDTO;
+import GUI.Manager;
 import DTO.ServiceDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.swing.JComboBox;
 
 public class PlaceDAO implements DAO<PlaceDTO> {
 		public static PlaceDAO getInstance() {
@@ -117,14 +121,14 @@ public class PlaceDAO implements DAO<PlaceDTO> {
             String sql = "update place set " +
                     "place_name=?," +
                     "place_describe=?," +
-                    "place_address=?," +
-                    "region_code=? " +
+                    "region_code=?, " +
+                    "place_address=?" +
                     "where place_id = " + placeDTO.getPlace_id();
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1,placeDTO.getPlace_name());
             st.setString(2,placeDTO.getPlace_describe());
-            st.setString(3,placeDTO.getPlace_address());
-            st.setString(4,placeDTO.getRegion_code());
+            st.setString(3,placeDTO.getRegion_code());
+            st.setString(4,placeDTO.getPlace_address());
             if (st.executeUpdate()>=1)
                 result = true;
 
@@ -186,4 +190,6 @@ public class PlaceDAO implements DAO<PlaceDTO> {
         }
         return result;
     }
+    	
+
 }

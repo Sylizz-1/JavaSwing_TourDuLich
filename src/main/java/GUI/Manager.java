@@ -25,6 +25,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.DateFormat;
@@ -53,6 +55,7 @@ import java.awt.Insets;
 import javax.swing.border.EtchedBorder;
 import com.toedter.calendar.JDateChooser;
 
+import DAO.ConnectDatabase;
 import DAO.CustomerDAO;
 import DAO.HotelDAO;
 import DAO.PlaceDAO;
@@ -430,9 +433,9 @@ public class Manager extends JFrame {
 	private JTextField txtAddressDes;
 	private JPanel pnlRegionCodeDes;
 	private JLabel lblRegionCodeDes;
-	private JTextField txtRegionCodeDes;
 	private JButton btnUpdateDes;
 	private JButton btnUpdateSer;
+	private JComboBox cmbRegionCode;
 
 	
 	public Manager(JPanel pnlZoom, JPanel pnlHome, JPanel pnlSetting, JPanel pnlLogOut, JLabel lblIconZoomOut, JLabel lblIconZoomIn,
@@ -2251,12 +2254,14 @@ public class Manager extends JFrame {
 		pnlFillDes.add(pnlRegionCodeDes);
 		
 		lblRegionCodeDes = new JLabel("Region Code");
-		lblRegionCodeDes.setPreferredSize(new Dimension(125, 25));
+		lblRegionCodeDes.setPreferredSize(new Dimension(170, 25));
 		pnlRegionCodeDes.add(lblRegionCodeDes);
 		
-		txtRegionCodeDes = new JTextField();
-		pnlRegionCodeDes.add(txtRegionCodeDes);
-		txtRegionCodeDes.setColumns(20);
+		cmbRegionCode = new JComboBox();
+		cmbRegionCode.setPreferredSize(new Dimension(200, 25));
+		cmbRegionCode.setMaximumRowCount(10);
+		regionCodeData(cmbRegionCode);
+		pnlRegionCodeDes.add(cmbRegionCode);
 		
 		pnlAddDes = new JPanel();
 		pnlAddDes.setPreferredSize(new Dimension(320, 35));
@@ -2284,13 +2289,14 @@ public class Manager extends JFrame {
 				int iddes = Integer.parseInt(idString);
 				String namedesString = txtNameDes.getText();
 				String describeDesString = txtDescribeDes.getText();
-				String regioncodeDesString = txtRegionCodeDes.getText();
+				String  regioncodeDesString = (String)cmbRegionCode.getSelectedItem();
+				String valuecoderegion = cmbRegionCode.getSelectedItem().toString();
 				String addressDesString = txtAddressDes.getText();
-				if(namedesString==""|| describeDesString =="" || regioncodeDesString== "" || addressDesString == "" ) {
+				if(namedesString==""|| describeDesString =="" || addressDesString == "" ) {
 					 JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
 				}
 				else {
-					PlaceDTO PlaceDTO = new PlaceDTO(iddes,namedesString,describeDesString,regioncodeDesString,addressDesString);
+					PlaceDTO PlaceDTO = new PlaceDTO(iddes,namedesString,describeDesString,valuecoderegion,addressDesString);
 					int result = JOptionPane.showConfirmDialog(null,
 	                        "Bạn có muốn them Tourist   " +namedesString,
 	                        "Xác nhận",
@@ -2311,6 +2317,22 @@ public class Manager extends JFrame {
 		pnlButtonDes.add(btnAddDes);	
 		
 		btnDeleteDes = new JButton("Delete");
+		btnDeleteDes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdDes.getText().trim();
+				int iddes = Integer.parseInt(idString);
+				int result = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc muốn xoa place id: " +iddes,
+                        "Xác nhận",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(result == JOptionPane.YES_OPTION){
+    				PlaceDAO.getInstance().delete(iddes);
+    				ClassLoaddataDes();
+                }
+				RefreshDes();
+			}
+		});
 		btnDeleteDes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDeleteDes.setBackground(new Color(66, 165, 243));
 		btnDeleteDes.setFocusPainted(false);
@@ -2318,6 +2340,12 @@ public class Manager extends JFrame {
 		pnlButtonDes.add(btnDeleteDes);
 		
 		btnRefreshDes = new JButton("Refresh");
+		btnRefreshDes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RefreshDes();
+			    
+			}
+		});
 		btnRefreshDes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRefreshDes.setFocusPainted(false);
 		btnRefreshDes.setBackground(new Color(66, 165, 243));
@@ -2325,6 +2353,32 @@ public class Manager extends JFrame {
 		pnlButtonDes.add(btnRefreshDes);
 		
 		btnUpdateDes = new JButton("Update");
+		btnUpdateDes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = txtIdDes.getText().trim();
+				int iddes = Integer.parseInt(idString);
+				String namedesString = txtNameDes.getText();
+				String describeDesString = txtDescribeDes.getText();
+				String valuecoderegion = cmbRegionCode.getSelectedItem().toString();
+				String addressDesString = txtAddressDes.getText();
+				if(namedesString==""|| describeDesString =="" || addressDesString == "" ) {
+					 JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+				}
+				else {
+					PlaceDTO PlaceDTO = new PlaceDTO(iddes,namedesString,describeDesString,valuecoderegion,addressDesString);
+					int result = JOptionPane.showConfirmDialog(null,
+	                        "Bạn có muốn update Place   " +namedesString,
+	                        "Xác nhận",
+	                        JOptionPane.YES_NO_OPTION,
+	                        JOptionPane.QUESTION_MESSAGE);
+	                if(result == JOptionPane.YES_OPTION){
+	                	  PlaceDAO.getInstance().update(PlaceDTO);
+	                      ClassLoaddataDes();
+	                }
+	                RefreshDes();
+				}
+			}
+		});
 		btnUpdateDes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnUpdateDes.setFocusPainted(false);
 		btnUpdateDes.setBackground(new Color(66, 165, 243));
@@ -2381,7 +2435,7 @@ public class Manager extends JFrame {
 		
 		panel_3 = new JPanel();
 		panel_3.setPreferredSize(new Dimension(50, 10));
-		pnlContentDesDetail.add(panel_3, BorderLayout.EAST);
+		pnlContentDesDetail.add(panel_4, BorderLayout.EAST);
 		
 		panel_4 = new JPanel();
 		panel_4.setPreferredSize(new Dimension(50, 10));
@@ -3916,7 +3970,7 @@ public void ClassLoaddataDes() {
 	sclListDes.setViewportView(desListTable);
 	panel_4 = new JPanel();
 	panel_4.setPreferredSize(new Dimension(50, 10));
-	pnlContentDesDetail.add(panel_3, BorderLayout.EAST);
+	pnlContentDesDetail.add(panel_4, BorderLayout.EAST);
 	getDataFromJtableDes();
 
 }
@@ -3924,7 +3978,6 @@ public void RefreshDes() {
 	txtIdDes.setText(" ");
 	txtNameDes.setText(" ");
 	txtDescribeDes.setText(" ");
-	txtRegionCodeDes.setText(" ");
 	txtAddressDes.setText(" ");
 }
 public void getDataFromJtableDes() {
@@ -3936,7 +3989,7 @@ public void getDataFromJtableDes() {
         	 int iddes = Integer.parseInt(model.getValueAt(i,0).toString());
         	 String nameDesString = model.getValueAt(i,1).toString();
         	 String decribeDesString = model.getValueAt(i,2).toString();
-        	 String regioncodeDesString = model.getValueAt(i,3).toString();
+        	 String coderegionString = (String) model.getValueAt(i,3);
         	 String addressDesString = model.getValueAt(i,4).toString();
         	 
 
@@ -3945,7 +3998,6 @@ public void getDataFromJtableDes() {
         	txtIdDes.setText(iddesString);
      		txtNameDes.setText(nameDesString);
      		txtDescribeDes.setText(decribeDesString);
-     		txtRegionCodeDes.setText(regioncodeDesString);
      		txtAddressDes.setText(addressDesString);
      		
          }
@@ -4007,6 +4059,25 @@ public void getDataFromJtableDes() {
 		jTextField.setFont(font);
 		jTextField.setForeground(Color.black);
 	}
+	 public  void regionCodeData (JComboBox<String> cmbRegionCode) {
+	    	ConnectDatabase conndb = new ConnectDatabase();
+			try {
+	            Connection conn = conndb.getConnection();
+	            String query = "Select region_code from region";
+	            ResultSet rs = conn.createStatement().executeQuery(query);
+	            while (rs.next()) {
+	            	cmbRegionCode.addItem(rs.getString("region_code"));
+	            }
+	        }
+	        catch (Exception e) {
+	            e.printStackTrace();
+	            System.out.println(e.getMessage());
+	        }
+	        finally {
+	            conndb.closeConnection();
+	        }
+	    }
+	    
 	
 	
 }
