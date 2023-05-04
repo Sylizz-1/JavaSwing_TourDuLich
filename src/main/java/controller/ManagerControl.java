@@ -1,5 +1,7 @@
 package controller;
 
+import GUI.Manager;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,13 +9,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-
-import GUI.Manager;
 
 
-public class ManagerControl implements MouseListener, ActionListener, FocusListener{
+public class ManagerControl implements MouseListener{
 
 	private Manager manager;
 	
@@ -194,121 +192,5 @@ public class ManagerControl implements MouseListener, ActionListener, FocusListe
 			manager.getPnlExportExcel().setBackground(new Color(66, 165, 243));
 		}		
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == manager.getBtnEditTour()){
-			manager.getCardLayoutEdit_ListTourDetail().show(manager.getPnlEdit_ListTourDetail(), "pnlEditTour");
-		}else if(e.getSource() == manager.getBtnListTour()){
-			manager.getCardLayoutEdit_ListTourDetail().show(manager.getPnlEdit_ListTourDetail(), "pnlListTour");
-			
-		}else if(e.getSource() == manager.getBtnEditCus()){
-			manager.getCardLayoutEdit_ListCusDetail().show(manager.getPnlEdit_ListCusDetail(), "pnlEditCus");
-		}else if(e.getSource() == manager.getBtnListCus()){
-			manager.getCardLayoutEdit_ListCusDetail().show(manager.getPnlEdit_ListCusDetail(), "pnlListCus");
-			
-		}else if(e.getSource() == manager.getBtnEditHotel()){
-			manager.getCardLayoutEdit_ListHotelDetail().show(manager.getPnlEdit_ListHotelDetail(), "pnlEditHotel");
-		}else if(e.getSource() == manager.getBtnListHotel()){
-			manager.getCardLayoutEdit_ListHotelDetail().show(manager.getPnlEdit_ListHotelDetail(), "pnlListHotel");
-			
-		}else if(e.getSource() == manager.getBtnEditAcc()){
-			manager.getCardLayoutEdit_ListAccDetail().show(manager.getPnlEdit_ListAccDetail(), "pnlEditAcc");
-		}else if(e.getSource() == manager.getBtnListAcc()){
-			manager.getCardLayoutEdit_ListAccDetail().show(manager.getPnlEdit_ListAccDetail(), "pnlListAcc");
-		}
-		
-		else if(e.getSource() == manager.getBtnEditSer()){
-			manager.getCardLayoutEdit_ListSerDetail().show(manager.getPnlEdit_ListSerDetail(), "pnlEditSer");
-		}else if(e.getSource() == manager.getBtnListSer()){
-			manager.getCardLayoutEdit_ListSerDetail().show(manager.getPnlEdit_ListSerDetail(), "pnlListSer");
-		
-		}else if(e.getSource() == manager.getBtnEditBill()){
-			manager.getCardLayoutEdit_ListBillDetail().show(manager.getPnlEdit_ListBillDetail(), "pnlEditBill");
-		}else if(e.getSource() == manager.getBtnListBill()){
-			manager.getCardLayoutEdit_ListBillDetail().show(manager.getPnlEdit_ListBillDetail(), "pnlListBill");
-		
-		}else if(e.getSource() == manager.getBtnEditDes()){
-			manager.getCardLayoutEdit_ListDesDetail().show(manager.getPnlEdit_ListDesDetail(), "pnlEditDes");
-		}else if(e.getSource() == manager.getBtnListDes()){
-			manager.getCardLayoutEdit_ListDesDetail().show(manager.getPnlEdit_ListDesDetail(), "pnlListDes");
-		}
-		
-		
-	}
-
-	@Override
-	public void focusGained(FocusEvent e) {
-		if(manager.getTxtSearchTour().getText().equals("Search Tour")) {
-			manager.getTxtSearchTour().setText(null);
-			manager.getTxtSearchTour().requestFocus();
-			manager.removePlaceholderStyle(manager.getTxtSearchTour());
-			
-		}if(manager.getTxtSearchCus().getText().equals("Search Customer")) {
-			manager.getTxtSearchCus().setText(null);
-			manager.getTxtSearchCus().requestFocus();
-			manager.removePlaceholderStyle(manager.getTxtSearchCus());
-			
-		}if(manager.getTxtSearchHotel().getText().equals("Search Hotel")) {
-			manager.getTxtSearchHotel().setText(null);
-			manager.getTxtSearchHotel().requestFocus();
-			manager.removePlaceholderStyle(manager.getTxtSearchHotel());
-			
-		}if(manager.getTxtSearchAcc().getText().equals("Search Account")) {
-			manager.getTxtSearchAcc().setText(null);
-			manager.getTxtSearchAcc().requestFocus();
-			manager.removePlaceholderStyle(manager.getTxtSearchAcc());
-			
-		}if(manager.getTxtSearchSer().getText().equals("Search Service")) {
-			manager.getTxtSearchSer().setText(null);
-			manager.getTxtSearchSer().requestFocus();
-			manager.removePlaceholderStyle(manager.getTxtSearchSer());
-			
-		}if(manager.getTxtSearchBill().getText().equals("Search Bill")) {
-			manager.getTxtSearchBill().setText(null);
-			manager.getTxtSearchBill().requestFocus();
-			manager.removePlaceholderStyle(manager.getTxtSearchBill());
-			
-		}if(manager.getTxtSearchDes().getText().equals("Search tourist attraction")) {
-			manager.getTxtSearchDes().setText(null);
-			manager.getTxtSearchDes().requestFocus();
-			manager.removePlaceholderStyle(manager.getTxtSearchDes());
-		}
-		
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		if(manager.getTxtSearchTour().getText().length() == 0) {
-			manager.addPlaceholderStyle(manager.getTxtSearchTour());
-			manager.getTxtSearchTour().setText("Search Tour");
-			
-		}if(manager.getTxtSearchCus().getText().length() == 0) {
-			manager.addPlaceholderStyle(manager.getTxtSearchCus());
-			manager.getTxtSearchCus().setText("Search Customer");
-			
-		}if(manager.getTxtSearchHotel().getText().length() == 0) {
-			manager.addPlaceholderStyle(manager.getTxtSearchHotel());
-			manager.getTxtSearchHotel().setText("Search Hotel");
-			
-		}if(manager.getTxtSearchAcc().getText().length() == 0) {
-			manager.addPlaceholderStyle(manager.getTxtSearchAcc());
-			manager.getTxtSearchAcc().setText("Search Account");
-		
-		}if(manager.getTxtSearchSer().getText().length() == 0) {
-		manager.addPlaceholderStyle(manager.getTxtSearchSer());
-		manager.getTxtSearchSer().setText("Search Service");
-		
-		}if(manager.getTxtSearchBill().getText().length() == 0) {
-			manager.addPlaceholderStyle(manager.getTxtSearchBill());
-			manager.getTxtSearchBill().setText("Search Bill");
-		
-		}if(manager.getTxtSearchDes().getText().length() == 0) {
-			manager.addPlaceholderStyle(manager.getTxtSearchDes());
-			manager.getTxtSearchDes().setText("Search tourist attraction");
-		
-		}
-		
-	}	
 	
 }

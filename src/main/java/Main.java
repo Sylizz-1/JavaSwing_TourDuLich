@@ -1,26 +1,10 @@
-import DAO.*;
-
-import DTO.CustomerDTO;
-import DTO.HotelDTO;
-import DTO.PlaceDTO;
-import DTO.TourDTO;
-import GUI.*;
 import GUI.Manager;
+import GUI.TourContent;
 
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-public class Main {
+
+public class Main{
 	
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args)  {
 //        TourDAO abc = new TourDAO();
 //
 //        TourDTO tour = abc.getById(1);
@@ -47,5 +31,7 @@ public class Main {
 		manager.setVisible(true);
 
     	}
+	
+	
     }
 
