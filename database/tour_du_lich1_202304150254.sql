@@ -100,7 +100,7 @@ CREATE TABLE user (
   tel varchar(100) DEFAULT NULL,
   birthday date DEFAULT NULL,
   gender varchar(20) DEFAULT NULL,
-  role_id int NOT NULL DEFAULT 4,
+  role_id int DEFAULT 4,
   create_at datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id)
 )
@@ -121,7 +121,7 @@ ADD UNIQUE INDEX idx_unq_user_name (user_name);
 --
 ALTER TABLE user
 ADD CONSTRAINT fk_User_Group FOREIGN KEY (role_id)
-REFERENCES role (role_id) ON UPDATE CASCADE;
+REFERENCES role (role_id) ON UPDATE CASCADE ON DELETE SET null;
 
 --
 -- Create table `hotel`
@@ -147,7 +147,7 @@ AVG_ROW_LENGTH = 8192;
 CREATE TABLE tour (
   tour_id int NOT NULL AUTO_INCREMENT,
   tour_name varchar(100) NOT NULL,
-  hotel_id int DEFAULT NULL,
+  hotel_id int,
   price decimal(20, 4) NOT NULL,
   start_day date DEFAULT NULL,
   end_day date DEFAULT NULL,
@@ -197,7 +197,7 @@ CREATE TABLE place (
   place_name varchar(100) NOT NULL,
   place_describe text DEFAULT NULL,
   place_address varchar(100) DEFAULT '',
-  region_code varchar(100) DEFAULT NULL,
+  region_code varchar(100),
   PRIMARY KEY (place_id)
 )
 ENGINE = INNODB,
@@ -211,7 +211,7 @@ AVG_ROW_LENGTH = 712;
 --
 ALTER TABLE place
 ADD CONSTRAINT fk_Place_region FOREIGN KEY (region_code)
-REFERENCES region (region_code) ON UPDATE CASCADE;
+REFERENCES region (region_code) ON UPDATE CASCADE ON DELETE SET null;
 
 --
 -- Create table `tour_detail`
@@ -283,14 +283,14 @@ AVG_ROW_LENGTH = 4096;
 --
 ALTER TABLE booking
 ADD CONSTRAINT fk_Booking_Customer FOREIGN KEY (customer_id)
-REFERENCES customer (customer_id) ON UPDATE CASCADE;
+REFERENCES customer (customer_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 --
 -- Create foreign key
 --
 ALTER TABLE booking
 ADD CONSTRAINT fk_Booking_Tour FOREIGN KEY (tour_id)
-REFERENCES tour (tour_id) ON UPDATE CASCADE;
+REFERENCES tour (tour_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 --
 -- Create table `permission`
