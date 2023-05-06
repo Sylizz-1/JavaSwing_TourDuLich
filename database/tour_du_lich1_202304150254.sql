@@ -1,5 +1,4 @@
-﻿CHARACTER SET utf8mb4,
-
+﻿
 --
 -- Set default database
 --
