@@ -47,12 +47,13 @@ DROP TABLE IF EXISTS place;
 --
 -- Drop table `region`
 --
-DROP TABLE IF EXISTS region;
+
 
 --
 -- Drop table `tour`
 --
 DROP TABLE IF EXISTS tour;
+DROP TABLE IF EXISTS region;
 
 --
 -- Drop table `hotel`
@@ -139,6 +140,27 @@ AUTO_INCREMENT = 13,
 AVG_ROW_LENGTH = 8192;
 
 
+--
+-- Create table `region`
+--
+CREATE TABLE region (
+  region_id int NOT NULL AUTO_INCREMENT,
+  region_code varchar(100) DEFAULT NULL,
+  PRIMARY KEY (region_id)
+)
+ENGINE = INNODB,
+AUTO_INCREMENT = 6,
+AVG_ROW_LENGTH = 5461;
+
+
+
+--
+-- Create index `region_code` on table `region`
+--
+ALTER TABLE region
+ADD UNIQUE INDEX region_code (region_code);
+
+
 
 --
 -- Create table `tour`
@@ -147,6 +169,7 @@ CREATE TABLE tour (
   tour_id int NOT NULL AUTO_INCREMENT,
   tour_name varchar(100) NOT NULL,
   hotel_id int,
+  region_code varchar(100),
   price decimal(20, 4) NOT NULL,
   start_day date DEFAULT NULL,
   end_day date DEFAULT NULL,
@@ -168,25 +191,10 @@ ALTER TABLE tour
 ADD CONSTRAINT fk_Tour_Hotel FOREIGN KEY (hotel_id)
 REFERENCES hotel (hotel_id) ON DELETE SET NULL ON UPDATE CASCADE;
 
---
--- Create table `region`
---
-CREATE TABLE region (
-  region_id int NOT NULL AUTO_INCREMENT,
-  region_code varchar(100) DEFAULT NULL,
-  PRIMARY KEY (region_id)
-)
-ENGINE = INNODB,
-AUTO_INCREMENT = 6,
-AVG_ROW_LENGTH = 5461;
+ALTER TABLE tour
+ADD CONSTRAINT fk_Tour_Region FOREIGN KEY (region_code)
+REFERENCES region (region_code) ON DELETE SET NULL ON UPDATE CASCADE;
 
-
-
---
--- Create index `region_code` on table `region`
---
-ALTER TABLE region
-ADD UNIQUE INDEX region_code (region_code);
 
 --
 -- Create table `place`
@@ -438,12 +446,11 @@ INSERT INTO customer VALUES
 -- Dumping data for table tour
 --
 INSERT INTO tour VALUES
-(1, 'Du lịch huế',  1, 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
-(2, 'Du lịch đà lạt', 1, 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
-(3, 'Du lịch nha trang',  1, 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
-(4, 'Du lịch đảo nha trang',  1, 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
-(5, 'Du lịch hạ long',  1, 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
-(6, 'Du lịch phú quốc', 1, 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09');
+(1, 'Du lịch huế',  1, 'hue',500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
+(2, 'Du lịch đà lạt', 1,'dalat', 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
+(3, 'Du lịch nha trang', 1,'nhatrang', 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
+(4, 'Du lịch hạ long',  1,'quangninh', 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09'),
+(5, 'Du lịch phú quốc', 1,'phuquoc', 500000.0000, '2023-05-13', '2023-05-23', 'Hồ Chí Minh', 'abc', '2023-04-13 10:27:09');
 
 -- 
 -- Dumping data for table place
@@ -509,26 +516,35 @@ INSERT INTO booking VALUES
 -- 
 -- Dumping data for table tour_detail
 --
-INSERT INTO tour_detail VALUES
-(1, 1, 1, '2023-04-13 10:28:31'),
-(2, 1, 2, '2023-04-13 10:28:31'),
-(3, 1, 3, '2023-04-13 10:28:31'),
-(4, 1, 4, '2023-04-13 10:28:31'),
-(5, 1, 5, '2023-04-13 10:28:31'),
-(6, 1, 6, '2023-04-13 10:28:31'),
-(7, 2, 2, '2023-04-13 10:28:31'),
-(8, 2, 3, '2023-04-13 10:28:31'),
-(13, 3, 16, '2023-04-13 10:28:31'),
-(14, 3, 17, '2023-04-13 10:28:31'),
-(15, 4, 18, '2023-04-13 10:28:31'),
-(16, 4, 19, '2023-04-13 10:28:31'),
-(17, 5, 13, '2023-04-13 10:28:31'),
-(18, 5, 14, '2023-04-13 10:28:31'),
-(19, 5, 15, '2023-04-13 10:28:31'),
-(20, 6, 20, '2023-04-13 10:28:31'),
-(21, 6, 21, '2023-04-13 10:28:31'),
-(22, 6, 22, '2023-04-13 10:28:31'),
-(23, 6, 23, '2023-04-13 10:28:31');
+INSERT INTO tour_detail(tour_id,place_id,create_at) VALUES
+( 1, 1, '2023-04-13 10:28:31'),
+( 1, 2, '2023-04-13 10:28:31'),
+( 1, 3, '2023-04-13 10:28:31'),
+( 1, 4, '2023-04-13 10:28:31'),
+( 1, 5, '2023-04-13 10:28:31'),
+( 1, 6, '2023-04-13 10:28:31'),
+( 2, 7, '2023-04-13 10:28:31'),
+( 2, 8, '2023-04-13 10:28:31'),
+( 2, 9, '2023-04-13 10:28:31'),
+( 2, 10, '2023-04-13 10:28:31'),
+( 2,11, '2023-04-13 10:28:31'),
+( 2, 12, '2023-04-13 10:28:31'),
+
+
+( 3, 16, '2023-04-13 10:28:31'),
+( 3, 17, '2023-04-13 10:28:31'),
+( 3, 18, '2023-04-13 10:28:31'),
+( 3, 19, '2023-04-13 10:28:31'),
+( 4, 13, '2023-04-13 10:28:31'),
+( 4, 14, '2023-04-13 10:28:31'),
+( 4, 15, '2023-04-13 10:28:31'),
+( 5, 20, '2023-04-13 10:28:31'),
+( 5, 21, '2023-04-13 10:28:31'),
+( 5, 22, '2023-04-13 10:28:31'),
+( 5, 23, '2023-04-13 10:28:31');
+
+
+
 
 -- 
 -- Dumping data for table role_permission
