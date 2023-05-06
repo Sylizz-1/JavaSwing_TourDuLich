@@ -2,7 +2,9 @@ package GUI;
 
 import DAO.ConnectDatabase;
 import DAO.PlaceDAO;
+import DAO.ServiceDAO;
 import DTO.PlaceDTO;
+import DTO.ServiceDTO;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -13,8 +15,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class DesContent extends JPanel{
 
@@ -123,6 +127,48 @@ public class DesContent extends JPanel{
         });
 
         lblSearchDes = new JLabel("");
+        lblSearchDes.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+
+                String desString = txtSearchDes.getText().trim();
+                if(isNumeric(desString)== true) {
+                    int iddes = Integer.parseInt(desString.trim());
+                    PlaceDTO desDTO = PlaceDAO.getInstance().getById(iddes);
+                    if(desDTO != null) {
+                        String iddesString = String.valueOf(desDTO.getPlace_id());
+                        txtIdDes.setText(iddesString);
+                        txtNameDes.setText(desDTO.getPlace_name());
+                        txtDescribeDes.setText(desDTO.getPlace_describe());
+                        txtAddressDes.setText(desDTO.getPlace_address());
+                    }
+                    if(desDTO == null) {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Place !");
+                    }
+                }
+                if (isNumeric(desString)== false) {
+                    ArrayList<PlaceDTO> desDTO = PlaceDAO.getInstance().getAll();
+                    Boolean checkKQ = false;
+                    for(PlaceDTO itemDesDTO: desDTO) {
+                        String temp = Normalizer.normalize(itemDesDTO.getPlace_name(), Normalizer.Form.NFD);
+                        String temp2 = Normalizer.normalize(desString, Normalizer.Form.NFD);
+                        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+                        if(pattern.matcher(temp).replaceAll("").equalsIgnoreCase(pattern.matcher(temp2).replaceAll(""))) {
+                            String iddesString = String.valueOf(itemDesDTO.getPlace_id());
+                            txtIdDes.setText(iddesString);
+                            txtNameDes.setText(itemDesDTO.getPlace_name());
+                            txtDescribeDes.setText(itemDesDTO.getPlace_describe());
+                            txtAddressDes.setText(itemDesDTO.getPlace_address());
+
+                            checkKQ = true;
+                        }
+                    }
+                    if(checkKQ == false) {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Place !");
+                    }
+                }
+            }
+
+        });
         lblSearchDes.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchDes, BorderLayout.EAST);
 //        lblSearchDes.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
@@ -512,4 +558,16 @@ public class DesContent extends JPanel{
             conndb.closeConnection();
         }
     }
+    public static boolean isNumeric(final CharSequence cs) {
+//      if (cs.isEmpty()) {
+//          return false;
+//      }
+      final int sz = cs.length();
+      for (int i = 0; i < sz; i++) {
+          if (!Character.isDigit(cs.charAt(i))) {
+              return false;
+          }
+      }
+      return true;
+  }
 }

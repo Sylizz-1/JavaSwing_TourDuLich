@@ -1,6 +1,8 @@
 package GUI;
 
+import DAO.CustomerDAO;
 import DAO.ServiceDAO;
+import DTO.CustomerDTO;
 import DTO.ServiceDTO;
 
 import javax.swing.*;
@@ -10,14 +12,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class SerContent extends JPanel {
     private JPanel pnlSerContentTitle;
     private JLabel lblSerContentTitle;
     private JPanel pnlSearchSer;
     private JLabel lblSearchSer;
+    
     private JPanel pnlContentSerDetail;
     private JPanel pnlEdit_ListSer;
     private JPanel pnlbtnEdit_ListSer;
@@ -107,6 +115,47 @@ public class SerContent extends JPanel {
         });
 
         lblSearchSer = new JLabel("");
+        lblSearchSer.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+
+                String serString = txtSearchSer.getText().trim();
+                if(isNumeric(serString)== true) {
+                    int idser = Integer.parseInt(serString.trim());
+                    ServiceDTO serviceDTO = ServiceDAO.getInstance().getById(idser);
+                    if(serviceDTO != null) {
+                        String idserString = String.valueOf(serviceDTO.getService_id());
+                        txtIdSer.setText(idserString);
+                        txtNameSer.setText(serviceDTO.getService_name());
+                        String priceser = String.valueOf(serviceDTO.getService_price());
+                        txtPriceSer.setText(priceser);
+                    }
+                    if(serviceDTO == null) {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Service !");
+                    }
+                }
+                if (isNumeric(serString)== false) {
+                    ArrayList<ServiceDTO> serDTO = ServiceDAO.getInstance().getAll();
+                    Boolean checkKQ = false;
+                    for(ServiceDTO itemServiceDTO: serDTO) {
+                        String temp = Normalizer.normalize(itemServiceDTO.getService_name(), Normalizer.Form.NFD);
+                        String temp2 = Normalizer.normalize(serString, Normalizer.Form.NFD);
+                        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+                        if(pattern.matcher(temp).replaceAll("").equalsIgnoreCase(pattern.matcher(temp2).replaceAll(""))) {
+                            String idserString = String.valueOf(itemServiceDTO.getService_id());
+                            txtIdSer.setText(idserString);
+                            txtNameSer.setText(itemServiceDTO.getService_name());
+                            String priceser = String.valueOf(itemServiceDTO.getService_price());
+                            txtPriceSer.setText(priceser);
+                            checkKQ = true;
+                        }
+                    }
+                    if(checkKQ == false) {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Service !");
+                    }
+                }
+            }
+
+        });
         lblSearchSer.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchSer, BorderLayout.EAST);
 //		lblSearchSer.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
@@ -296,6 +345,9 @@ public class SerContent extends JPanel {
         pnlButtonSer.add(btnRefreshSer);
 
         btnUpdateSer = new JButton("Update");
+        btnUpdateSer.setFocusPainted(false);
+        btnUpdateSer.setBackground(new Color(66, 165, 243));
+        btnUpdateSer.setPreferredSize(new Dimension(100, 25));
         pnlButtonSer.add(btnUpdateSer);
 
         pnlListSer = new JPanel();
@@ -409,4 +461,16 @@ public class SerContent extends JPanel {
             }
         });
     }
+    public static boolean isNumeric(final CharSequence cs) {
+//      if (cs.isEmpty()) {
+//          return false;
+//      }
+      final int sz = cs.length();
+      for (int i = 0; i < sz; i++) {
+          if (!Character.isDigit(cs.charAt(i))) {
+              return false;
+          }
+      }
+      return true;
+  }
 }
