@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BookingDAO implements DAO<BookingDTO> {
+	public static BookingDAO getInstance() {
+		return new BookingDAO();
+	}
     @Override
     public ArrayList<BookingDTO> getAll() {
         ArrayList<BookingDTO> arr = new ArrayList<BookingDTO>();
