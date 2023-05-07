@@ -7,7 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class TourDAO implements DAO<TourDTO> {
-
+	public static TourDAO getInstance() {
+		return new TourDAO();
+	}
     @Override
     public ArrayList<TourDTO> getAll() {
         ArrayList<TourDTO> arr = new ArrayList<TourDTO>();

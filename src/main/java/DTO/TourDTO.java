@@ -117,4 +117,13 @@ public class TourDTO {
     public void setCreate_at(Date create_at) {
         this.create_at = create_at;
     }
+
+	@Override
+	public String toString() {
+		return "TourDTO [tour_id=" + tour_id + ", tour_name=" + tour_name + ", tourguide_id=" + tourguide_id
+				+ ", hotel_id=" + hotel_id + ", price=" + price + ", start_day=" + start_day + ", end_day=" + end_day
+				+ ", departure_place=" + departure_place + ", schedule_describe=" + schedule_describe + ", create_at="
+				+ create_at + "]";
+	}
+    
 }

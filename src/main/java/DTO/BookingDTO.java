@@ -63,4 +63,12 @@ public class BookingDTO {
     public void setCreate_at(Date create_at) {
         this.create_at = create_at;
     }
+
+	@Override
+	public String toString() {
+		return "BookingDTO [booking_id=" + booking_id + ", tour_id=" + tour_id + ", customer_id=" + customer_id
+				+ ", customer_number=" + customer_number + ", total_cost=" + total_cost + ", create_at=" + create_at
+				+ "]";
+	}
+    
 }
