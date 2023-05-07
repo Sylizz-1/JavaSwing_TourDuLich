@@ -22,7 +22,7 @@ public class HotelDAO implements DAO<HotelDTO> {
                 hotel.setHotel_id(rs.getInt("hotel_id"));
                 hotel.setHotel_name(rs.getString("hotel_name"));
                 hotel.setAddress(rs.getString("address"));
-                hotel.setTel(rs.getInt("tel"));
+                hotel.setTel(rs.getString("tel"));
                 hotel.setWebsite(rs.getString("website"));
                 hotel.setStar(rs.getInt("star"));
                 arr.add(hotel);
@@ -53,7 +53,7 @@ public class HotelDAO implements DAO<HotelDTO> {
                 hotel.setHotel_id(rs.getInt("hotel_id"));
                 hotel.setHotel_name(rs.getString("hotel_name"));
                 hotel.setAddress(rs.getString("address"));
-                hotel.setTel(rs.getInt("tel"));
+                hotel.setTel(rs.getString("tel"));
                 hotel.setWebsite(rs.getString("website"));
                 hotel.setStar(rs.getInt("star"));
             }
@@ -82,7 +82,7 @@ public class HotelDAO implements DAO<HotelDTO> {
             st.setInt(1,HotelDTO.getHotel_id());
             st.setString(2, HotelDTO.getHotel_name());
             st.setString(3,HotelDTO.getAddress());
-            st.setInt(4,HotelDTO.getTel());
+            st.setString(4,HotelDTO.getTel());
             st.setString(5,HotelDTO.getWebsite());
             st.setInt(6,HotelDTO.getStar());
             int checkRS = st.executeUpdate();
@@ -120,7 +120,7 @@ public class HotelDAO implements DAO<HotelDTO> {
             PreparedStatement st = conndb.getConnection().prepareStatement(query);
             st.setString(1, HotelDTO.getHotel_name());
             st.setString(2,HotelDTO.getAddress());
-            st.setInt(3,HotelDTO.getTel());
+            st.setString(3,HotelDTO.getTel());
             st.setString(4,HotelDTO.getWebsite());
             st.setInt(5,HotelDTO.getStar());
             int checkRS = st.executeUpdate();

@@ -11,18 +11,28 @@ import java.sql.Date;
 public class TourDTO {
     private int tour_id;
     private String tour_name;
-    private int tourguide_id;
+
     private int hotel_id;
+
+    public String getRegion_code() {
+        return region_code;
+    }
+
+    public void setRegion_code(String region_code) {
+        this.region_code = region_code;
+    }
+
+    private String region_code;
     private double price;
     private Date start_day;
     private Date end_day;
     private String departure_place;
     private String schedule_describe;
     private Date create_at;
-    public TourDTO(int tour_id, String tour_name, int tourguide_id, int hotel_id, double price, Date start_day, Date end_day, String departure_place, String schedule_describe, Date create_at) {
+    public TourDTO(int tour_id, String tour_name,  int hotel_id, double price, Date start_day, Date end_day, String departure_place, String schedule_describe, Date create_at) {
         this.tour_id = tour_id;
         this.tour_name = tour_name;
-        this.tourguide_id = tourguide_id;
+
         this.hotel_id = hotel_id;
         this.price = price;
         this.start_day = start_day;
@@ -50,14 +60,6 @@ public class TourDTO {
 
     public void setTour_name(String tour_name) {
         this.tour_name = tour_name;
-    }
-
-    public int getTourguide_id() {
-        return tourguide_id;
-    }
-
-    public void setTourguide_id(int tourguide_id) {
-        this.tourguide_id = tourguide_id;
     }
 
     public int getHotel_id() {

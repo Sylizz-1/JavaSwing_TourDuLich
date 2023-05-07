@@ -7,7 +7,7 @@ public class UserDTO {
     private String user_name;
     private String password;
     private String fullname;
-    private int tel;
+    private String tel;
 
     public int getUser_id() {
         return user_id;
@@ -41,11 +41,11 @@ public class UserDTO {
         this.fullname = fullname;
     }
 
-    public int getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(int tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 

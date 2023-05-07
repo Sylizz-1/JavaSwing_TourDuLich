@@ -6,11 +6,11 @@ public class HotelDTO {
     private int hotel_id;
     private String hotel_name;
     private String address;
-    private int tel;
+    private String tel;
     private String website;
     private int star;
     
-    public HotelDTO(int hotel_id, String hotel_name, String address, int tel, String website, int star) {
+    public HotelDTO(int hotel_id, String hotel_name, String address, String tel, String website, int star) {
 		super();
 		this.hotel_id = hotel_id;
 		this.hotel_name = hotel_name;
@@ -46,11 +46,11 @@ public class HotelDTO {
         this.address = address;
     }
 
-    public int getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(int tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 

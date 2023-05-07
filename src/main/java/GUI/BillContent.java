@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BillContent extends JPanel {
 
@@ -75,6 +78,8 @@ public class BillContent extends JPanel {
     private JScrollPane sclListBill;
     private JTable billListTable;
     private CardLayout cardLayoutEdit_ListBillDetail;
+    private JButton btnUpdateBill;
+
     public BillContent() {
         init();
     }
@@ -202,7 +207,7 @@ public class BillContent extends JPanel {
         pnlFillBill = new JPanel();
         pnlFillBill.setBorder(null);
         scrollFillInforBill.setViewportView(pnlFillBill);
-        pnlFillBill.setLayout(new GridLayout(6, 1, 0, 0));
+        pnlFillBill.setLayout(new GridLayout(0, 2, 0, 0));
 
         pnlIdBill = new JPanel();
         pnlIdBill.setPreferredSize(new Dimension(320, 35));
@@ -234,7 +239,7 @@ public class BillContent extends JPanel {
         pnlIdSerOfBill.add(lblSerNameOfBill);
 
         pnlSclSerNameOfBill = new JPanel();
-        pnlSclSerNameOfBill.setPreferredSize(new Dimension(225, 30));
+        pnlSclSerNameOfBill.setPreferredSize(new Dimension(225, 25));
         pnlIdSerOfBill.add(pnlSclSerNameOfBill);
         pnlSclSerNameOfBill.setLayout(new BorderLayout(0, 0));
 
@@ -242,10 +247,12 @@ public class BillContent extends JPanel {
         pnlSclSerNameOfBill.add(scrollSerName, BorderLayout.CENTER);
 
         pnlSerDetail = new JPanel();
+
         scrollSerName.setViewportView(pnlSerDetail);
         pnlSerDetail.setLayout(new GridLayout(0, 1, 0, 0));
 
         chckbxNewCheckBox = new JCheckBox("New check box");
+
         pnlSerDetail.add(chckbxNewCheckBox);
 
         chckbxNewCheckBox_1 = new JCheckBox("New check box");
@@ -306,6 +313,13 @@ public class BillContent extends JPanel {
         btnAddBill.setPreferredSize(new Dimension(100, 25));
         pnlButtonBill.add(btnAddBill);
 
+        btnUpdateBill = new JButton("Update");
+        btnUpdateBill.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnUpdateBill.setBackground(new Color(66, 165, 243));
+        btnUpdateBill.setFocusPainted(false);
+        btnUpdateBill.setPreferredSize(new Dimension(100, 25));
+        pnlButtonBill.add(btnUpdateBill);
+
         btnDeleteBill = new JButton("Delete");
         btnDeleteBill.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnDeleteBill.setBackground(new Color(66, 165, 243));
@@ -325,7 +339,7 @@ public class BillContent extends JPanel {
         pnlListBill_Ser.setBackground(new Color(240, 240, 240));
         pnlEdit_ListBillDetail.add(pnlListBill_Ser, "pnlListBill");
         pnlListBill_Ser.setLayout(new GridLayout(2, 1, 0, 30));
-
+        
         // Tạo JPanel list Bill
         pnlListBill = new JPanel();
         pnlListBill.setBorder(new TitledBorder(null, "List Bill", TitledBorder.LEADING, TitledBorder.TOP, null, null));

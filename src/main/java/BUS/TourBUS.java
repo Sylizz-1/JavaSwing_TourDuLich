@@ -24,7 +24,6 @@ public class TourBUS {
 
     public String add(TourDTO tourDTO, ArrayList<PlaceDTO> placeDTOs) {
 
-
         if (tour.checkExistById(tourDTO.getTour_id())) {
             return "ID tour đã tồn tại";
         }

@@ -26,7 +26,7 @@ public class CustomerDAO implements DAO<CustomerDTO> {
                 CustomerDTO customerDTO = new CustomerDTO();
                 customerDTO.setCustomer_id(rs.getInt("customer_id"));
                 customerDTO.setCustomer_name(rs.getString("customer_name"));
-                customerDTO.setTel(rs.getInt("tel"));
+                customerDTO.setTel(rs.getString("tel"));
                 customerDTO.setBirthday(rs.getString("birthday"));
                 customerDTO.setEmail(rs.getString("email"));
                 customerDTO.setCreate_at(rs.getString("create_at"));
@@ -57,7 +57,7 @@ public class CustomerDAO implements DAO<CustomerDTO> {
             if (rs.next()){
                 customer.setCustomer_id(rs.getInt("customer_id"));
                 customer.setCustomer_name(rs.getString("customer_name"));
-                customer.setTel(rs.getInt("tel"));
+                customer.setTel(rs.getString("tel"));
                 customer.setBirthday(rs.getString("birthday"));
                 customer.setEmail(rs.getString("email"));
                 customer.setCreate_at(rs.getString("create_at"));
@@ -85,7 +85,7 @@ public class CustomerDAO implements DAO<CustomerDTO> {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1,customerDTO.getCustomer_id());
             st.setString(2,customerDTO.getCustomer_name());
-            st.setInt(3,customerDTO.getTel());
+            st.setString(3,customerDTO.getTel());
             st.setString(4,customerDTO.getBirthday());
             st.setString(5,customerDTO.getEmail());
             int checkRS = st.executeUpdate();
@@ -124,7 +124,7 @@ public class CustomerDAO implements DAO<CustomerDTO> {
                     "where customer_id = " + customerDTO.getCustomer_id();
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1,customerDTO.getCustomer_name());
-            st.setInt(2,customerDTO.getTel());
+            st.setString(2,customerDTO.getTel());
             st.setString(3,customerDTO.getBirthday());
             st.setString(4,customerDTO.getEmail());
             int checkRS = st.executeUpdate();

@@ -5,7 +5,7 @@ import java.sql.Date;
 public class CustomerDTO {
     private int customer_id;
     private String customer_name;
-    private int tel;
+    private String tel;
     private String birthday;
     private String email;
     private String create_at;
@@ -14,7 +14,7 @@ public class CustomerDTO {
 
     }
     
-    public CustomerDTO(int customer_id, String customer_name, int tel, String birthday, String email, String create_at) {
+    public CustomerDTO(int customer_id, String customer_name, String tel, String birthday, String email, String create_at) {
 		super();
 		this.customer_id = customer_id;
 		this.customer_name = customer_name;
@@ -40,11 +40,11 @@ public class CustomerDTO {
         this.customer_name = customer_name;
     }
 
-    public int getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(int tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 

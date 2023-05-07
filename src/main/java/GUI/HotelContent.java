@@ -341,12 +341,12 @@ public class HotelContent extends JPanel {
                 int idhotel = Integer.parseInt(idString);
                 String nameString = txtNameHotel.getText();
                 String addressString = txtAddressHotel.getText();
-                String telString = txtPhoneHotel.getText().trim();
-                int telhotel = Integer.parseInt(telString);
+                String telhotel = txtPhoneHotel.getText().trim();
+
                 String webString = txtWebHotel.getText();
                 String cbxString =(String) cbxStartHotel.getSelectedItem();
                 int starhotel = Integer.parseInt(cbxString);
-                if(idString == "" || nameString==""|| addressString==""|| telString==""|| webString=="") {
+                if(idString == "" || nameString==""|| addressString==""|| telhotel==""|| webString=="") {
                     JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
                 }
                 else {
@@ -401,12 +401,12 @@ public class HotelContent extends JPanel {
                 int idhotel = Integer.parseInt(idString);
                 String nameString = txtNameHotel.getText();
                 String addressString = txtAddressHotel.getText();
-                String telString = txtPhoneHotel.getText().trim();
-                int telhotel = Integer.parseInt(telString);
+                String telhotel = txtPhoneHotel.getText().trim();
+
                 String webString = txtWebHotel.getText();
                 String cbxString =(String) cbxStartHotel.getSelectedItem();
                 int starhotel = Integer.parseInt(cbxString);
-                if(idString == "" || nameString==""|| addressString==""|| telString==""|| webString=="") {
+                if(idString == "" || nameString==""|| addressString==""|| telhotel==""|| webString=="") {
                     JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
                 }
                 else {

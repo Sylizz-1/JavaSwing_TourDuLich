@@ -23,7 +23,7 @@ public class UserDAO implements DAO<UserDTO> {
                 user.setUser_name(rs.getString("user_naname"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
-                user.setTel(rs.getInt("tel"));
+                user.setTel(rs.getString("tel"));
                 user.setBirthday(rs.getDate("birthday"));
                 user.setEmail(rs.getString("email"));
                 user.setCreate_at(rs.getDate("create_at"));
@@ -58,7 +58,7 @@ public class UserDAO implements DAO<UserDTO> {
                 user.setUser_name(rs.getString("user_naname"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
-                user.setTel(rs.getInt("tel"));
+                user.setTel(rs.getString("tel"));
                 user.setBirthday(rs.getDate("birthday"));
                 user.setEmail(rs.getString("email"));
                 user.setCreate_at(rs.getDate("create_at"));
@@ -90,7 +90,7 @@ public class UserDAO implements DAO<UserDTO> {
                 user.setUser_name(rs.getString("user_naname"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
-                user.setTel(rs.getInt("tel"));
+                user.setTel(rs.getString("tel"));
                 user.setBirthday(rs.getDate("birthday"));
                 user.setEmail(rs.getString("email"));
                 user.setCreate_at(rs.getDate("create_at"));
@@ -120,7 +120,7 @@ public class UserDAO implements DAO<UserDTO> {
             st.setString(2,userDTO.getUser_name());
             st.setString(3,userDTO.getPassword());
             st.setString(4,userDTO.getFullname());
-            st.setInt(5,userDTO.getTel());
+            st.setString(5,userDTO.getTel());
             st.setDate(6,userDTO.getBirthday());
             st.setString(7,userDTO.getEmail());
             st.setInt(8,userDTO.getRole_id());
@@ -158,7 +158,7 @@ public class UserDAO implements DAO<UserDTO> {
             st.setString(1,userDTO.getUser_name());
             st.setString(2,userDTO.getPassword());
             st.setString(3,userDTO.getFullname());
-            st.setInt(4,userDTO.getTel());
+            st.setString(4,userDTO.getTel());
             st.setDate(5,userDTO.getBirthday());
             st.setString(6,userDTO.getEmail());
             st.setInt(7,userDTO.getRole_id());

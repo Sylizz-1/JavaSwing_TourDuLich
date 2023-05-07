@@ -20,8 +20,8 @@ public class TourDAO implements DAO<TourDTO> {
                 TourDTO tour = new TourDTO();
                 tour.setTour_id(rs.getInt("tour_id"));
                 tour.setTour_name(rs.getString("tour_name"));
-                tour.setTourguide_id(rs.getInt("tourguide_id"));
                 tour.setHotel_id(rs.getInt("hotel_id"));
+                tour.setRegion_code(rs.getString("region_code"));
                 tour.setPrice(rs.getDouble("price"));
                 tour.setStart_day(rs.getDate("start_day"));
                 tour.setEnd_day(rs.getDate("end_day"));
@@ -57,8 +57,9 @@ public class TourDAO implements DAO<TourDTO> {
             if (rs.next()){
                 tour.setTour_id(rs.getInt("tour_id"));
                 tour.setTour_name(rs.getString("tour_name"));
-                tour.setTourguide_id(rs.getInt("tourguide_id"));
+
                 tour.setHotel_id(rs.getInt("hotel_id"));
+                tour.setRegion_code(rs.getString("region_code"));
                 tour.setPrice(rs.getDouble("price"));
                 tour.setStart_day(rs.getDate("start_day"));
                 tour.setEnd_day(rs.getDate("end_day"));
@@ -85,12 +86,13 @@ public class TourDAO implements DAO<TourDTO> {
 
         try {
             Connection conn = conndb.getConnection();
-            String sql = "insert into tour value (?,?,?,?,?,?,?,?,?)";
+            String sql = "insert into tour(tour_id,tour_name,hotel_id,region_code,price,start_day,end_day,departure_place,schedule_describe) " +
+                    "value (?,?,?,?,?,?,?,?,?)";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1,tourDTO.getTour_id());
             st.setString(2,tourDTO.getTour_name());
-            st.setInt(3,tourDTO.getTourguide_id());
-            st.setInt(4,tourDTO.getHotel_id());
+            st.setInt(3,tourDTO.getHotel_id());
+            st.setString(4,tourDTO.getRegion_code());
             st.setDouble(5,tourDTO.getPrice());
             st.setDate(6,tourDTO.getStart_day());
             st.setDate(7,tourDTO.getEnd_day());
@@ -119,8 +121,8 @@ public class TourDAO implements DAO<TourDTO> {
             Connection conn = conndb.getConnection();
             String sql = "update tour set " +
                     "tour_name=?," +
-                    "tourguide_id=?," +
                     "hotel_id=?," +
+                    "region_code=?,"+
                     "price=?," +
                     "start_day=?," +
                     "end_day=?," +
@@ -129,8 +131,8 @@ public class TourDAO implements DAO<TourDTO> {
                     "where tour_id = " + tourDTO.getTour_id();
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1,tourDTO.getTour_name());
-            st.setInt(2,tourDTO.getTourguide_id());
-            st.setInt(3,tourDTO.getHotel_id());
+            st.setInt(2,tourDTO.getHotel_id());
+            st.setString(3,tourDTO.getRegion_code());
             st.setDouble(4,tourDTO.getPrice());
             st.setDate(5,tourDTO.getStart_day());
             st.setDate(6,tourDTO.getEnd_day());

@@ -403,9 +403,9 @@ public class CusContent extends JPanel{
                 }
                 String nameString = txtNameCus.getText().trim();
                 String telString = txtPhoneCus.getText();
-                int telcs= 0;
+                String telcs = "";
                 if(isNumeric(telString)==true) {
-                    telcs = Integer.parseInt(telString.trim());
+                    telcs = telString.trim();
                 }
                 Date date1 = OldCus.getDate();
                 SimpleDateFormat dddDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -481,9 +481,9 @@ public class CusContent extends JPanel{
                 }
                 String nameString = txtNameCus.getText().trim();
                 String telString = txtPhoneCus.getText();
-                int telcs= 0;
+                String telcs= "";
                 if(isNumeric(telString)==true) {
-                    telcs = Integer.parseInt(telString.trim());
+                    telcs =telString.trim();
                 }
                 Date date1 = OldCus.getDate();
                 SimpleDateFormat dddDateFormat = new SimpleDateFormat("yyyy-MM-dd");

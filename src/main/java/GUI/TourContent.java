@@ -1,20 +1,29 @@
 package GUI;
 
+import BUS.HotelBUS;
+import BUS.RegionBUS;
+import BUS.TourBUS;
+import DAO.HotelDAO;
+import DTO.HotelDTO;
+import DTO.PlaceDTO;
+import DTO.RegionDTO;
+import DTO.TourDTO;
 import com.toedter.calendar.JDateChooser;
-import controller.ManagerControl;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
 public class TourContent extends JPanel{
-    
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private JPanel pnlTourContentTitle;
     private JLabel lblTourContentTitle;
     private CardLayout cardLayoutEdit_ListTourDetail;
@@ -32,6 +41,14 @@ public class TourContent extends JPanel{
     private JPanel pnlbtnEdit_ListTour;
     private JButton btnListTour;
     private JPanel pnlEdit_ListTourDetail;
+    private JPanel pnlListTour_Place;
+    private JTable tourListTable;
+    private JPanel pnlListPlace;
+
+    private JScrollPane sclListPlace;
+    private JTable placeListTable;
+    private JButton btnUpdateTour;
+
     public JPanel getPnlEdit_ListTourDetail() {
         return pnlEdit_ListTourDetail;
     }
@@ -47,9 +64,9 @@ public class TourContent extends JPanel{
     private JPanel pnlDesTour;
     private JLabel lblDesTour;
     private JComboBox cbxDesTour;
-    private JPanel pnlNumOfPeople;
-    private JLabel lblNumOfPeople;
-    private JComboBox cbxNumOfPeople;
+    private JPanel pnlHotel;
+    private JLabel lblHotel;
+    private JComboBox cbxHotel;
     private JPanel pnlButtonTour;
     private JButton btnAddTour;
     private JButton btnDeleteTour;
@@ -82,13 +99,43 @@ public class TourContent extends JPanel{
 
     private JScrollPane sclListTour;
 
+    DefaultTableModel model_tour;
+    DefaultTableModel model_place ;
+
+
+
+
     public TourContent() {
+        setUpTable();
         init();
+        loadTourData();
+        btnInteract();
+    }
+
+    private void setUpTable() {
+        model_tour = new DefaultTableModel();
+        model_tour.addColumn("Id");
+        model_tour.addColumn("Name");
+        model_tour.addColumn("Hotel");
+        model_tour.addColumn("Region");
+        model_tour.addColumn("Price");
+        model_tour.addColumn("Start_day");
+        model_tour.addColumn("End_day");
+        model_tour.addColumn("Departure");
+        model_tour.addColumn("Descirbe");
+        model_tour.addColumn("Create at");
+
+        model_place = new DefaultTableModel();
+        model_place.addColumn("id");
+        model_place.addColumn("Name");
+        model_place.addColumn("Describe");
+        model_place.addColumn("Address");
+        model_place.addColumn("region");
     }
 
     private void init() {
 
-        
+
     	setLayout(new BorderLayout(0, 0));
 
         // Tạo JPanel cho phần tiêu đề của quản lý tour
@@ -121,7 +168,7 @@ public class TourContent extends JPanel{
         pnlIconSrc_Txt.add(txtSearchTour, BorderLayout.CENTER);
         txtSearchTour.setMargin(new Insets(2, 10, 2, 10));
         txtSearchTour.addFocusListener(new FocusListener() {
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				Font font = txtSearchTour.getFont();
@@ -130,7 +177,7 @@ public class TourContent extends JPanel{
 				txtSearchTour.setForeground(Color.gray);
 				txtSearchTour.setText("Search Tour");
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				txtSearchTour.setText(null);
@@ -140,7 +187,7 @@ public class TourContent extends JPanel{
 				font = font.deriveFont(Font.PLAIN|Font.BOLD);
 				txtSearchTour.setFont(font);
 				txtSearchTour.setForeground(Color.black);
-				
+
 			}
 		});
 
@@ -302,29 +349,36 @@ public class TourContent extends JPanel{
                 "Thừa Thiên - Huế","Tiền Giang","Trà Vinh","Tuyên Quang","Vĩnh Long","Vĩnh Phúc","Yên Bái"}));
         pnlDesTour.add(cbxDesTour);
 
-        pnlNumOfPeople = new JPanel();
-        pnlNumOfPeople.setPreferredSize(new Dimension(320, 35));
-        pnlFillTour.add(pnlNumOfPeople);
-        pnlNumOfPeople.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        pnlHotel = new JPanel();
+        pnlHotel.setPreferredSize(new Dimension(320, 35));
+        pnlFillTour.add(pnlHotel);
+        pnlHotel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-        lblNumOfPeople = new JLabel("Number of peoples");
-        lblNumOfPeople.setPreferredSize(new Dimension(125, 25));
-        pnlNumOfPeople.add(lblNumOfPeople);
+        lblHotel = new JLabel("Hotel");
+        lblHotel.setPreferredSize(new Dimension(125, 25));
+        pnlHotel.add(lblHotel);
 
-        cbxNumOfPeople = new JComboBox();
-        cbxNumOfPeople.setPreferredSize(new Dimension(166, 25));
-        cbxNumOfPeople.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-        cbxNumOfPeople.setModel(new DefaultComboBoxModel(new String[] {"29", "35", "45" , "50"}));
-        pnlNumOfPeople.add(cbxNumOfPeople);
+        cbxHotel = new JComboBox();
+        cbxHotel.setPreferredSize(new Dimension(166, 25));
+        cbxHotel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+//        cbxHotel.setModel(new DefaultComboBoxModel(new String[] {"ádvcx", "ádasd", "xcv" , "xcva123"}));
+//        cbxHotel.addItemListener(new ItemListener() {
+//            @Override
+//            public void itemStateChanged(ItemEvent e) {
+//                System.out.println(cbxHotel.getSelectedItem());
+//            }
+//        });
+        pnlHotel.add(cbxHotel);
 
         pnlPriceTour = new JPanel();
-        pnlFillTour.add(pnlPriceTour);
+
 
         lblPriceTour = new JLabel("Price");
         lblPriceTour.setPreferredSize(new Dimension(125, 25));
         pnlPriceTour.add(lblPriceTour);
 
         txtPriceTour = new JTextField();
+        txtPriceTour.setText("abc");
         txtPriceTour.setPreferredSize(new Dimension(100, 25));
         pnlPriceTour.add(txtPriceTour);
         txtPriceTour.setColumns(15);
@@ -354,6 +408,8 @@ public class TourContent extends JPanel{
 
         pnlSchedule = new JPanel();
         pnlFillTour.add(pnlSchedule);
+        pnlFillTour.add(pnlPriceTour);
+
 
         lblSchedule = new JLabel("Schedule describe");
         lblSchedule.setPreferredSize(new Dimension(125, 25));
@@ -378,7 +434,15 @@ public class TourContent extends JPanel{
         btnAddTour.setFocusPainted(false);
         btnAddTour.setPreferredSize(new Dimension(100, 25));
         pnlButtonTour.add(btnAddTour);
-        
+
+        // Tạo nút update
+        btnUpdateTour = new JButton("Update");
+        btnUpdateTour.setBackground(new Color(66, 165, 243));
+        btnUpdateTour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnUpdateTour.setFocusPainted(false);
+        btnUpdateTour.setPreferredSize(new Dimension(100, 25));
+        pnlButtonTour.add(btnUpdateTour);
+
         // Tạo nút xóa
         btnDeleteTour = new JButton("Delete");
         btnDeleteTour.setBackground(new Color(66, 165, 243));
@@ -386,6 +450,7 @@ public class TourContent extends JPanel{
         btnDeleteTour.setFocusPainted(false);
         btnDeleteTour.setPreferredSize(new Dimension(100, 25));
         pnlButtonTour.add(btnDeleteTour);
+
 
         // Tạo nút refresh
         btnRefreshTour = new JButton("Refresh");
@@ -396,25 +461,38 @@ public class TourContent extends JPanel{
         pnlButtonTour.add(btnRefreshTour);
 
         // Tạo JPanel phần danh sách tour
+        // Tạo pnlListTour_Place gồm pnlListTour ở vị trí Center và pnlListPlace ở vị trí South
+        pnlListTour_Place = new JPanel();
+        pnlListTour_Place.setBackground(new Color(240, 240, 240));
+        pnlEdit_ListTourDetail.add(pnlListTour_Place, "pnlListTour");
+        pnlListTour_Place.setLayout(new GridLayout(2, 1, 0, 30));
+
+        // Tạo JPanel list Tour
         pnlListTour = new JPanel();
         pnlListTour.setBorder(new TitledBorder(null, "List Tour", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        pnlListTour.setBackground(new Color(240, 240, 240));
-        pnlEdit_ListTourDetail.add(pnlListTour, "pnlListTour");
+        pnlListTour_Place.add(pnlListTour);
         pnlListTour.setLayout(new BorderLayout(0, 0));
-
+        // Tạo Scroll cho list Tour
         sclListTour = new JScrollPane();
-        pnlListTour.add(sclListTour, BorderLayout.CENTER);
+        pnlListTour.add(sclListTour);
 
-        Object [][] data1 = {
-                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
+//        String [] items4 = {"ID", "Name", "Hotel", "Price", "Start_day", "End_day", "Departure","Describe","create at"};
 
-        };
-
-        String [] items1 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-        JTable tourListTable = new JTable(data1, items1);
+        tourListTable = new JTable();
         sclListTour.setViewportView(tourListTable);
+
+        // Tạo JPanel list ser1
+        pnlListPlace = new JPanel();
+        pnlListTour_Place.add(pnlListPlace);
+        pnlListPlace.setLayout(new BorderLayout(0, 0));
+
+        sclListPlace = new JScrollPane();
+        sclListPlace.setBorder(new TitledBorder(null, "Places of tour", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        pnlListPlace.add(sclListPlace);
+
+
+        placeListTable = new JTable();
+        sclListPlace.setViewportView(placeListTable);
 
         // panel_3, panel_4, panel_5 này để căn chỉnh phần pnlEdit_ListTour đẹp hơn thôi
         panel_3 = new JPanel();
@@ -433,6 +511,117 @@ public class TourContent extends JPanel{
         // ------------ Change Form -------------------- //
 
          cardLayoutEdit_ListTourDetail =  (CardLayout)(this.getPnlEdit_ListTourDetail().getLayout());
+    }
 
+    // load data from database
+    private void loadTourData() {
+        // load tour table
+        TourBUS tb = new TourBUS();
+        ArrayList<TourDTO> tours = tb.getAll();
+        for (TourDTO tour : tours) {
+            model_tour.addRow(new Object[]{
+                    tour.getTour_id(),
+                    tour.getTour_name(),
+                    tour.getHotel_id(),
+                    tour.getRegion_code(),
+                    tour.getPrice(),
+                    tour.getStart_day().toString(),
+                    tour.getEnd_day().toString(),
+                    tour.getDeparture_place(),
+                    tour.getSchedule_describe(),
+                    tour.getCreate_at().toString()
+            });
+        }
+        tourListTable.setModel(model_tour);
+
+        // load combobox hotel
+        DefaultComboBoxModel<String> model_hotel = new DefaultComboBoxModel<String>();
+        HotelBUS ht = new HotelBUS();
+        ArrayList<HotelDTO> hotels = ht.getAll();
+
+        for (HotelDTO hotel : hotels) {
+           model_hotel.addElement(hotel.getHotel_id() + "-" + hotel.getHotel_name());
+        }
+        cbxHotel.setModel(model_hotel);
+
+        // load combobox region
+        DefaultComboBoxModel<String> model_region = new DefaultComboBoxModel<String>();
+        RegionBUS reg = new RegionBUS();
+        ArrayList<RegionDTO> regions = reg.getAll();
+
+        for (RegionDTO region : regions) {
+            model_region.addElement(region.getRegion_code());
+        }
+        cbxDesTour.setModel(model_region);
+
+    }
+
+    private void btnInteract() {
+        tourListTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    tourListTableMouseClicked( e);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        btnAddTour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnAddTourActionPerformed( e);
+            }
+        });
+    }
+
+    private void tourListTableMouseClicked(MouseEvent e) throws ParseException {
+
+        // load Places of tour
+        int row = tourListTable.getSelectedRow();
+
+        TourBUS tb = new TourBUS();
+        ArrayList<PlaceDTO> places = tb.getPlacesOfTour(Integer.parseInt(tourListTable.getValueAt(row,0).toString()) );
+        while (model_place.getRowCount() >= 1){
+            model_place.removeRow(0);
+        }
+        for (PlaceDTO place : places) {
+            model_place.addRow(new Object[]{
+                    place.getPlace_id(),
+                    place.getPlace_name(),
+                    place.getPlace_describe(),
+                    place.getPlace_address(),
+                    place.getRegion_code()
+            });
+        }
+        placeListTable.setModel(model_place);
+
+        // load form of Tour
+        txtIdTour.setText(tourListTable.getValueAt(row,0).toString());
+        txtNameTour.setText(tourListTable.getValueAt(row,1).toString());
+        cbxDepTour.setSelectedItem(tourListTable.getValueAt(row,7));
+        cbxDesTour.setSelectedItem(tourListTable.getValueAt(row,3));
+        HotelBUS hb = new HotelBUS();
+        HotelDTO hd = hb.getById(Integer.parseInt(tourListTable.getValueAt(row,2).toString()) );
+        cbxHotel.setSelectedItem(hd.getHotel_id() + "-" + hd.getHotel_name());
+        String date = tourListTable.getValueAt(row,5).toString();
+        StartDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+        date = tourListTable.getValueAt(row,6).toString();
+        EndDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+        txtSchedule.setText(tourListTable.getValueAt(row,8).toString());
+        txtPriceTour.setText(tourListTable.getValueAt(row,4).toString());
+    }
+
+    private void btnAddTourActionPerformed(ActionEvent e) {
+        String id = txtIdTour.getText(),
+                name = txtNameTour.getText(),
+                dep = Objects.requireNonNull(cbxDepTour.getSelectedItem()).toString(),
+                reion = Objects.requireNonNull(cbxDepTour.getSelectedItem()).toString(),
+                hotel = Objects.requireNonNull(cbxHotel.getSelectedItem()).toString(),
+                startday = sdf.format(StartDay.getDate()),
+                endday = sdf.format(EndDay.getDate()),
+                desc =  txtSchedule.getText(),
+                price = txtPriceTour.getText();
     }
 }
