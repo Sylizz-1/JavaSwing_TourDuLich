@@ -49,8 +49,27 @@ public class Tour_DetailDAO implements DAO<Tour_DetailDTO> {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(int tour_id) {
+        boolean result = false;
+        ConnectDatabase conndb = new ConnectDatabase();
+
+        try {
+            Connection conn = conndb.getConnection();
+            String sql = "delete from tour_detail where tour_id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,tour_id);
+            if (st.executeUpdate()>=1)
+                result = true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
+        finally {
+            conndb.closeConnection();
+        }
+        return result;
     }
 
     @Override

@@ -25,8 +25,8 @@ public class TourDAO implements DAO<TourDTO> {
                 tour.setHotel_id(rs.getInt("hotel_id"));
                 tour.setRegion_code(rs.getString("region_code"));
                 tour.setPrice(rs.getDouble("price"));
-                tour.setStart_day(rs.getDate("start_day"));
-                tour.setEnd_day(rs.getDate("end_day"));
+                tour.setStart_day(rs.getDate("start_day").toString());
+                tour.setEnd_day(rs.getDate("end_day").toString());
                 tour.setDeparture_place(rs.getString("departure_place"));
                 tour.setSchedule_describe(rs.getString("schedule_describe"));
                 tour.setCreate_at(rs.getDate("create_at"));
@@ -63,8 +63,8 @@ public class TourDAO implements DAO<TourDTO> {
                 tour.setHotel_id(rs.getInt("hotel_id"));
                 tour.setRegion_code(rs.getString("region_code"));
                 tour.setPrice(rs.getDouble("price"));
-                tour.setStart_day(rs.getDate("start_day"));
-                tour.setEnd_day(rs.getDate("end_day"));
+                tour.setStart_day(rs.getDate("start_day").toString());
+                tour.setEnd_day(rs.getDate("end_day").toString());
                 tour.setDeparture_place(rs.getString("departure_place"));
                 tour.setSchedule_describe(rs.getString("schedule_describe"));
                 tour.setCreate_at(rs.getDate("create_at"));
@@ -96,8 +96,8 @@ public class TourDAO implements DAO<TourDTO> {
             st.setInt(3,tourDTO.getHotel_id());
             st.setString(4,tourDTO.getRegion_code());
             st.setDouble(5,tourDTO.getPrice());
-            st.setDate(6,tourDTO.getStart_day());
-            st.setDate(7,tourDTO.getEnd_day());
+            st.setString(6,tourDTO.getStart_day());
+            st.setString(7,tourDTO.getEnd_day());
             st.setString(8,tourDTO.getDeparture_place());
             st.setString(9,tourDTO.getSchedule_describe());
             if (st.executeUpdate()>=1)
@@ -136,8 +136,8 @@ public class TourDAO implements DAO<TourDTO> {
             st.setInt(2,tourDTO.getHotel_id());
             st.setString(3,tourDTO.getRegion_code());
             st.setDouble(4,tourDTO.getPrice());
-            st.setDate(5,tourDTO.getStart_day());
-            st.setDate(6,tourDTO.getEnd_day());
+            st.setString(5,tourDTO.getStart_day());
+            st.setString(6,tourDTO.getEnd_day());
             st.setString(7,tourDTO.getDeparture_place());
             st.setString(8,tourDTO.getSchedule_describe());
             if (st.executeUpdate()>=1)

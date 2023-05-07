@@ -190,6 +190,35 @@ public class PlaceDAO implements DAO<PlaceDTO> {
         }
         return result;
     }
-    	
+
+
+    public ArrayList<PlaceDTO> getPlacesByRegionCode(String rc) {
+        ArrayList<PlaceDTO> places = new ArrayList<>();
+        ConnectDatabase conndb = new ConnectDatabase();
+
+        try {
+            Connection conn = conndb.getConnection();
+            String query = "select * from place where region_code = ?";
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1,rc);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                PlaceDTO place = new PlaceDTO();
+                place.setPlace_id(rs.getInt("place_id"));
+                place.setPlace_name(rs.getString("place_name"));
+                place.setPlace_describe(rs.getString("place_describe"));
+                place.setPlace_address(rs.getString("place_address"));
+                place.setRegion_code(rs.getString("region_code"));
+                places.add(place);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            conndb.closeConnection();
+        }
+        return places;
+    }
 
 }

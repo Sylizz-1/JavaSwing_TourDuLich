@@ -24,12 +24,12 @@ public class TourDTO {
 
     private String region_code;
     private double price;
-    private Date start_day;
-    private Date end_day;
+    private String start_day;
+    private String end_day;
     private String departure_place;
     private String schedule_describe;
     private Date create_at;
-    public TourDTO(int tour_id, String tour_name,  int hotel_id, double price, Date start_day, Date end_day, String departure_place, String schedule_describe, Date create_at) {
+    public TourDTO(int tour_id, String tour_name,  int hotel_id, double price, String start_day, String end_day, String departure_place, String schedule_describe, Date create_at) {
         this.tour_id = tour_id;
         this.tour_name = tour_name;
 
@@ -78,19 +78,19 @@ public class TourDTO {
         this.price = price;
     }
 
-    public Date getStart_day() {
+    public String getStart_day() {
         return start_day;
     }
 
-    public void setStart_day(Date start_day) {
+    public void setStart_day(String start_day) {
         this.start_day = start_day;
     }
 
-    public Date getEnd_day() {
+    public String getEnd_day() {
         return end_day;
     }
 
-    public void setEnd_day(Date end_day) {
+    public void setEnd_day(String end_day) {
         this.end_day = end_day;
     }
 
@@ -118,12 +118,12 @@ public class TourDTO {
         this.create_at = create_at;
     }
 
-	@Override
-	public String toString() {
-		return "TourDTO [tour_id=" + tour_id + ", tour_name=" + tour_name + ", tourguide_id=" + tourguide_id
-				+ ", hotel_id=" + hotel_id + ", price=" + price + ", start_day=" + start_day + ", end_day=" + end_day
-				+ ", departure_place=" + departure_place + ", schedule_describe=" + schedule_describe + ", create_at="
-				+ create_at + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "TourDTO [tour_id=" + tour_id + ", tour_name=" + tour_name + ", tourguide_id=" + tourguide_id
+//				+ ", hotel_id=" + hotel_id + ", price=" + price + ", start_day=" + start_day + ", end_day=" + end_day
+//				+ ", departure_place=" + departure_place + ", schedule_describe=" + schedule_describe + ", create_at="
+//				+ create_at + "]";
+//	}
     
 }

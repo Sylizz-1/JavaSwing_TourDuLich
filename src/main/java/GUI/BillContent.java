@@ -207,7 +207,7 @@ public class BillContent extends JPanel {
         pnlFillBill = new JPanel();
         pnlFillBill.setBorder(null);
         scrollFillInforBill.setViewportView(pnlFillBill);
-        pnlFillBill.setLayout(new GridLayout(0, 2, 0, 0));
+        pnlFillBill.setLayout(new FlowLayout());
 
         pnlIdBill = new JPanel();
         pnlIdBill.setPreferredSize(new Dimension(320, 35));

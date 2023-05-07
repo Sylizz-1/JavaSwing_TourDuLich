@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class TourContent extends JPanel{
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -378,7 +379,6 @@ public class TourContent extends JPanel{
         pnlPriceTour.add(lblPriceTour);
 
         txtPriceTour = new JTextField();
-        txtPriceTour.setText("abc");
         txtPriceTour.setPreferredSize(new Dimension(100, 25));
         pnlPriceTour.add(txtPriceTour);
         txtPriceTour.setColumns(15);
@@ -518,6 +518,8 @@ public class TourContent extends JPanel{
         // load tour table
         TourBUS tb = new TourBUS();
         ArrayList<TourDTO> tours = tb.getAll();
+        String new_id = String.valueOf(tours.get(tours.size()-1).getTour_id()+1) ;
+        txtIdTour.setText(new_id);
         for (TourDTO tour : tours) {
             model_tour.addRow(new Object[]{
                     tour.getTour_id(),
@@ -571,9 +573,36 @@ public class TourContent extends JPanel{
         btnAddTour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnAddTourActionPerformed( e);
+                try {
+                    btnAddTourActionPerformed( e);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
+
+        btnUpdateTour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnUpdateTourActionPerformed(e);
+            }
+        });
+
+        btnDeleteTour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnDeleteTourActionPerformed(e);
+            }
+        });
+
+        btnRefreshTour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnRefreshTourActionPerformed(e);
+            }
+        });
+
+
     }
 
     private void tourListTableMouseClicked(MouseEvent e) throws ParseException {
@@ -613,15 +642,100 @@ public class TourContent extends JPanel{
         txtPriceTour.setText(tourListTable.getValueAt(row,4).toString());
     }
 
-    private void btnAddTourActionPerformed(ActionEvent e) {
+    private void btnAddTourActionPerformed(ActionEvent e) throws ParseException {
+        if (StartDay.getDate() == null || EndDay.getDate() == null || EndDay.getDate().before(StartDay.getDate())) {
+            JOptionPane.showMessageDialog(null,"Ngày khởi hành hoặc kết thúc không được để trống," +
+                    " ngày kết thúc phải sau ngày khởi hành!!");
+            return;
+        }
+
         String id = txtIdTour.getText(),
                 name = txtNameTour.getText(),
                 dep = Objects.requireNonNull(cbxDepTour.getSelectedItem()).toString(),
-                reion = Objects.requireNonNull(cbxDepTour.getSelectedItem()).toString(),
+                region = Objects.requireNonNull(cbxDesTour.getSelectedItem()).toString(),
                 hotel = Objects.requireNonNull(cbxHotel.getSelectedItem()).toString(),
                 startday = sdf.format(StartDay.getDate()),
                 endday = sdf.format(EndDay.getDate()),
                 desc =  txtSchedule.getText(),
                 price = txtPriceTour.getText();
+        if (id == "" || name == "" || desc == "" || price == "" || !isNumeric(id) || !isNumeric(price)) {
+            JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống hoặc sai sót!!");
+            return;
+        }
+        TourDTO td = new TourDTO();
+        td.setTour_id(Integer.parseInt(id));
+        td.setTour_name(name);
+        td.setDeparture_place(dep);
+        td.setRegion_code(region);
+        td.setHotel_id(Integer.parseInt(hotel.split("-")[0]));
+        td.setSchedule_describe(desc);
+        td.setPrice(Double.parseDouble(price));
+        td.setStart_day(startday);
+        td.setEnd_day(endday);
+
+        TourBUS tb = new TourBUS();
+        JOptionPane.showMessageDialog(null,tb.add(td));
+    }
+
+    private void btnUpdateTourActionPerformed(ActionEvent e) {
+        if (StartDay.getDate() == null || EndDay.getDate() == null || EndDay.getDate().before(StartDay.getDate())) {
+            JOptionPane.showMessageDialog(null,"Ngày khởi hành hoặc kết thúc không được để trống!!");
+            return;
+        }
+
+        String id = txtIdTour.getText(),
+                name = txtNameTour.getText(),
+                dep = Objects.requireNonNull(cbxDepTour.getSelectedItem()).toString(),
+                region = Objects.requireNonNull(cbxDesTour.getSelectedItem()).toString(),
+                hotel = Objects.requireNonNull(cbxHotel.getSelectedItem()).toString(),
+                startday = sdf.format(StartDay.getDate()),
+                endday = sdf.format(EndDay.getDate()),
+                desc =  txtSchedule.getText(),
+                price = txtPriceTour.getText();
+        if (id == "" || name == "" || desc == "" || price == "" || !isNumeric(id) || !isNumeric(price)) {
+            JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống hoặc sai sót!!");
+            return;
+        }
+        System.out.println(region);
+        TourDTO td = new TourDTO();
+        td.setTour_id(Integer.parseInt(id));
+        td.setTour_name(name);
+        td.setDeparture_place(dep);
+        td.setRegion_code(region);
+        td.setHotel_id(Integer.parseInt(hotel.split("-")[0]));
+        td.setSchedule_describe(desc);
+        td.setPrice(Double.parseDouble(price));
+        td.setStart_day(startday);
+        td.setEnd_day(endday);
+
+        TourBUS tb = new TourBUS();
+        JOptionPane.showMessageDialog(null,tb.update(td));
+    }
+
+    private void btnDeleteTourActionPerformed(ActionEvent e) {
+        String id = txtIdTour.getText();
+        if (id == "" || !isNumeric(id)) {
+            JOptionPane.showMessageDialog(null,"Id không được để trống và phải là số!!");
+        }
+
+        TourBUS tb = new TourBUS();
+        JOptionPane.showMessageDialog(null,tb.delete(Integer.parseInt(id)));
+    }
+
+    private void btnRefreshTourActionPerformed(ActionEvent e) {
+        while (model_tour.getRowCount() >= 1){
+            model_tour.removeRow(0);
+        }
+        tourListTable.setModel(model_tour);
+        loadTourData();
+    }
+
+
+    private boolean isNumeric(String strNum) {
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (strNum == null) {
+            return false;
+        }
+        return pattern.matcher(strNum).matches();
     }
 }
