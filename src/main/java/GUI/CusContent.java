@@ -402,7 +402,7 @@ public class CusContent extends JPanel{
                     idcs = Integer.parseInt(idString.trim());
                 }
                 String nameString = txtNameCus.getText().trim();
-                String telString = txtPhoneCus.getText();
+                String telString = txtPhoneCus.getText().trim();
                 String telcs = "";
                 if(isNumeric(telString)==true) {
                     telcs = telString.trim();

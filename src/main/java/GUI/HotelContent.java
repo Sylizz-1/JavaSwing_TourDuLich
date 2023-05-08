@@ -3,11 +3,13 @@ package GUI;
 import DAO.HotelDAO;
 import DTO.HotelDTO;
 
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.Normalizer;
@@ -338,7 +340,13 @@ public class HotelContent extends JPanel {
         btnAddHotel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String idString = txtIdHotel.getText().trim();
-                int idhotel = Integer.parseInt(idString);
+                int idhotel = 0;
+                if(isNumeric(idString)==false) {
+                	JOptionPane.showMessageDialog(null, "ID phải là số !");
+                }
+                if(isNumeric(idString)==true) {
+                    idhotel = Integer.parseInt(idString.trim());
+                }
                 String nameString = txtNameHotel.getText();
                 String addressString = txtAddressHotel.getText();
                 String telhotel = txtPhoneHotel.getText().trim();
@@ -348,6 +356,12 @@ public class HotelContent extends JPanel {
                 int starhotel = Integer.parseInt(cbxString);
                 if(idString == "" || nameString==""|| addressString==""|| telhotel==""|| webString=="") {
                     JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+                }
+                if(checkPhone(telhotel)== false) {
+                	JOptionPane.showMessageDialog(null, "Số điện thoại không đúng !");
+                }
+                if(isURL(webString)== false) {
+                	JOptionPane.showMessageDialog(null, "Đường dẫn website không đúng !");
                 }
                 else {
                     HotelDTO hotelDTO = new HotelDTO(idhotel,nameString,addressString,telhotel,webString,starhotel);
@@ -397,8 +411,14 @@ public class HotelContent extends JPanel {
         btnAddHotel = new JButton("Update");
         btnAddHotel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String idString = txtIdHotel.getText().trim();
-                int idhotel = Integer.parseInt(idString);
+            	String idString = txtIdHotel.getText().trim();
+                int idhotel = 0;
+                if(isNumeric(idString)==false) {
+                	JOptionPane.showMessageDialog(null, "ID phải là số !");
+                }
+                if(isNumeric(idString)==true) {
+                    idhotel = Integer.parseInt(idString.trim());
+                }
                 String nameString = txtNameHotel.getText();
                 String addressString = txtAddressHotel.getText();
                 String telhotel = txtPhoneHotel.getText().trim();
@@ -407,7 +427,13 @@ public class HotelContent extends JPanel {
                 String cbxString =(String) cbxStartHotel.getSelectedItem();
                 int starhotel = Integer.parseInt(cbxString);
                 if(idString == "" || nameString==""|| addressString==""|| telhotel==""|| webString=="") {
-                    JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+                	JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+                }
+                if(checkPhone(telhotel)== false) {
+                	JOptionPane.showMessageDialog(null, "Số điện thoại không đúng !");
+                }
+                if(isURL(webString)== false) {
+                	JOptionPane.showMessageDialog(null, "Đường dẫn website không đúng !");
                 }
                 else {
                     HotelDTO hotelDTO = new HotelDTO(idhotel,nameString,addressString,telhotel,webString,starhotel);
