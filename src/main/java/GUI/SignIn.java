@@ -153,7 +153,7 @@ public class SignIn extends JFrame {
 		pnlImg.setLayout(null);
 		
 		lblImg = new JLabel("");
-		lblImg.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(SignIn.class.getResource("bg_signin.jpg"))));
+		lblImg.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(SignIn.class.getResource("../images/bg_signin.jpg"))));
 		lblImg.setBounds(0, 0, 395, 461);
 		pnlImg.add(lblImg);
 		
@@ -174,7 +174,7 @@ public class SignIn extends JFrame {
 		pnlSignIn.add(lblUserName);
 		
 		iconUser = new JLabel("");
-		iconUser.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(SignIn.class.getResource("user.png"))));
+		iconUser.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(SignIn.class.getResource("../images/user.png"))));
 		iconUser.setBounds(78, 194, 22, 28);
 		pnlSignIn.add(iconUser);
 		
@@ -198,7 +198,7 @@ public class SignIn extends JFrame {
 		pnlSignIn.add(lblPass);
 		
 		iconPass = new JLabel("");
-		iconPass.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(SignIn.class.getResource("lock.png"))));
+		iconPass.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(SignIn.class.getResource("../images/lock.png"))));
 		iconPass.setBounds(78, 252, 22, 28);
 		pnlSignIn.add(iconPass);
 		
@@ -216,7 +216,7 @@ public class SignIn extends JFrame {
 		sepPass.setBounds(110, 276, 199, 2);
 		pnlSignIn.add(sepPass);
 		
-		iconHiddenPass = new JButton(new ImageIcon("C:\\Users\\PC\\Downloads\\icon_java\\hidPass.png"));
+		iconHiddenPass = new JButton(new ImageIcon("../images/hidPass.png"));
 		iconHiddenPass.addActionListener(action);
 		iconHiddenPass.setFocusPainted(false);
 		iconHiddenPass.setBorderPainted(false);
@@ -260,7 +260,7 @@ public class SignIn extends JFrame {
 	// Show Password
 	public void showPass() {
 		ActionListener action = new SignInControl(this);
-		iconShowPass = new JButton(new ImageIcon("C:\\Users\\PC\\Downloads\\icon_java\\showPass.png"));
+		iconShowPass = new JButton(new ImageIcon("../images/showPass.png"));
 		iconShowPass.addActionListener(action);
 		iconShowPass.setFocusPainted(false);
 		iconShowPass.setBorderPainted(false);

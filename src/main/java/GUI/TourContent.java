@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.HotelBUS;
+import BUS.PlaceBus;
 import BUS.RegionBUS;
 import BUS.TourBUS;
 import DAO.HotelDAO;
@@ -103,8 +104,10 @@ public class TourContent extends JPanel{
     DefaultTableModel model_tour;
     DefaultTableModel model_place ;
 
-
-
+    JTextField txtDesTour ;
+    JButton btnDesTour ;
+    ArrayList<JCheckBox> arrCheckBox = new ArrayList<>();
+    ArrayList<String> arrPlaces;
 
     public TourContent() {
         setUpTable();
@@ -338,17 +341,17 @@ public class TourContent extends JPanel{
         pnlDesTour.add(lblDesTour);
 
         cbxDesTour = new JComboBox();
-        cbxDesTour.setPreferredSize(new Dimension(166, 25));
+        cbxDesTour.setPreferredSize(new Dimension(100, 25));
         cbxDesTour.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-        cbxDesTour.setModel(new DefaultComboBoxModel(new String[] {"An Giang", "Bà Rịa-Vũng Tàu", "Bạc Liêu",
-                "Bắc Kạn","Bắc Giang","Bắc Ninh","Bến Tre","Bình Dương","Bình Định","Bình Phước","Bình Thuận","Cà Mau",
-                "Cao Bằng","Cần Thơ","Đà Nẵng","Đắk Lắk","Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai",
-                "Hà Giang","Hà Nam","Hà Nội","Hà Tây","Hà Tĩnh","Hải Dương","Hải Phòng","Hòa Bình","Hồ Chí Minh",
-                "Hậu Giang","Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Lào Cai","Lạng Sơn","Lâm Đồng",
-                "Long An","Nam Định","Nghệ An","Ninh Bình","Ninh Thuận","Phú Thọ","Phú Yên","Quảng Bình","Quảng Nam",
-                "Quảng Ngãi","Quảng Ninh","Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên","Thanh Hóa",
-                "Thừa Thiên - Huế","Tiền Giang","Trà Vinh","Tuyên Quang","Vĩnh Long","Vĩnh Phúc","Yên Bái"}));
-        pnlDesTour.add(cbxDesTour);
+
+        txtDesTour = new JTextField();
+        txtDesTour.setPreferredSize(new Dimension(140, 25));
+//        txtDesTour.setColumns(15);
+        pnlDesTour.add(txtDesTour);
+
+        btnDesTour = new JButton("Places");
+        btnDesTour.setPreferredSize(new Dimension(30,25));
+        pnlDesTour.add(btnDesTour);
 
         pnlHotel = new JPanel();
         pnlHotel.setPreferredSize(new Dimension(320, 35));
@@ -602,6 +605,51 @@ public class TourContent extends JPanel{
             }
         });
 
+        btnDesTour.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JPanel popup = new JPanel(new FlowLayout());
+                popup.add(cbxDesTour);
+                popup.add(new JLabel("Places:"));
+                JPanel pnlPlaceDetail = new JPanel();
+                JScrollPane scrollPlaceName = new JScrollPane();
+                scrollPlaceName.setPreferredSize(new Dimension(200, 125));
+                scrollPlaceName.setViewportView(pnlPlaceDetail);
+                pnlPlaceDetail.setLayout(new GridLayout(0, 1, 0, 0));
+                popup.add(scrollPlaceName);
+
+
+                // load data following region
+                PlaceBus pb = new PlaceBus();
+                ArrayList<PlaceDTO> places = pb.getPlacesByRegionCode(cbxDesTour.getSelectedItem().toString());
+                for (PlaceDTO place : places) {
+                    JCheckBox cb = new JCheckBox(place.getPlace_id() +"-" + place.getPlace_name());
+                    arrCheckBox.add(cb);
+                    pnlPlaceDetail.add(cb);
+                }
+
+                cbxDesTour.addItemListener(e1 -> {
+                    PlaceBus pb1 = new PlaceBus();
+                    arrCheckBox.clear();
+                    pnlPlaceDetail.removeAll();
+                    ArrayList<PlaceDTO> places1 = pb1.getPlacesByRegionCode(cbxDesTour.getSelectedItem().toString());
+                    for (PlaceDTO place : places1) {
+                        JCheckBox cb = new JCheckBox(place.getPlace_id() + "-" + place.getPlace_name());
+                        arrCheckBox.add(cb);
+                        pnlPlaceDetail.add(cb);
+                    }
+                    pnlPlaceDetail.updateUI();
+                });
+
+                int result = JOptionPane.showConfirmDialog(null, popup, "Choose Places",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (result == JOptionPane.OK_OPTION) {
+                    System.out.println("ok");
+                } else {
+                    System.out.println("Cancelled");
+                }
+            }
+        });
 
     }
 
