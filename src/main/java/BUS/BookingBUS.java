@@ -20,35 +20,54 @@ public class BookingBUS {
         return booking.getAll();
     }
 
-    public String add(BookingDTO bookingDTO, ArrayList<ServiceDTO> serviceDTOs) {
-
+    public String add(BookingDTO bookingDTO, ArrayList<Booking_DetailDTO> bds) {
 
         if (booking.checkExistById(bookingDTO.getBooking_id())) {
             return "ID hoá đơn booking đã tồn tại";
-        }
-
-        if (bookingDTO.getTotal_cost() == 0) {
-            double sum = 0;
-            for (ServiceDTO service : serviceDTOs)
-                sum += service.getService_price();
-            bookingDTO.setTotal_cost(sum);
         }
 
         if (!booking.add(bookingDTO))
             return "Thêm booking thất bại!";
 
 
-        for (ServiceDTO service : serviceDTOs) {
-            Booking_DetailDTO bd = new Booking_DetailDTO();
-            bd.setBooking_id(bookingDTO.getBooking_id());
-            bd.setService_id(service.getService_id());
-            booking_detail.add(bd);
+        for (Booking_DetailDTO bddo : bds) {
+            booking_detail.add(bddo);
         }
 
         return "thêm booking thành công!";
 
     }
+    public String update(BookingDTO bookingDTO, ArrayList<Booking_DetailDTO> bds) {
 
+        if (!booking.checkExistById(bookingDTO.getBooking_id())) {
+            return "ID hoá đơn bill Không tồn tại";
+        }
+
+        if (!booking.update(bookingDTO))
+            return "Cập nhật bill thất bại!";
+
+        if (!booking_detail.delete(bookingDTO.getBooking_id())){
+            return "Có lỗi xảy ra trong quá trình xoá booking_id trong booking_detail";
+        }
+
+        for (Booking_DetailDTO bddo : bds) {
+            booking_detail.add(bddo);
+        }
+
+        return "Cập nhật bill thành công!";
+
+    }
+
+    public String delete (int id) {
+        if (booking.delete(id)) {
+            return "Xoá thành công!";
+        }
+        else return "Xoá thất bại!";
+    }
+
+    public BookingDTO getById(int id) {
+        return booking.getById(id);
+    }
 
     public ArrayList<ServiceDTO> getServicesOfBooking(int id) {
         return booking.getServicesOfBooking(id);

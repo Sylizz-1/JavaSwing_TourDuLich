@@ -23,7 +23,7 @@ public class TourBUS {
         return tour.getAll();
     }
 
-    public String add(TourDTO tourDTO) {
+    public String add(TourDTO tourDTO, ArrayList<Tour_DetailDTO> tdls) {
 
         if (tour.checkExistById(tourDTO.getTour_id())) {
             return "ID tour đã tồn tại";
@@ -32,19 +32,21 @@ public class TourBUS {
         if (!tour.add(tourDTO))
             return "Thêm tour thất bại!";
 
-        PlaceDAO pd = new PlaceDAO();
-        ArrayList<PlaceDTO> places = pd.getPlacesByRegionCode(tourDTO.getRegion_code());
-        for (PlaceDTO place : places) {
-            Tour_DetailDTO td = new Tour_DetailDTO();
-            td.setTour_id(tourDTO.getTour_id());
-            td.setPlace_id(place.getPlace_id());
-            tour_detail.add(td);
+        for(Tour_DetailDTO tdl : tdls) {
+            tour_detail.add(tdl);
         }
 
         return "thêm tour thành công!";
     }
 
-    public String update (TourDTO TourDTO) {
+    public TourDTO getById(int id) {
+        return tour.getById(id);
+    }
+    public String update (TourDTO TourDTO, ArrayList<Tour_DetailDTO> tdls) {
+        if (!tour.checkExistById(TourDTO.getTour_id())) {
+            return "ID tour không tồn tại";
+        }
+
         if (!tour.update(TourDTO)) {
             return "UPDATE thất bại!";
         }
@@ -53,14 +55,10 @@ public class TourBUS {
             return "Có lỗi xảy ra trong quá trình xoá tour_id trong tour_detail";
         }
 
-        PlaceDAO pd = new PlaceDAO();
-        ArrayList<PlaceDTO> places = pd.getPlacesByRegionCode(TourDTO.getRegion_code());
-        for (PlaceDTO place : places) {
-            Tour_DetailDTO td = new Tour_DetailDTO();
-            td.setTour_id(TourDTO.getTour_id());
-            td.setPlace_id(place.getPlace_id());
-            tour_detail.add(td);
+        for(Tour_DetailDTO tdl : tdls) {
+            tour_detail.add(tdl);
         }
+
          return "UPDATE thành công!";
     }
 
@@ -69,6 +67,11 @@ public class TourBUS {
             return "Xoá thành công!";
         }
         else return "Xoá thất bại!";
+    }
+
+
+    public boolean checkExistById(int id) {
+        return tour.checkExistById(id);
     }
 
     public ArrayList<PlaceDTO> getPlacesOfTour(int id)  {

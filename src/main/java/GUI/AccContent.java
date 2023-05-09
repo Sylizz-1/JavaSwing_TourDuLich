@@ -126,7 +126,7 @@ public class AccContent extends JPanel {
         lblSearchAcc = new JLabel("");
         lblSearchAcc.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchAcc, BorderLayout.EAST);
-//		lblSearchAcc.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
+//		lblSearchAcc.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchAcc.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel = new JPanel();

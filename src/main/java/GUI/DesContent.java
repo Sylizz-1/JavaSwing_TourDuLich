@@ -171,7 +171,7 @@ public class DesContent extends JPanel{
         });
         lblSearchDes.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchDes, BorderLayout.EAST);
-//        lblSearchDes.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
+//        lblSearchDes.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchDes.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel = new JPanel();
