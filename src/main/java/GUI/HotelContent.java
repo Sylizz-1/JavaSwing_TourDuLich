@@ -574,7 +574,7 @@ public class HotelContent extends JPanel {
                 int idhotel = Integer.parseInt(model.getValueAt(i,0).toString());
                 String nameHotelString = model.getValueAt(i,1).toString();
                 String addressHotelString = model.getValueAt(i,2).toString();
-                int telhotel = Integer.parseInt(model.getValueAt(i,3).toString());
+                String telhotel = model.getValueAt(i,3).toString();
                 String webHotelString = model.getValueAt(i,4).toString();
                 int starthotel = Integer.parseInt(model.getValueAt(i,5).toString());
 //	        	add  table to txt
