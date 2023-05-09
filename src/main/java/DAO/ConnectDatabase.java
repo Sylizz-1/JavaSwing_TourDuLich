@@ -8,7 +8,7 @@ public class ConnectDatabase {
     private String server = "localhost:3306";
     private String db_name = "tour_du_lich1";
     private String user = "root";
-    private String password = "123456";
+    private String password = "";
     private String driver_name = "com.mysql.cj.jdbc.Driver";
     private Connection conn = null;
 

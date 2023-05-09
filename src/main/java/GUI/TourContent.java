@@ -5,10 +5,7 @@ import BUS.PlaceBus;
 import BUS.RegionBUS;
 import BUS.TourBUS;
 import DAO.HotelDAO;
-import DTO.HotelDTO;
-import DTO.PlaceDTO;
-import DTO.RegionDTO;
-import DTO.TourDTO;
+import DTO.*;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -17,6 +14,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -107,7 +105,8 @@ public class TourContent extends JPanel{
     JTextField txtDesTour ;
     JButton btnDesTour ;
     ArrayList<JCheckBox> arrCheckBox = new ArrayList<>();
-    ArrayList<String> arrPlaces;
+    ArrayList<String> arrPlaces = new ArrayList<>();
+    JPanel pnlPlaceDetail = new JPanel();
 
     public TourContent() {
         setUpTable();
@@ -196,10 +195,10 @@ public class TourContent extends JPanel{
 		});
 
         // Tạo icon tìm kiếm
-        lblSearchTour = new JLabel("");
+        lblSearchTour = new JLabel("Search");
         lblSearchTour.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchTour, BorderLayout.EAST);
-//		lblSearchTour.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
+//		lblSearchTour.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchTour.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Các JPanel này để căn chỉnh phần pnlIconSrc_Txt ở giữa
@@ -346,6 +345,7 @@ public class TourContent extends JPanel{
 
         txtDesTour = new JTextField();
         txtDesTour.setPreferredSize(new Dimension(140, 25));
+        txtDesTour.setEditable(false);
 //        txtDesTour.setColumns(15);
         pnlDesTour.add(txtDesTour);
 
@@ -521,7 +521,7 @@ public class TourContent extends JPanel{
         // load tour table
         TourBUS tb = new TourBUS();
         ArrayList<TourDTO> tours = tb.getAll();
-        String new_id = String.valueOf(tours.get(tours.size()-1).getTour_id()+1) ;
+        String new_id = String.valueOf(tours.get(tours.size()-1).getTour_id()+1);
         txtIdTour.setText(new_id);
         for (TourDTO tour : tours) {
             model_tour.addRow(new Object[]{
@@ -530,8 +530,8 @@ public class TourContent extends JPanel{
                     tour.getHotel_id(),
                     tour.getRegion_code(),
                     tour.getPrice(),
-                    tour.getStart_day().toString(),
-                    tour.getEnd_day().toString(),
+                    tour.getStart_day(),
+                    tour.getEnd_day(),
                     tour.getDeparture_place(),
                     tour.getSchedule_describe(),
                     tour.getCreate_at().toString()
@@ -604,51 +604,149 @@ public class TourContent extends JPanel{
                 btnRefreshTourActionPerformed(e);
             }
         });
-
         btnDesTour.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 JPanel popup = new JPanel(new FlowLayout());
                 popup.add(cbxDesTour);
                 popup.add(new JLabel("Places:"));
-                JPanel pnlPlaceDetail = new JPanel();
                 JScrollPane scrollPlaceName = new JScrollPane();
                 scrollPlaceName.setPreferredSize(new Dimension(200, 125));
                 scrollPlaceName.setViewportView(pnlPlaceDetail);
                 pnlPlaceDetail.setLayout(new GridLayout(0, 1, 0, 0));
                 popup.add(scrollPlaceName);
-
+//                arrCheckBox.clear();
 
                 // load data following region
-                PlaceBus pb = new PlaceBus();
-                ArrayList<PlaceDTO> places = pb.getPlacesByRegionCode(cbxDesTour.getSelectedItem().toString());
-                for (PlaceDTO place : places) {
-                    JCheckBox cb = new JCheckBox(place.getPlace_id() +"-" + place.getPlace_name());
-                    arrCheckBox.add(cb);
-                    pnlPlaceDetail.add(cb);
-                }
 
-                cbxDesTour.addItemListener(e1 -> {
-                    PlaceBus pb1 = new PlaceBus();
-                    arrCheckBox.clear();
-                    pnlPlaceDetail.removeAll();
-                    ArrayList<PlaceDTO> places1 = pb1.getPlacesByRegionCode(cbxDesTour.getSelectedItem().toString());
-                    for (PlaceDTO place : places1) {
-                        JCheckBox cb = new JCheckBox(place.getPlace_id() + "-" + place.getPlace_name());
+                if (pnlPlaceDetail.getComponents().length == 0 ){
+                    PlaceBus pb = new PlaceBus();
+                    ArrayList<PlaceDTO> places = pb.getPlacesByRegionCode(cbxDesTour.getSelectedItem().toString());
+                    for (PlaceDTO place : places) {
+                        JCheckBox cb = new JCheckBox(place.getPlace_id() +"-" + place.getPlace_name());
                         arrCheckBox.add(cb);
                         pnlPlaceDetail.add(cb);
                     }
-                    pnlPlaceDetail.updateUI();
-                });
+                }
 
                 int result = JOptionPane.showConfirmDialog(null, popup, "Choose Places",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (result == JOptionPane.OK_OPTION) {
                     System.out.println("ok");
+                    arrPlaces.clear();
+                    for (JCheckBox cb : arrCheckBox) {
+                        if (cb.isSelected()){
+                            arrPlaces.add(cb.getText().split("-")[0]);
+                        }
+                    }
+                    txtDesTour.setText(String.join(",",arrPlaces));
                 } else {
                     System.out.println("Cancelled");
                 }
             }
+        });
+        cbxDesTour.addItemListener(e1 -> {
+            PlaceBus pb1 = new PlaceBus();
+            arrCheckBox.clear();
+            pnlPlaceDetail.removeAll();
+            ArrayList<PlaceDTO> places1 = pb1.getPlacesByRegionCode(Objects.requireNonNull(cbxDesTour.getSelectedItem()).toString());
+            for (PlaceDTO place : places1) {
+                JCheckBox cb = new JCheckBox(place.getPlace_id()+"-"+ place.getPlace_name());
+                arrCheckBox.add(cb);
+                pnlPlaceDetail.add(cb);
+            }
+            pnlPlaceDetail.updateUI();
+
+            TourBUS tb = new TourBUS();
+            if (!txtIdTour.getText().equals("") && tb.checkExistById(Integer.parseInt(txtIdTour.getText()))) {
+                ArrayList<PlaceDTO> placess = tb.getPlacesOfTour(Integer.parseInt(txtIdTour.getText()));
+                for (JCheckBox cbx : arrCheckBox) {
+                    for (PlaceDTO place : placess)
+                        if (Objects.equals(cbx.getText(),place.getPlace_id() +"-"+place.getPlace_name())){
+                            cbx.setSelected(true);
+                            break;
+                        }
+                    System.out.println(cbx.isSelected());
+                }
+            }
+        });
+
+
+        lblSearchTour.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+                if (Objects.equals(txtSearchTour.getText(), "")) {
+                    JOptionPane.showMessageDialog(null,"Ô tìm kiếm đang trống!!");
+                    return;
+                }
+                String shString = txtSearchTour.getText().trim();
+                TourBUS tb = new TourBUS();
+                if(isNumeric(shString)) {
+                    TourDTO tourdto= tb.getById(Integer.parseInt(shString.trim()));
+                    if(tourdto != null) {
+                        txtIdTour.setText( String.valueOf(tourdto.getTour_id()));
+                        txtNameTour.setText(tourdto.getTour_name());
+                        cbxDepTour.setSelectedItem(tourdto.getDeparture_place());
+                        cbxDesTour.setSelectedItem(tourdto.getRegion_code());
+                        HotelBUS hb = new HotelBUS();
+                        HotelDTO hd = hb.getById(tourdto.getHotel_id() );
+                        cbxHotel.setSelectedItem(hd.getHotel_id() + "-" + hd.getHotel_name());
+                        String date = tourdto.getStart_day();
+                        try {
+                            StartDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                        date = tourdto.getEnd_day();
+                        try {
+                            EndDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                        txtSchedule.setText(tourdto.getSchedule_describe());
+                        txtPriceTour.setText(String.valueOf(tourdto.getPrice()));
+                    }
+                    if(tourdto ==null) {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Tour !");
+                    }
+                }
+                if (!isNumeric(shString)) {
+                    ArrayList<TourDTO> tourdtos = tb.getAll();
+                    boolean checkKQ = false;
+                    for(TourDTO tourdto: tourdtos) {
+                        String temp = Normalizer.normalize(tourdto.getTour_name(), Normalizer.Form.NFD);
+                        String temp2 = Normalizer.normalize(shString, Normalizer.Form.NFD);
+                        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+                        if(pattern.matcher(temp).replaceAll("").equalsIgnoreCase(pattern.matcher(temp2).replaceAll(""))) {
+                            txtIdTour.setText( String.valueOf(tourdto.getTour_id()));
+                            txtNameTour.setText(tourdto.getTour_name());
+                            cbxDepTour.setSelectedItem(tourdto.getDeparture_place());
+                            cbxDesTour.setSelectedItem(tourdto.getRegion_code());
+                            HotelBUS hb = new HotelBUS();
+                            HotelDTO hd = hb.getById(tourdto.getHotel_id() );
+                            cbxHotel.setSelectedItem(hd.getHotel_id() + "-" + hd.getHotel_name());
+                            String date = tourdto.getStart_day();
+                            try {
+                                StartDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            date = tourdto.getEnd_day();
+                            try {
+                                EndDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            txtSchedule.setText(tourdto.getSchedule_describe());
+                            txtPriceTour.setText(String.valueOf(tourdto.getPrice()));
+                            checkKQ = true;
+                        }
+                    }
+                    if(!checkKQ) {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Tour !");
+                    }
+                }
+            }
+
         });
 
     }
@@ -657,6 +755,20 @@ public class TourContent extends JPanel{
 
         // load Places of tour
         int row = tourListTable.getSelectedRow();
+        // load form of Tour
+        txtIdTour.setText(tourListTable.getValueAt(row,0).toString());
+        txtNameTour.setText(tourListTable.getValueAt(row,1).toString());
+        cbxDepTour.setSelectedItem(tourListTable.getValueAt(row,7));
+        cbxDesTour.setSelectedItem(tourListTable.getValueAt(row,3));
+        HotelBUS hb = new HotelBUS();
+        HotelDTO hd = hb.getById(Integer.parseInt(tourListTable.getValueAt(row,2).toString()) );
+        cbxHotel.setSelectedItem(hd.getHotel_id() + "-" + hd.getHotel_name());
+        String date = tourListTable.getValueAt(row,5).toString();
+        StartDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+        date = tourListTable.getValueAt(row,6).toString();
+        EndDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+        txtSchedule.setText(tourListTable.getValueAt(row,8).toString());
+        txtPriceTour.setText(tourListTable.getValueAt(row,4).toString());
 
         TourBUS tb = new TourBUS();
         ArrayList<PlaceDTO> places = tb.getPlacesOfTour(Integer.parseInt(tourListTable.getValueAt(row,0).toString()) );
@@ -674,26 +786,18 @@ public class TourContent extends JPanel{
         }
         placeListTable.setModel(model_place);
 
-        // load form of Tour
-        txtIdTour.setText(tourListTable.getValueAt(row,0).toString());
-        txtNameTour.setText(tourListTable.getValueAt(row,1).toString());
-        cbxDepTour.setSelectedItem(tourListTable.getValueAt(row,7));
-        cbxDesTour.setSelectedItem(tourListTable.getValueAt(row,3));
-        HotelBUS hb = new HotelBUS();
-        HotelDTO hd = hb.getById(Integer.parseInt(tourListTable.getValueAt(row,2).toString()) );
-        cbxHotel.setSelectedItem(hd.getHotel_id() + "-" + hd.getHotel_name());
-        String date = tourListTable.getValueAt(row,5).toString();
-        StartDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
-        date = tourListTable.getValueAt(row,6).toString();
-        EndDay.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
-        txtSchedule.setText(tourListTable.getValueAt(row,8).toString());
-        txtPriceTour.setText(tourListTable.getValueAt(row,4).toString());
+
     }
 
     private void btnAddTourActionPerformed(ActionEvent e) throws ParseException {
         if (StartDay.getDate() == null || EndDay.getDate() == null || EndDay.getDate().before(StartDay.getDate())) {
             JOptionPane.showMessageDialog(null,"Ngày khởi hành hoặc kết thúc không được để trống," +
                     " ngày kết thúc phải sau ngày khởi hành!!");
+            return;
+        }
+
+        if (txtIdTour.getText() == "" || txtNameTour.getText() == "" || txtSchedule.getText() == "" || txtPriceTour.getText() == "" || !isNumeric(txtIdTour.getText()) || !isNumeric(txtPriceTour.getText()) || arrPlaces.size() ==0) {
+            JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống hoặc sai sót!!");
             return;
         }
 
@@ -706,10 +810,8 @@ public class TourContent extends JPanel{
                 endday = sdf.format(EndDay.getDate()),
                 desc =  txtSchedule.getText(),
                 price = txtPriceTour.getText();
-        if (id == "" || name == "" || desc == "" || price == "" || !isNumeric(id) || !isNumeric(price)) {
-            JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống hoặc sai sót!!");
-            return;
-        }
+
+
         TourDTO td = new TourDTO();
         td.setTour_id(Integer.parseInt(id));
         td.setTour_name(name);
@@ -721,13 +823,31 @@ public class TourContent extends JPanel{
         td.setStart_day(startday);
         td.setEnd_day(endday);
 
+        ArrayList<Tour_DetailDTO> tour_details = new ArrayList<>();
+        for (String ap : arrPlaces) {
+            Tour_DetailDTO tour_detail = new Tour_DetailDTO();
+                tour_detail.setTour_id(Integer.parseInt(id));
+                tour_detail.setPlace_id( Integer.parseInt(ap));
+                tour_details.add(tour_detail);
+        }
+        System.out.println(arrPlaces);
+        if (tour_details.size() == 0) {
+            JOptionPane.showMessageDialog(null,"Bạn chưa chọn địa điểm du lịch!!");
+            return;
+        }
         TourBUS tb = new TourBUS();
-        JOptionPane.showMessageDialog(null,tb.add(td));
+        JOptionPane.showMessageDialog(null,tb.add(td,tour_details));
     }
 
     private void btnUpdateTourActionPerformed(ActionEvent e) {
         if (StartDay.getDate() == null || EndDay.getDate() == null || EndDay.getDate().before(StartDay.getDate())) {
-            JOptionPane.showMessageDialog(null,"Ngày khởi hành hoặc kết thúc không được để trống!!");
+            JOptionPane.showMessageDialog(null,"Ngày khởi hành hoặc kết thúc không được để trống," +
+                    " ngày kết thúc phải sau ngày khởi hành!!");
+            return;
+        }
+
+        if (txtIdTour.getText() == "" || txtNameTour.getText() == "" || txtSchedule.getText() == "" || txtPriceTour.getText() == "" || !isNumeric(txtIdTour.getText()) || !isNumeric(txtPriceTour.getText()) || arrPlaces.size() ==0) {
+            JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống hoặc sai sót!!");
             return;
         }
 
@@ -740,10 +860,7 @@ public class TourContent extends JPanel{
                 endday = sdf.format(EndDay.getDate()),
                 desc =  txtSchedule.getText(),
                 price = txtPriceTour.getText();
-        if (id == "" || name == "" || desc == "" || price == "" || !isNumeric(id) || !isNumeric(price)) {
-            JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống hoặc sai sót!!");
-            return;
-        }
+
         System.out.println(region);
         TourDTO td = new TourDTO();
         td.setTour_id(Integer.parseInt(id));
@@ -756,15 +873,29 @@ public class TourContent extends JPanel{
         td.setStart_day(startday);
         td.setEnd_day(endday);
 
+        ArrayList<Tour_DetailDTO> tour_details = new ArrayList<>();
+        for (String ap : arrPlaces) {
+            Tour_DetailDTO tour_detail = new Tour_DetailDTO();
+            tour_detail.setTour_id(Integer.parseInt(id));
+            tour_detail.setPlace_id( Integer.parseInt(ap));
+            tour_details.add(tour_detail);
+        }
+        System.out.println(arrPlaces);
+        if (tour_details.size() == 0) {
+            JOptionPane.showMessageDialog(null,"Bạn chưa chọn địa điểm du lịch!!");
+            return;
+        }
         TourBUS tb = new TourBUS();
-        JOptionPane.showMessageDialog(null,tb.update(td));
+        JOptionPane.showMessageDialog(null,tb.update(td,tour_details));
     }
 
     private void btnDeleteTourActionPerformed(ActionEvent e) {
-        String id = txtIdTour.getText();
-        if (id == "" || !isNumeric(id)) {
+        if (txtIdTour.getText() == "" || !isNumeric(txtIdTour.getText())) {
             JOptionPane.showMessageDialog(null,"Id không được để trống và phải là số!!");
+            return;
         }
+        String id = txtIdTour.getText();
+
 
         TourBUS tb = new TourBUS();
         JOptionPane.showMessageDialog(null,tb.delete(Integer.parseInt(id)));
@@ -776,6 +907,10 @@ public class TourContent extends JPanel{
         }
         tourListTable.setModel(model_tour);
         loadTourData();
+        txtDesTour.setText("");
+        txtPriceTour.setText("");
+        txtNameTour.setText("");
+        txtSchedule.setText("");
     }
 
 

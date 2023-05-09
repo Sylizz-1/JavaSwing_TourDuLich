@@ -81,7 +81,7 @@ public class BookingDAO implements DAO<BookingDTO> {
 
         try {
             Connection conn = conndb.getConnection();
-            String sql = "insert into booking value (?,?,?,?,?)";
+            String sql = "insert into booking (booking_id,tour_id,customer_id,customer_number,total_cost) value (?,?,?,?,?)";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1,bookingDTO.getBooking_id());
             st.setInt(2,bookingDTO.getTour_id());
@@ -118,9 +118,9 @@ public class BookingDAO implements DAO<BookingDTO> {
                     "where booking_id = " + bookingDTO.getBooking_id();
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1,bookingDTO.getTour_id());
-            st.setInt(1,bookingDTO.getCustomer_id());
-            st.setInt(1,bookingDTO.getCustomer_number());
-            st.setDouble(1,bookingDTO.getTotal_cost());
+            st.setInt(2,bookingDTO.getCustomer_id());
+            st.setInt(3,bookingDTO.getCustomer_number());
+            st.setDouble(4,bookingDTO.getTotal_cost());
 
             if (st.executeUpdate()>=1)
                 result = true;

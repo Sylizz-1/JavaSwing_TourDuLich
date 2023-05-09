@@ -49,8 +49,27 @@ public class Booking_DetailDAO implements DAO<Booking_DetailDTO> {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(int booking_id) {
+        boolean result = false;
+        ConnectDatabase conndb = new ConnectDatabase();
+
+        try {
+            Connection conn = conndb.getConnection();
+            String sql = "delete from booking_detail where booking_id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,booking_id);
+            if (st.executeUpdate()>=1)
+                result = true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
+        finally {
+            conndb.closeConnection();
+        }
+        return result;
     }
 
     @Override

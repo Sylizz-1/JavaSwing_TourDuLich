@@ -158,7 +158,7 @@ public class SerContent extends JPanel {
         });
         lblSearchSer.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchSer, BorderLayout.EAST);
-//		lblSearchSer.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
+//		lblSearchSer.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchSer.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel = new JPanel();

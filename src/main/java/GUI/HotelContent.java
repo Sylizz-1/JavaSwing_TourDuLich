@@ -172,7 +172,7 @@ public class HotelContent extends JPanel {
 
         lblSearchHotel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchHotel, BorderLayout.EAST);
-//		lblSearchHotel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("search.png"))));
+//		lblSearchHotel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchHotel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel = new JPanel();

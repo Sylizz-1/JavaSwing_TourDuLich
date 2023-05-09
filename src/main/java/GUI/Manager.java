@@ -448,7 +448,7 @@ public class Manager extends JFrame {
         lblIconZoomOut = new JLabel("", JLabel.CENTER);
         lblIconZoomOut.setToolTipText("Hidden Menu");
         lblIconZoomOut.setBounds(0, 0, 50, 33);
-//		lblIconZoomOut.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("zoomout.png"))));
+//		lblIconZoomOut.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/zoomout.png"))));
         lblIconZoomOut.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblIconZoomOut.addMouseListener(mouseListener);
         pnlZoom.add(lblIconZoomOut);
@@ -458,7 +458,7 @@ public class Manager extends JFrame {
         lblIconHome = new JLabel("", JLabel.CENTER);
         lblIconHome.setToolTipText("Home");
         lblIconHome.setBounds(0, 0, 50, 33);
-//		lblIconHome.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("home.png"))));
+//		lblIconHome.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/home.png"))));
         lblIconHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblIconHome.addMouseListener(mouseListener);
         pnlHome.add(lblIconHome);
@@ -467,7 +467,7 @@ public class Manager extends JFrame {
         lblIconSetting = new JLabel("", JLabel.CENTER);
         lblIconSetting.setToolTipText("Setting");
         lblIconSetting.setBounds(0, 0, 50, 33);
-//		lblIconSetting.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("settings.png"))));
+//		lblIconSetting.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/settings.png"))));
         lblIconSetting.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblIconSetting.addMouseListener(mouseListener);
         pnlSetting.add(lblIconSetting);
@@ -476,7 +476,7 @@ public class Manager extends JFrame {
         lblIconLogOut = new JLabel("", JLabel.CENTER);
         lblIconLogOut.setToolTipText("Log out");
         lblIconLogOut.setBounds(0, 0, 50, 33);
-//		lblIconLogOut.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("log-out.png"))));
+//		lblIconLogOut.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/log-out.png"))));
         lblIconLogOut.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblIconLogOut.addMouseListener(mouseListener);
         pnlLogOut.add(lblIconLogOut);
@@ -498,7 +498,7 @@ public class Manager extends JFrame {
         lblNewLabel_1 = new JLabel("");
 
         lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblNewLabel_1.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("logo.png"))));
+//		lblNewLabel_1.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/logo.png"))));
         pnlLogo.add(lblNewLabel_1, BorderLayout.CENTER);
 
         //Create pnlMngList into pnlMenuDetail at CENTER
@@ -588,7 +588,7 @@ public class Manager extends JFrame {
 
         lblTourManager = new JLabel("   Tour Manager");
         lblTourManager.setPreferredSize(new Dimension(76, 41));
-//		lblTourManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("travel.png"))));
+//		lblTourManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/travel.png"))));
         lblTourManager.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblTourManager.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlTourManager.add(lblTourManager);
@@ -596,7 +596,7 @@ public class Manager extends JFrame {
 
         lblCusManager = new JLabel("   Customer Manager");
         lblCusManager.setPreferredSize(new Dimension(76, 41));
-//		lblCusManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("customer.png"))));
+//		lblCusManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/customer.png"))));
         lblCusManager.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblCusManager.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlCusManager.add(lblCusManager);
@@ -604,7 +604,7 @@ public class Manager extends JFrame {
 
         lblDesManager = new JLabel("   Tourist attraction");
         lblDesManager.setPreferredSize(new Dimension(76, 41));
-//		lblDesManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("destination.png"))));
+//		lblDesManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/destination.png"))));
         lblDesManager.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblDesManager.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlDesManager.add(lblDesManager);
@@ -612,7 +612,7 @@ public class Manager extends JFrame {
 
         lblBillManager = new JLabel("   Bill Manager");
         lblBillManager.setPreferredSize(new Dimension(76, 41));
-//		lblBillManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("ticket.png"))));
+//		lblBillManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/ticket.png"))));
         lblBillManager.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblBillManager.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlBillManager.add(lblBillManager);
@@ -620,7 +620,7 @@ public class Manager extends JFrame {
 
         lblSerManager = new JLabel("   Service Manager");
         lblSerManager.setPreferredSize(new Dimension(76, 41));
-//		lblSerManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("service.png"))));
+//		lblSerManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/service.png"))));
         lblSerManager.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblSerManager.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlSerManager.add(lblSerManager);
@@ -628,7 +628,7 @@ public class Manager extends JFrame {
 
         lblHotelManager = new JLabel("   Hotel Manager");
         lblHotelManager.setPreferredSize(new Dimension(76, 41));
-//		lblHotelManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("hotel.png"))));
+//		lblHotelManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/hotel.png"))));
         lblHotelManager.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblHotelManager.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlHotelManager.add(lblHotelManager);
@@ -636,7 +636,7 @@ public class Manager extends JFrame {
 
         lblAccManager = new JLabel("   Account Manager");
         lblAccManager.setPreferredSize(new Dimension(76, 41));
-//		lblAccManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("account.png"))));
+//		lblAccManager.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/account.png"))));
         lblAccManager.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblAccManager.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlAccManager.add(lblAccManager);
@@ -644,7 +644,7 @@ public class Manager extends JFrame {
 
         lblStatistical = new JLabel("   Statistical");
         lblStatistical.setPreferredSize(new Dimension(76, 41));
-//		lblStatistical.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("statistical.png"))));
+//		lblStatistical.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/statistical.png"))));
         lblStatistical.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblStatistical.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlStatistical.add(lblStatistical);
@@ -652,7 +652,7 @@ public class Manager extends JFrame {
 
         lblExportExcel = new JLabel("   Excel");
         lblExportExcel.setPreferredSize(new Dimension(76, 41));
-//		lblExportExcel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("excel.png"))));
+//		lblExportExcel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/excel.png"))));
         lblExportExcel.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblExportExcel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnlExportExcel.add(lblExportExcel);
@@ -719,7 +719,7 @@ public class Manager extends JFrame {
         lblIconZoomIn = new JLabel("", JLabel.CENTER);
         lblIconZoomIn.setToolTipText("Show Menu");
         lblIconZoomIn.setBounds(0, 0, 50, 33);
-//		lblIconZoomIn.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("zoomin.png"))));
+//		lblIconZoomIn.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/zoomin.png"))));
         lblIconZoomIn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblIconZoomIn.addMouseListener(mouseListener);
         pnlZoom.add(lblIconZoomIn);

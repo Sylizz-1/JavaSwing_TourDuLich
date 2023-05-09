@@ -9,8 +9,10 @@ public class Main{
 	
     public static void main(String[] args) {
 
-        SignIn si = new SignIn();
-        si.setVisible(true);
+//        SignIn si = new SignIn();
+//        si.setVisible(true);
+        Manager mag = new Manager();
+        mag.setVisible(true);
     }
 }
 
