@@ -70,12 +70,12 @@ public class Excel extends JFrame {
 		contentPane.add(scrollPane);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 175, 929, 462);
+		panel.setBounds(10, 220, 929, 414);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 10, 909, 442);
+		scrollPane_1.setBounds(10, 11, 909, 396);
 		panel.add(scrollPane_1);
 
 		table_thongke = new JTable();
@@ -106,7 +106,7 @@ public class Excel extends JFrame {
 			}
 		});
 		btntkbooking.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btntkbooking.setBounds(10, 73, 147, 41);
+		btntkbooking.setBounds(10, 53, 147, 41);
 		contentPane.add(btntkbooking);
 
 		JButton btnexcelbooking = new JButton("Excel_Booking");
@@ -116,7 +116,7 @@ public class Excel extends JFrame {
 			}
 		});
 		btnexcelbooking.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btnexcelbooking.setBounds(10, 124, 147, 41);
+		btnexcelbooking.setBounds(10, 105, 147, 41);
 		contentPane.add(btnexcelbooking);
 
 		JButton btntktour = new JButton("TK_Tour");
@@ -145,7 +145,7 @@ public class Excel extends JFrame {
 			}
 		});
 		btntktour.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btntktour.setBounds(397, 73, 147, 41);
+		btntktour.setBounds(397, 53, 147, 41);
 		contentPane.add(btntktour);
 
 		JButton btnexceltour = new JButton("Excel_Tour");
@@ -156,7 +156,7 @@ public class Excel extends JFrame {
 			}
 		});
 		btnexceltour.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btnexceltour.setBounds(397, 124, 147, 41);
+		btnexceltour.setBounds(397, 105, 147, 41);
 		contentPane.add(btnexceltour);
 
 		JButton btntkcustomer = new JButton("TK_Customer");
@@ -181,7 +181,7 @@ public class Excel extends JFrame {
 			}
 		});
 		btntkcustomer.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btntkcustomer.setBounds(792, 73, 147, 41);
+		btntkcustomer.setBounds(790, 53, 147, 41);
 		contentPane.add(btntkcustomer);
 
 		JButton btnExcelcustomer = new JButton("Excel_Customer");
@@ -191,13 +191,28 @@ public class Excel extends JFrame {
 			}
 		});
 		btnExcelcustomer.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btnExcelcustomer.setBounds(792, 124, 147, 41);
+		btnExcelcustomer.setBounds(790, 105, 147, 41);
 		contentPane.add(btnExcelcustomer);
 
 		JLabel lblNewLabel = new JLabel("Thống Kê Quản Lý Tour");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel.setBounds(24, 10, 439, 32);
 		contentPane.add(lblNewLabel);
+		
+		JButton btnexcelbooking_1 = new JButton("Excel_Booking");
+		btnexcelbooking_1.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
+		btnexcelbooking_1.setBounds(10, 157, 147, 41);
+		contentPane.add(btnexcelbooking_1);
+		
+		JButton btnexcelbooking_2 = new JButton("Excel_Booking");
+		btnexcelbooking_2.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
+		btnexcelbooking_2.setBounds(397, 157, 147, 41);
+		contentPane.add(btnexcelbooking_2);
+		
+		JButton btnexcelbooking_3 = new JButton("Excel_Booking");
+		btnexcelbooking_3.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
+		btnexcelbooking_3.setBounds(790, 157, 147, 41);
+		contentPane.add(btnexcelbooking_3);
 	}
 	private void XuatExcelBooking() {
         try {
