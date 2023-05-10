@@ -212,12 +212,12 @@ public class StatisticsContent extends JPanel {
 		pnlStatisticsBy.add(panel_6, BorderLayout.SOUTH);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
-		btnShowChart_Booking = new JButton("  Chart  ");
+		btnShowChart_Booking = new JButton("  Chart Booking ");
 		btnShowChart_Booking.setFocusPainted(false);
 		btnShowChart_Booking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_6.add(btnShowChart_Booking);
 		
-		btnView_Booking = new JButton("View");
+		btnView_Booking = new JButton("View Booking");
 		btnView_Booking.setFocusPainted(false);
 		panel_6.add(btnView_Booking);
 		
@@ -324,12 +324,12 @@ public class StatisticsContent extends JPanel {
 		pnlStatisticsBy.add(panel_6, BorderLayout.SOUTH);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
-		btnShowChart_Tour = new JButton("  Chart  ");
+		btnShowChart_Tour = new JButton("  Chart Tour ");
 		btnShowChart_Tour.setFocusPainted(false);
 		btnShowChart_Tour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_6.add(btnShowChart_Tour);
 		
-		btnView_Tour = new JButton("View");
+		btnView_Tour = new JButton("View Tour");
 		btnView_Tour.setFocusPainted(false);
 		panel_6.add(btnView_Tour);
 		
@@ -438,12 +438,12 @@ public class StatisticsContent extends JPanel {
 		pnlStatisticsBy.add(panel_6, BorderLayout.SOUTH);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
-		btnShowChart_Cus = new JButton("  Chart  ");
+		btnShowChart_Cus = new JButton("  Chart Customer  ");
 		btnShowChart_Cus.setFocusPainted(false);
 		btnShowChart_Cus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_6.add(btnShowChart_Cus);
 		
-		btnView_Cus = new JButton("View");
+		btnView_Cus = new JButton("View Customer");
 		btnView_Cus.setFocusPainted(false);
 		panel_6.add(btnView_Cus);
 		
