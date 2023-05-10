@@ -181,7 +181,7 @@ public class StatisticsContent extends JPanel {
 		panel_5.add(cbxYear);
 		
 		lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setPreferredSize(new Dimension(464, 14));
+		lblNewLabel_3.setPreferredSize(new Dimension(92, 14));
 		panel_5.add(lblNewLabel_3);
 		
 		panel_6 = new JPanel();
