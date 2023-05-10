@@ -334,30 +334,30 @@ public class CusContent extends JPanel{
 //		pnlGenderCus.add(rdbtnFemale);
 //		bgGenderCus.add(rdbtnFemale);
 
-        pnlGenderCus = new JPanel();
-        pnlFillCus.add(pnlGenderCus);
-        pnlGenderCus.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 5));
-
-        lblGenderCus = new JLabel("Gender");
-        lblGenderCus.setPreferredSize(new Dimension(43, 25));
-        pnlGenderCus.add(lblGenderCus);
-
-        bgGenderCus = new ButtonGroup();
-        rdbtnMale = new JRadioButton("Male");
-        rdbtnMale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        rdbtnMale.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-        rdbtnMale.setFocusPainted(false);
-        rdbtnMale.setPreferredSize(new Dimension(72, 25));
-        pnlGenderCus.add(rdbtnMale);
-        bgGenderCus.add(rdbtnMale);
-
-        rdbtnFemale = new JRadioButton("Female");
-        rdbtnFemale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        rdbtnFemale.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-        rdbtnFemale.setFocusPainted(false);
-        rdbtnFemale.setPreferredSize(new Dimension(72, 25));
-        pnlGenderCus.add(rdbtnFemale);
-        bgGenderCus.add(rdbtnFemale);
+//        pnlGenderCus = new JPanel();
+//        pnlFillCus.add(pnlGenderCus);
+//        pnlGenderCus.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 5));
+//
+//        lblGenderCus = new JLabel("Gender");
+//        lblGenderCus.setPreferredSize(new Dimension(43, 25));
+//        pnlGenderCus.add(lblGenderCus);
+//
+//        bgGenderCus = new ButtonGroup();
+//        rdbtnMale = new JRadioButton("Male");
+//        rdbtnMale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//        rdbtnMale.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+//        rdbtnMale.setFocusPainted(false);
+//        rdbtnMale.setPreferredSize(new Dimension(72, 25));
+//        pnlGenderCus.add(rdbtnMale);
+//        bgGenderCus.add(rdbtnMale);
+//
+//        rdbtnFemale = new JRadioButton("Female");
+//        rdbtnFemale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//        rdbtnFemale.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+//        rdbtnFemale.setFocusPainted(false);
+//        rdbtnFemale.setPreferredSize(new Dimension(72, 25));
+//        pnlGenderCus.add(rdbtnFemale);
+//        bgGenderCus.add(rdbtnFemale);
 
         pnlPhoneCus = new JPanel();
         pnlPhoneCus.setPreferredSize(new Dimension(320, 35));
@@ -630,7 +630,7 @@ public class CusContent extends JPanel{
                 TableModel model = cusListTable.getModel();
                 int idcs = Integer.parseInt(model.getValueAt(i,0).toString());
                 String namecs = model.getValueAt(i,1).toString();
-                int telhotel = Integer.parseInt(model.getValueAt(i,2).toString());
+                String telhotel = model.getValueAt(i,2).toString();
                 String birthdaycs = model.getValueAt(i,3).toString();
                 String  emailcs = model.getValueAt(i,4).toString();
                 String  create_atcs =model.getValueAt(i,5).toString();
