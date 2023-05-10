@@ -196,7 +196,7 @@ public class CusContent extends JPanel{
 
         lblSearchCus.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchCus, BorderLayout.EAST);
-//		lblSearchCus.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
+		lblSearchCus.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchCus.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel = new JPanel();
