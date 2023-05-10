@@ -1,7 +1,5 @@
 package GUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -31,57 +29,120 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
 
-public class Excel extends JFrame {
-
-	private JPanel contentPane;
+public class ExcelContent extends JPanel{
 	private JTable table_thongke;
+	private JPanel pnlStatisticalTour;
+	private JLabel lblTitle;
+	private JPanel pnlFunc;
+	private JPanel pnlFunc1;
+	private JPanel pnlFunc2;
+	private JPanel pnlFunc3;
+	private JPanel pnlList;
+	private JScrollPane scrollPane_1;
+	private JButton btntkbooking;
+	private JButton btnexcelbooking;
+	private JButton btnexportbooking;
+	private JButton btntktour;
+	private JButton btnexceltour;
+	private JButton btnexporttour;
+	private JButton btntkcustomer;
+	private JButton btnexcelcustomer;
+	private JButton btnexportcustomer;
+	
+	public ExcelContent() {
+		setLayout(new BorderLayout(0, 0));
+		
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setBounds(100, 100, 963, 684);
+//		contentPane = new JPanel();
+//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Excel frame = new Excel();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//		setContentPane(contentPane);
+//		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		pnlStatisticalTour = new JPanel();
+		pnlStatisticalTour.setPreferredSize(new Dimension(10, 80));
+		pnlStatisticalTour.setBackground(new Color(66, 165, 243));
+		add(pnlStatisticalTour, BorderLayout.NORTH);
+		
+		lblTitle = new JLabel("Statistical Tour");
+		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+		pnlStatisticalTour.add(lblTitle);
+		
+		pnlFunc = new JPanel();
+		add(pnlFunc, BorderLayout.CENTER);
+		pnlFunc.setLayout(new GridLayout(0, 3, 0, 0));
+		
+		pnlFunc1 = new JPanel();
+		pnlFunc1.setBackground(new Color(66, 165, 243));
+		pnlFunc.add(pnlFunc1);
+		
+		pnlFunc2 = new JPanel();
+		pnlFunc2.setBackground(new Color(66, 165, 243));
+		pnlFunc.add(pnlFunc2);
+		
+		pnlFunc3 = new JPanel();
+		pnlFunc3.setBackground(new Color(66, 165, 243));
+		pnlFunc.add(pnlFunc3);
 
-	/**
-	 * Create the frame.
-	 */
-	public Excel() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 963, 684);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		pnlList = new JPanel();
+		pnlList.setBackground(new Color(66, 165, 243));
+		pnlList.setPreferredSize(new Dimension(10, 410));
+		add(pnlList, BorderLayout.SOUTH);
+		pnlList.setLayout(new BorderLayout(0, 0));
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(473, 10, 2, 2);
-		contentPane.add(scrollPane);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 175, 929, 462);
-		contentPane.add(panel);
-		panel.setLayout(null);
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 10, 909, 442);
-		panel.add(scrollPane_1);
-
+		scrollPane_1 = new JScrollPane();
+		pnlList.add(scrollPane_1);
+//		Object [][] data14 = {
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},            
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
+//                
+//        };
+//
+//        String [] items14 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
 		table_thongke = new JTable();
 		scrollPane_1.setViewportView(table_thongke);
+		
 
-		JButton btntkbooking = new JButton("TK_Booking");
+
+		btntkbooking = new JButton("Booking Statistics");
+		btntkbooking.setFocusPainted(false);
+		btntkbooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btntkbooking.setPreferredSize(new Dimension(200, 30));
 		btntkbooking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = new DefaultTableModel();
@@ -105,21 +166,33 @@ public class Excel extends JFrame {
 //		        table_thongke.setViewportView(table_thongke);
 			}
 		});
-		btntkbooking.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btntkbooking.setBounds(10, 73, 147, 41);
-		contentPane.add(btntkbooking);
+		pnlFunc1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		btntkbooking.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		pnlFunc1.add(btntkbooking);
 
-		JButton btnexcelbooking = new JButton("Excel_Booking");
+		btnexcelbooking = new JButton("Booking Excel");
+		btnexcelbooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnexcelbooking.setFocusPainted(false);
+		btnexcelbooking.setPreferredSize(new Dimension(200, 30));
 		btnexcelbooking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				XuatExcelBooking();
 			}
 		});
-		btnexcelbooking.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btnexcelbooking.setBounds(10, 124, 147, 41);
-		contentPane.add(btnexcelbooking);
+		btnexcelbooking.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		pnlFunc1.add(btnexcelbooking);
+		
+		btnexportbooking = new JButton("Booking Export");
+		btnexportbooking.setFocusPainted(false);
+		btnexportbooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnexportbooking.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		btnexportbooking.setPreferredSize(new Dimension(200, 30));
+		pnlFunc1.add(btnexportbooking);
 
-		JButton btntktour = new JButton("TK_Tour");
+		btntktour = new JButton("Tour Statistics");
+		btntktour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btntktour.setFocusPainted(false);
+		btntktour.setPreferredSize(new Dimension(200, 30));
 		btntktour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = new DefaultTableModel();
@@ -144,22 +217,34 @@ public class Excel extends JFrame {
 		        scrollPane_1.setViewportView(table_thongke);
 			}
 		});
-		btntktour.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btntktour.setBounds(397, 73, 147, 41);
-		contentPane.add(btntktour);
+		pnlFunc2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		btntktour.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		pnlFunc2.add(btntktour);
 
-		JButton btnexceltour = new JButton("Excel_Tour");
+		btnexceltour = new JButton("Tour Excel");
+		btnexceltour.setFocusPainted(false);
+		btnexceltour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnexceltour.setPreferredSize(new Dimension(200, 30));
 		btnexceltour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				XuatExcelTour();
 
 			}
 		});
-		btnexceltour.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btnexceltour.setBounds(397, 124, 147, 41);
-		contentPane.add(btnexceltour);
+		btnexceltour.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		pnlFunc2.add(btnexceltour);
+		
+		btnexporttour = new JButton("Tour Export");
+		btnexporttour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnexporttour.setFocusPainted(false);
+		btnexporttour.setPreferredSize(new Dimension(200, 30));
+		btnexporttour.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		pnlFunc2.add(btnexporttour);
 
-		JButton btntkcustomer = new JButton("TK_Customer");
+		btntkcustomer = new JButton("Customer Statistics");
+		btntkcustomer.setFocusPainted(false);
+		btntkcustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btntkcustomer.setPreferredSize(new Dimension(200, 30));
 		btntkcustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 DefaultTableModel model = new DefaultTableModel();
@@ -180,24 +265,31 @@ public class Excel extends JFrame {
 			        scrollPane_1.setViewportView(table_thongke);
 			}
 		});
-		btntkcustomer.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btntkcustomer.setBounds(792, 73, 147, 41);
-		contentPane.add(btntkcustomer);
+		btntkcustomer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		pnlFunc3.add(btntkcustomer);
 
-		JButton btnExcelcustomer = new JButton("Excel_Customer");
-		btnExcelcustomer.addActionListener(new ActionListener() {
+		btnexcelcustomer = new JButton("Customer Excel");
+		btnexcelcustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnexcelcustomer.setFocusPainted(false);
+		btnexcelcustomer.setPreferredSize(new Dimension(200, 30));
+		btnexcelcustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				XuatExcelCustomer();
 			}
 		});
-		btnExcelcustomer.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 16));
-		btnExcelcustomer.setBounds(792, 124, 147, 41);
-		contentPane.add(btnExcelcustomer);
-
-		JLabel lblNewLabel = new JLabel("Thống Kê Quản Lý Tour");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel.setBounds(24, 10, 439, 32);
-		contentPane.add(lblNewLabel);
+		btnexcelcustomer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		pnlFunc3.add(btnexcelcustomer);
+		
+		btnexportcustomer = new JButton("Customer Export");
+		btnexportcustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnexportcustomer.setFocusPainted(false);
+		btnexportcustomer.setPreferredSize(new Dimension(200, 30));
+		btnexportcustomer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		pnlFunc3.add(btnexportcustomer);
+		
+		
+		
+		
 	}
 	private void XuatExcelBooking() {
         try {

@@ -701,9 +701,8 @@ public class Manager extends JFrame {
         pnlStatisticalContent.setLayout(new BorderLayout(0, 0));
 
         // ------------------------------ Tạo form nhập xuất excel ------------------------------
-        pnlExportExcelContent = new JPanel();
+        pnlExportExcelContent = new ExcelContent();
         pnlMainContent.add(pnlExportExcelContent, "pnlExportExcelContent");
-        pnlExportExcelContent.setLayout(new BorderLayout(0, 0));
 
 
     }

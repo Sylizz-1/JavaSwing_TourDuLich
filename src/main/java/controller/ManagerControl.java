@@ -51,7 +51,7 @@ public class ManagerControl implements MouseListener{
 		}else if(e.getSource() == manager.getLblStatistical()){
 			manager.getCardLayout().show(manager.getPnlMainContent(), "pnlStatisticalContent");
 		}else if(e.getSource() == manager.getLblExportExcel()){
-			manager.getCardLayout().show(manager.getPnlMainContent(), "pnlExcelContent");
+			manager.getCardLayout().show(manager.getPnlMainContent(), "pnlExportExcelContent");
 		}
 		
 	}
