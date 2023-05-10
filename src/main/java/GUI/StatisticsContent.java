@@ -54,9 +54,7 @@ public class StatisticsContent extends JPanel {
 	private JTable TourTable;
 	private JTable CustomerTable;
 	
-	private CardLayout cardLayoutBookingList;
-	private CardLayout cardLayoutTourList;
-	private CardLayout cardLayoutCustomerList;
+	private CardLayout cardLayoutDetailList;
 	 
 	public JPanel getPnlDetailList() {
 		return pnlDetailList;
@@ -90,6 +88,7 @@ public class StatisticsContent extends JPanel {
 		this.pnlCustomerList = pnlCustomerList;
 	}
 
+
 	public StatisticsContent() {
         init();     
     }
@@ -105,7 +104,7 @@ public class StatisticsContent extends JPanel {
 		btnStatisticBooking = new JButton("Booking");
 		btnStatisticBooking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayoutBookingList.show(pnlDetailList,"pnBookingList");
+				cardLayoutDetailList.show(pnlDetailList,"pnBookingList");
 			}
 		});
 		btnStatisticBooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -115,7 +114,7 @@ public class StatisticsContent extends JPanel {
 		btnStatisticTour = new JButton("  Tour  ");
 		btnStatisticTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayoutTourList.show(pnlDetailList,"pnTourList");
+				cardLayoutDetailList.show(pnlDetailList,"pnTourList");
 			}
 		});
 		btnStatisticTour.setFocusPainted(false);
@@ -125,7 +124,7 @@ public class StatisticsContent extends JPanel {
 		btnStatisticCustomer = new JButton("Customer");
 		btnStatisticCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayoutCustomerList.show(pnlDetailList,"pnCustomerList");
+				cardLayoutDetailList.show(pnlDetailList,"pnCustomerList");
 			}
 		});
 		btnStatisticCustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -332,10 +331,11 @@ public class StatisticsContent extends JPanel {
 		
 		CustomerTable = new JTable(data16, items16);
 		scrollPane_3.setViewportView(CustomerTable);
-//		
-//		cardLayoutBookingList =  (CardLayout)(this.getPnBookingList().getLayout());
-//		cardLayoutTourList =  (CardLayout)(this.getPnlTourList().getLayout());
-//		cardLayoutCustomerList =  (CardLayout)(this.getPnlCustomerList().getLayout());
+		
+		cardLayoutDetailList =  (CardLayout)(this.getPnBookingList().getLayout());
+		cardLayoutDetailList =  (CardLayout)(this.getPnlTourList().getLayout());
+		cardLayoutDetailList =  (CardLayout)(this.getPnlCustomerList().getLayout());
+
 	}
 	
 	
