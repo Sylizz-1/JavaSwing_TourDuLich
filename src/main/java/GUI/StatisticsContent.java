@@ -142,7 +142,7 @@ public class StatisticsContent extends JPanel {
 		btnStatisticCustomer = new JButton("Customer");
 		btnStatisticCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayoutPnlContent.show(pnlStatisticContent,"pnlCustomerStatistical");
+				cardLayoutPnlContent.show(pnlStatisticContent,"pnlCusStatistical");
 			}
 		});
 		btnStatisticCustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -169,7 +169,7 @@ public class StatisticsContent extends JPanel {
 		pnlStatisticsBy.add(panel_4, BorderLayout.NORTH);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 		
-		lblBy = new JLabel(" Statistics By             ");
+		lblBy = new JLabel(" Statistics Booking By             ");
 		panel_4.add(lblBy);
 		
 		rdbtnByYear_Booking = new JRadioButton("By year");
@@ -281,7 +281,7 @@ public class StatisticsContent extends JPanel {
 		pnlStatisticsBy.add(panel_4, BorderLayout.NORTH);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 		
-		lblBy = new JLabel(" Statistics By             ");
+		lblBy = new JLabel(" Statistics Tour By             ");
 		panel_4.add(lblBy);
 		
 		rdbtnByYear_Tour = new JRadioButton("By year");
@@ -395,7 +395,7 @@ public class StatisticsContent extends JPanel {
 		pnlStatisticsBy.add(panel_4, BorderLayout.NORTH);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 		
-		lblBy = new JLabel(" Statistics By             ");
+		lblBy = new JLabel(" Statistics Customer By             ");
 		panel_4.add(lblBy);
 		
 		rdbtnByYear_Cus = new JRadioButton("By year");
