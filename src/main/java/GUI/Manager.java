@@ -696,9 +696,8 @@ public class Manager extends JFrame {
         pnlMainContent.add(pnlAccContent,"pnlAccContent");
 
         // ------------------------------ Tạo form báo cáo thống kê ------------------------------
-        pnlStatisticalContent = new JPanel();
+        pnlStatisticalContent = new StatisticsContent();
         pnlMainContent.add(pnlStatisticalContent, "pnlStatisticalContent");
-        pnlStatisticalContent.setLayout(new BorderLayout(0, 0));
 
         // ------------------------------ Tạo form nhập xuất excel ------------------------------
         pnlExportExcelContent = new ExcelContent();
