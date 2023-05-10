@@ -3,12 +3,17 @@ package GUI;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+
 
 import DAO.BookingDAO;
 import DAO.CustomerDAO;
@@ -25,8 +30,11 @@ import javax.swing.JFileChooser;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
@@ -58,15 +66,7 @@ public class ExcelContent extends JPanel{
 	
 	public ExcelContent() {
 		setLayout(new BorderLayout(0, 0));
-		
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 963, 684);
-//		contentPane = new JPanel();
-//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-//		setContentPane(contentPane);
-//		contentPane.setLayout(new BorderLayout(0, 0));
-		
+				
 		pnlStatisticalTour = new JPanel();
 		pnlStatisticalTour.setPreferredSize(new Dimension(10, 80));
 		pnlStatisticalTour.setBackground(new Color(66, 165, 243));
@@ -100,40 +100,7 @@ public class ExcelContent extends JPanel{
 
 		scrollPane_1 = new JScrollPane();
 		pnlList.add(scrollPane_1);
-//		Object [][] data14 = {
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},            
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-//                
-//        };
-//
-//        String [] items14 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
+
 		table_thongke = new JTable();
 		scrollPane_1.setViewportView(table_thongke);
 		
@@ -156,7 +123,7 @@ public class ExcelContent extends JPanel{
 		        for(BookingDTO bkDto : csDTO) {
 		        	System.out.println(bkDto.toString());
 		            model.addRow(new Object[] {
-		                    bkDto.getBooking_id(),bkDto.getTour_id(),bkDto.getCustomer_id(),bkDto.getCustomer_number(),bkDto.getTotal_cost(),bkDto.getCreate_at()
+		                    bkDto.getBooking_id(),bkDto.getTour_id(),bkDto.getCustomer_id(),bkDto.getCustomer_number(),bkDto.getTotal_cost(),bkDto.getCreate_at().toString()
 
 		            });
 		        }
@@ -187,6 +154,11 @@ public class ExcelContent extends JPanel{
 		btnexportbooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnexportbooking.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		btnexportbooking.setPreferredSize(new Dimension(200, 30));
+		btnexportbooking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportBooking();
+			}
+		});
 		pnlFunc1.add(btnexportbooking);
 
 		btntktour = new JButton("Tour Statistics");
@@ -209,7 +181,7 @@ public class ExcelContent extends JPanel{
 		        for(TourDTO itemDao : csDTO) {
 		            model.addRow(new Object[] {
 		                    itemDao.getTour_id(),itemDao.getTour_name(),itemDao.getHotel_id(),itemDao.getPrice(),itemDao.getStart_day(),itemDao.getEnd_day(),itemDao.getDeparture_place(),
-		                    itemDao.getSchedule_describe(),itemDao.getCreate_at()
+		                    itemDao.getSchedule_describe(),itemDao.getCreate_at().toString()
 		            });
 		        }
 		        table_thongke = new JTable();
@@ -238,6 +210,11 @@ public class ExcelContent extends JPanel{
 		btnexporttour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnexporttour.setFocusPainted(false);
 		btnexporttour.setPreferredSize(new Dimension(200, 30));
+		btnexporttour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportTour();
+			}
+		});
 		btnexporttour.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		pnlFunc2.add(btnexporttour);
 
@@ -284,6 +261,11 @@ public class ExcelContent extends JPanel{
 		btnexportcustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnexportcustomer.setFocusPainted(false);
 		btnexportcustomer.setPreferredSize(new Dimension(200, 30));
+		btnexportcustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportCustomer();
+			}
+		});
 		btnexportcustomer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		pnlFunc3.add(btnexportcustomer);
 		
@@ -321,7 +303,7 @@ public class ExcelContent extends JPanel{
                     row.createCell(2, CellType.STRING).setCellValue(ddd.getCustomer_id());
                     row.createCell(3, CellType.STRING).setCellValue(ddd.getCustomer_number());
                     row.createCell(4, CellType.STRING).setCellValue(ddd.getTotal_cost());
-                    row.createCell(5, CellType.STRING).setCellValue(ddd.getCreate_at());
+                    row.createCell(5, CellType.STRING).setCellValue(ddd.getCreate_at().toString());
                 }
                 File file = new File(FilePath);
                 try {
@@ -377,7 +359,7 @@ public class ExcelContent extends JPanel{
                     row.createCell(5, CellType.STRING).setCellValue(ddd.getEnd_day());
                     row.createCell(6, CellType.STRING).setCellValue(ddd.getDeparture_place());
                     row.createCell(7, CellType.STRING).setCellValue(ddd.getSchedule_describe());
-                    row.createCell(8, CellType.STRING).setCellValue(ddd.getCreate_at());
+                    row.createCell(8, CellType.STRING).setCellValue(ddd.getCreate_at().toString());
                 }
                 File file = new File(FilePath);
                 try {
@@ -445,6 +427,275 @@ public class ExcelContent extends JPanel{
 	            }
 
 	        } catch (Exception e) {
+	        }
+
+	    }
+	 
+	 private void exportTour() {                                      
+
+	        try {
+
+	            JFileChooser jfile = new JFileChooser();
+	            jfile.setFileFilter(new FileFilter() {
+
+	                public String getDescription() {
+	                    return "File Excel (*.xls)";
+	                }
+
+	                public boolean accept(File f) {
+	                    if (f.isDirectory()) {
+	                        return true;
+	                    } else {
+	                        String filename = f.getName().toLowerCase();
+	                        return filename.endsWith(".xls");
+	                    }
+	                }
+	            });
+	            int seleted = jfile.showOpenDialog(this);
+	            if (seleted == JFileChooser.APPROVE_OPTION) {
+	                String FilePath = jfile.getSelectedFile().getPath();
+
+	                FileInputStream fis = new FileInputStream(new File(FilePath));
+	                HSSFWorkbook workbook = new HSSFWorkbook(fis);
+	                HSSFSheet sheet = workbook.getSheetAt(0);
+	                sheet.setRowBreak(0);
+	                FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+
+	                DefaultTableModel model = (DefaultTableModel) table_thongke.getModel();
+//	                while (model.getRowCount() > 0) {
+//	                    model.removeRow(0);
+//	                }
+	                int i = 0;
+	                ArrayList<TourDTO> list = null;
+	                for (Row row : sheet) {
+	                    TourDTO acc = new TourDTO();
+	                    if (i > 0) {
+	                        ArrayList<String> item = new ArrayList<String>();
+	                        for (Cell cell : row) {
+
+	                            switch (evaluator.evaluateInCell(cell).getCellType()) {
+	                                case BOOLEAN:
+//	                                System.out.println(cell.getBooleanCellValue());
+	                                    break;
+	                                case NUMERIC:
+	                                    item.add("" + cell.getNumericCellValue());
+//	                                System.out.println(cell.getNumericCellValue());
+	                                    break;
+	                                case STRING:
+//	                                System.out.println(cell.getStringCellValue());
+	                                    item.add("" + cell.getStringCellValue());
+	                                    break;
+	                                case BLANK:
+	                                    break;
+	                                case ERROR:
+//	                                System.out.println(cell.getErrorCellValue());
+	                                    break;
+
+	                                case FORMULA:
+	                                    break;
+	                            }
+
+	                        }
+	                        TourDTO td = new TourDTO();
+	                        float idcus = Float.parseFloat(item.get(0));
+	                        td.setTour_id((int)idcus);
+	                        td.setTour_name(item.get(1));
+	                        float idht = Float.parseFloat(item.get(2));
+	                        td.setHotel_id((int)idht);
+	                        double ipr = Double.parseDouble(item.get(3));
+	                        td.setPrice(ipr);
+	                        Date dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(item.get(4));
+	                        SimpleDateFormat dddDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	                        String dateStartString = dddDateFormat.format(dateStart);
+	                        td.setStart_day(dateStartString);
+	                        Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(item.get(5));
+	                        SimpleDateFormat ENDDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	                        String dateEndString = ENDDateFormat.format(dateEnd);
+	                        td.setEnd_day(dateEndString);
+	                        td.setDeparture_place(item.get(6));
+	                        td.setSchedule_describe(item.get(7));
+	                        TourDAO.getInstance().add(td);
+	                    }
+
+	                    i++;
+	                }
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	    }
+	 private void exportCustomer() {                                      
+
+	        try {
+
+	            JFileChooser jfile = new JFileChooser();
+	            jfile.setFileFilter(new FileFilter() {
+
+	                public String getDescription() {
+	                    return "File Excel (*.xls)";
+	                }
+
+	                public boolean accept(File f) {
+	                    if (f.isDirectory()) {
+	                        return true;
+	                    } else {
+	                        String filename = f.getName().toLowerCase();
+	                        return filename.endsWith(".xls");
+	                    }
+	                }
+	            });
+	            int seleted = jfile.showOpenDialog(this);
+	            if (seleted == JFileChooser.APPROVE_OPTION) {
+	                String FilePath = jfile.getSelectedFile().getPath();
+
+	                FileInputStream fis = new FileInputStream(new File(FilePath));
+	                HSSFWorkbook workbook = new HSSFWorkbook(fis);
+	                HSSFSheet sheet = workbook.getSheetAt(0);
+	                sheet.setRowBreak(0);
+	                FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+
+	                DefaultTableModel model = (DefaultTableModel) table_thongke.getModel();
+//	                while (model.getRowCount() > 0) {
+//	                    model.removeRow(0);
+//	                }
+	                int i = 0;
+	                ArrayList<CustomerDTO> list = null;
+	                for (Row row : sheet) {
+	                    CustomerDTO acc = new CustomerDTO();
+	                    if (i > 0) {
+	                        ArrayList<String> item = new ArrayList<String>();
+	                        for (Cell cell : row) {
+
+	                            switch (evaluator.evaluateInCell(cell).getCellType()) {
+	                                case BOOLEAN:
+//	                                System.out.println(cell.getBooleanCellValue());
+	                                    break;
+	                                case NUMERIC:
+	                                    item.add("" + cell.getNumericCellValue());
+//	                                System.out.println(cell.getNumericCellValue());
+	                                    break;
+	                                case STRING:
+//	                                System.out.println(cell.getStringCellValue());
+	                                    item.add("" + cell.getStringCellValue());
+	                                    break;
+	                                case BLANK:
+	                                    break;
+	                                case ERROR:
+//	                                System.out.println(cell.getErrorCellValue());
+	                                    break;
+
+	                                case FORMULA:
+	                                    break;
+	                            }
+
+	                        }
+	                        CustomerDTO ddDto = new CustomerDTO();
+	                        float idcus = Float.parseFloat(item.get(0));
+	                        ddDto.setCustomer_id((int)idcus);
+	                        ddDto.setCustomer_name(item.get(1));
+	                        ddDto.setTel(item.get(2));
+	                        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(item.get(3));
+	                        SimpleDateFormat dddDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	                        String dateString = dddDateFormat.format(date1);
+	                        ddDto.setBirthday(dateString);
+	                        ddDto.setEmail(item.get(4));
+	                        ddDto.setCreate_at("");
+	                        CustomerDAO.getInstance().add(ddDto);
+	                    }
+
+	                    i++;
+	                }
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	    }
+	 private void exportBooking() {                                      
+
+	        try {
+
+	            JFileChooser jfile = new JFileChooser();
+	            jfile.setFileFilter(new FileFilter() {
+
+	                public String getDescription() {
+	                    return "File Excel (*.xls)";
+	                }
+
+	                public boolean accept(File f) {
+	                    if (f.isDirectory()) {
+	                        return true;
+	                    } else {
+	                        String filename = f.getName().toLowerCase();
+	                        return filename.endsWith(".xls");
+	                    }
+	                }
+	            });
+	            int seleted = jfile.showOpenDialog(this);
+	            if (seleted == JFileChooser.APPROVE_OPTION) {
+	                String FilePath = jfile.getSelectedFile().getPath();
+
+	                FileInputStream fis = new FileInputStream(new File(FilePath));
+	                HSSFWorkbook workbook = new HSSFWorkbook(fis);
+	                HSSFSheet sheet = workbook.getSheetAt(0);
+	                sheet.setRowBreak(0);
+	                FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+
+	                DefaultTableModel model = (DefaultTableModel) table_thongke.getModel();
+//	                while (model.getRowCount() > 0) {
+//	                    model.removeRow(0);
+//	                }
+	                int i = 0;
+	                ArrayList<BookingDTO> list = null;
+	                for (Row row : sheet) {
+	                    BookingDTO acc = new BookingDTO();
+	                    if (i > 0) {
+	                        ArrayList<String> item = new ArrayList<String>();
+	                        for (Cell cell : row) {
+
+	                            switch (evaluator.evaluateInCell(cell).getCellType()) {
+	                                case BOOLEAN:
+//	                                System.out.println(cell.getBooleanCellValue());
+	                                    break;
+	                                case NUMERIC:
+	                                    item.add("" + cell.getNumericCellValue());
+//	                                System.out.println(cell.getNumericCellValue());
+	                                    break;
+	                                case STRING:
+//	                                System.out.println(cell.getStringCellValue());
+	                                    item.add("" + cell.getStringCellValue());
+	                                    break;
+	                                case BLANK:
+	                                    break;
+	                                case ERROR:
+//	                                System.out.println(cell.getErrorCellValue());
+	                                    break;
+
+	                                case FORMULA:
+	                                    break;
+	                            }
+
+	                        }
+	                        BookingDTO bdo = new BookingDTO();
+	                        float idBk = Float.parseFloat(item.get(0));
+	                        bdo.setBooking_id((int)idBk);
+	                        float idTour = Float.parseFloat(item.get(1));
+	                        bdo.setTour_id((int)idTour);
+	                        float idcus = Float.parseFloat(item.get(2));
+	                        bdo.setCustomer_id((int)idcus);
+	                        float cusnum = Float.parseFloat(item.get(3));
+	                        bdo.setCustomer_number((int)cusnum);
+	                        bdo.setTotal_cost(Double.parseDouble(item.get(4)));
+	                       BookingDAO.getInstance().add(bdo);
+
+	                    }
+
+	                    i++;
+	                }
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
 	        }
 
 	    }
