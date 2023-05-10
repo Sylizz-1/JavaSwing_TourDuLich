@@ -250,7 +250,7 @@ public class StatisticsContent extends JPanel {
 		pnlTourList.add(scrollPane_2, BorderLayout.CENTER);
 		
 		Object [][] data15 = {
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+				{"111", "Thái bình", "Miền Trung", "20", "20","20", "20"},
 				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
 				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
 				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
@@ -295,7 +295,7 @@ public class StatisticsContent extends JPanel {
 		pnlCustomerList.add(scrollPane_3, BorderLayout.CENTER);
 		
 		Object [][] data16 = {
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+				{"111", "Khánh hòa", "Miền Trung", "20", "20","20", "20"},
 				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
 				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
 				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
