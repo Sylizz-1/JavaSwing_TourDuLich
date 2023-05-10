@@ -333,9 +333,8 @@ public class StatisticsContent extends JPanel {
 		scrollPane_3.setViewportView(CustomerTable);
 		
 		
-		cardLayoutDetailList =  (CardLayout)(this.getPnBookingList().getLayout());
-		cardLayoutDetailList =  (CardLayout)(this.getPnlTourList().getLayout());
-		cardLayoutDetailList =  (CardLayout)(this.getPnlCustomerList().getLayout());
+		cardLayoutDetailList =  (CardLayout)(this.getPnlDetailList().getLayout());
+	
 	}
 	
 	
