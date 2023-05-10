@@ -12,11 +12,11 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @author TVD
  */
-public class chart {
+public class ChartCustomer {
 
     public static JFreeChart createChart() {
         JFreeChart barChart = ChartFactory.createBarChart(
-                "BIỂU ĐỒ DÂN SỐ VIỆT NAM",
+                "BIỂU ĐỒ SỐ LƯỢNG KHÁCH HÀNG",
                 "Năm", "Số người",
                 createDataset(), PlotOrientation.VERTICAL, false, false, false);
         return barChart;
@@ -24,10 +24,10 @@ public class chart {
 
     private static CategoryDataset createDataset() {
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(68000000, "Số người", "1990");
-        dataset.addValue(80000000, "Số người", "2000");
-        dataset.addValue(88000000, "Số người", "2010");
-        dataset.addValue(95000000, "Số người", "2020");
+        dataset.addValue(20, "Số người", "2020");
+        dataset.addValue(30, "Số người", "2010");
+        dataset.addValue(40, "Số người", "2000");
+        dataset.addValue(47, "Số người", "2023");
         return dataset;
     }
 
@@ -42,5 +42,6 @@ public class chart {
         frame.setResizable(false);
         frame.setVisible(true);
     }
+
 
 }

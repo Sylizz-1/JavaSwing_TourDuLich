@@ -8,11 +8,20 @@ import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Cursor;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import com.google.protobuf.TextFormat.ParseException;
+
+
+import DAO.CustomerDAO;
+import DTO.CustomerDTO;
+
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.JScrollPane;
@@ -20,6 +29,9 @@ import javax.swing.JTable;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class StatisticsContent extends JPanel {
@@ -419,7 +431,7 @@ public class StatisticsContent extends JPanel {
 		panel_5.add(lblSelectMonth);
 		
 		cbxMonth_Cus = new JComboBox();
-		cbxMonth_Cus.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		cbxMonth_Cus.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		panel_5.add(cbxMonth_Cus);
 		
 		lblSelectYear = new JLabel("                    Select Year            ");
@@ -439,11 +451,160 @@ public class StatisticsContent extends JPanel {
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
 		btnShowChart_Cus = new JButton("  Chart Customer  ");
+		btnShowChart_Cus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ChartCustomer ffffChart = new ChartCustomer();
+				ffffChart.main(items15);
+			}
+		});
 		btnShowChart_Cus.setFocusPainted(false);
 		btnShowChart_Cus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_6.add(btnShowChart_Cus);
 		
 		btnView_Cus = new JButton("View Customer");
+		btnView_Cus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				year -----------------------------------------------------------------
+				if(rdbtnByYear_Cus.isSelected() && rdbtnByMonth_Cus.isSelected() == false ) {	
+					Boolean checkkqBoolean = false;
+						String yearString = (String) cbxYear_Cus.getSelectedItem();
+						ArrayList<CustomerDTO> jjjj = CustomerDAO.getInstance().getAll();
+						
+						DefaultTableModel model = new DefaultTableModel();
+			            model.addColumn("ID");;
+			            model.addColumn("Name");
+			            model.addColumn("Tel");
+			            model.addColumn("Birthday");
+			            model.addColumn("Email");
+			            model.addColumn("Create_At");
+			            
+				    	for(CustomerDTO customerDTO: jjjj) {
+				        		String date2 = customerDTO.getCreate_at();
+				        	    SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				        	    try {
+									Date date4 = formatter4.parse(date2);
+									SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+									 simpleDateFormat.applyPattern("yyyy");
+								        String format = simpleDateFormat.format(date4); 
+
+								        if(format.equals(yearString)) { 
+								        	 model.addRow(new Object[] {
+								        			 customerDTO.getCustomer_id(),customerDTO.getCustomer_name(),customerDTO.getTel(),customerDTO.getBirthday(),customerDTO.getEmail(),customerDTO.getCreate_at()
+								                });
+								        	 checkkqBoolean = true;
+								        }
+								} catch (java.text.ParseException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+				    	}	
+				    	if (checkkqBoolean == false) {
+				    		JOptionPane.showMessageDialog(null, "không có khách hàng trong năm này !");
+				        	DefaultTableModel model2 = (DefaultTableModel) CusTable.getModel();
+			                while (model2.getRowCount() > 0) {
+			                    model2.removeRow(0);
+			                }
+				    	}
+				    	CusTable = new JTable();
+				    	CusTable.setModel(model);
+				    	scrollPane_3.setViewportView(CusTable);
+				}
+//				month ------------------------------------------------------------------------------------------
+				if(rdbtnByYear_Cus.isSelected()==false && rdbtnByMonth_Cus.isSelected()) {
+					Boolean checkkqBoolean = false;
+					String MonthString = (String) cbxMonth_Cus.getSelectedItem();
+					ArrayList<CustomerDTO> jjjj = CustomerDAO.getInstance().getAll();
+					
+					DefaultTableModel model = new DefaultTableModel();
+		            model.addColumn("ID");;
+		            model.addColumn("Name");
+		            model.addColumn("Tel");
+		            model.addColumn("Birthday");
+		            model.addColumn("Email");
+		            model.addColumn("Create_At");
+		            
+			    	for(CustomerDTO customerDTO: jjjj) {
+			        		String date2 = customerDTO.getCreate_at();
+			        	    SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			        	    try {
+								Date date4 = formatter4.parse(date2);
+								SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+								 simpleDateFormat.applyPattern("MM");
+							       String format2 = simpleDateFormat.format(date4); 
+
+							        if(format2.equals(MonthString)) { 
+							        	 model.addRow(new Object[] {
+							        			 customerDTO.getCustomer_id(),customerDTO.getCustomer_name(),customerDTO.getTel(),customerDTO.getBirthday(),customerDTO.getEmail(),customerDTO.getCreate_at()
+							                });
+							        	 checkkqBoolean = true;
+							        }    
+							} catch (java.text.ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+			    	}	
+			    	if (checkkqBoolean == false) {
+			        	JOptionPane.showMessageDialog(null, "không có khách hàng trong tháng này !");
+			        	DefaultTableModel model2 = (DefaultTableModel) CusTable.getModel();
+		                while (model2.getRowCount() > 0) {
+		                    model2.removeRow(0);
+		                }
+			    	}
+			    	CusTable = new JTable();
+			    	CusTable.setModel(model);
+			    	scrollPane_3.setViewportView(CusTable);
+				}
+//				year - month -----------------------------------------------------------------------------------------------
+				if(rdbtnByYear_Cus.isSelected() && rdbtnByMonth_Cus.isSelected()) {
+					Boolean checkkqBoolean = false;
+					String yearString = (String) cbxYear_Cus.getSelectedItem();
+					String MonthString = (String) cbxMonth_Cus.getSelectedItem();
+					ArrayList<CustomerDTO> jjjj = CustomerDAO.getInstance().getAll();
+					
+					DefaultTableModel model = new DefaultTableModel();
+		            model.addColumn("ID");;
+		            model.addColumn("Name");
+		            model.addColumn("Tel");
+		            model.addColumn("Birthday");
+		            model.addColumn("Email");
+		            model.addColumn("Create_At");
+		            
+			    	for(CustomerDTO customerDTO: jjjj) {
+			        		String date2 = customerDTO.getCreate_at();
+			        	    SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			        	    try {
+								Date date4 = formatter4.parse(date2);
+								SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat();
+								 simpleDateFormat2.applyPattern("yyyy");
+								SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+								 simpleDateFormat.applyPattern("MM");
+								 String yearStringitem = simpleDateFormat2.format(date4); 
+							       String monthStringitem = simpleDateFormat.format(date4); 
+							       
+							        if(yearStringitem .equals(yearString) && monthStringitem.equals(MonthString) ) { 
+							        	 model.addRow(new Object[] {
+							        			 customerDTO.getCustomer_id(),customerDTO.getCustomer_name(),customerDTO.getTel(),customerDTO.getBirthday(),customerDTO.getEmail(),customerDTO.getCreate_at()
+							                });
+							        	 checkkqBoolean = true;
+							        }    
+							} catch (java.text.ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+			    	}	
+			    	if (checkkqBoolean == false) {
+			        	JOptionPane.showMessageDialog(null, "không có khách hàng trong năm hoặc  tháng này !");
+			        	DefaultTableModel model2 = (DefaultTableModel) CusTable.getModel();
+		                while (model2.getRowCount() > 0) {
+		                    model2.removeRow(0);
+		                }
+			    	}
+			    	CusTable = new JTable();
+			    	CusTable.setModel(model);
+			    	scrollPane_3.setViewportView(CusTable);
+				}
+			}
+		});
 		btnView_Cus.setFocusPainted(false);
 		panel_6.add(btnView_Cus);
 		
@@ -455,42 +616,7 @@ public class StatisticsContent extends JPanel {
 		scrollPane_3 = new JScrollPane();
 		pnlDetailCusList.add(scrollPane_3, BorderLayout.CENTER);
 		
-		Object [][] data16 = {
-				{"111", "Thai Binh", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},            
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-      
-		};
-
-		String [] items16 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-		CusTable = new JTable(data16, items16);
-		scrollPane_3.setViewportView(CusTable);
+		
 		
 		cardLayoutPnlContent =  (CardLayout)(this.getPnlStatisticContent().getLayout());
 	
