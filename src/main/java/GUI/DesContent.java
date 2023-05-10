@@ -171,7 +171,7 @@ public class DesContent extends JPanel{
         });
         lblSearchDes.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchDes, BorderLayout.EAST);
-//        lblSearchDes.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
+        lblSearchDes.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchDes.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel = new JPanel();
@@ -427,43 +427,6 @@ public class DesContent extends JPanel{
         sclListDes = new JScrollPane();
         pnlListDes.add(sclListDes, BorderLayout.CENTER);
 
-//		Object [][] data3 = {
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-//
-//		};
-//
-//		String [] items3 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-//		desListTable = new JTable(data3,items3);
-//		sclListDes.setViewportView(desListTable);
         ClassLoaddataDes();
 
         panel_3 = new JPanel();
