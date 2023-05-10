@@ -104,7 +104,7 @@ public class StatisticsContent extends JPanel {
 		btnStatisticBooking = new JButton("Booking");
 		btnStatisticBooking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayoutDetailList.show(pnlDetailList,"pnBookingList");
+				cardLayoutDetailList.show(pnlDetailList,"pnlBookingList");
 			}
 		});
 		btnStatisticBooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -114,7 +114,7 @@ public class StatisticsContent extends JPanel {
 		btnStatisticTour = new JButton("  Tour  ");
 		btnStatisticTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayoutDetailList.show(pnlDetailList,"pnTourList");
+				cardLayoutDetailList.show(pnlDetailList,"pnlTourList");
 			}
 		});
 		btnStatisticTour.setFocusPainted(false);
@@ -124,7 +124,7 @@ public class StatisticsContent extends JPanel {
 		btnStatisticCustomer = new JButton("Customer");
 		btnStatisticCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayoutDetailList.show(pnlDetailList,"pnCustomerList");
+				cardLayoutDetailList.show(pnlDetailList,"pnlCustomerList");
 			}
 		});
 		btnStatisticCustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
