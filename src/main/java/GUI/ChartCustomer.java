@@ -1,12 +1,19 @@
 package GUI;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
+
+import org.apache.poi.ss.formula.functions.Index;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import DAO.CustomerDAO;
+import DTO.CustomerDTO;
 
 /**
  *
@@ -23,11 +30,16 @@ public class ChartCustomer {
     }
 
     private static CategoryDataset createDataset() {
+    	ArrayList<CustomerDTO> fffArrayList = CustomerDAO.getInstance().getAll();
+    	int i =0;
+    	for(CustomerDTO customerDTO: fffArrayList) {
+    		i++;
+    	}
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(20, "Số người", "2020");
-        dataset.addValue(30, "Số người", "2010");
-        dataset.addValue(40, "Số người", "2000");
-        dataset.addValue(47, "Số người", "2023");
+        dataset.addValue(5, "Số người", "2020");
+        dataset.addValue(7, "Số người", "2010");
+        dataset.addValue(9, "Số người", "2000");
+        dataset.addValue(i, "Số người", "2023");
         return dataset;
     }
 
