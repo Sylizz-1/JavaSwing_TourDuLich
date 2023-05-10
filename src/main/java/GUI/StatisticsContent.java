@@ -44,8 +44,8 @@ public class StatisticsContent extends JPanel {
 	private JButton btnShowChart;
 	private JPanel pnlDetailList;
 	private JComboBox cbxYear;
-	private JPanel pnBookingList;
 	private JPanel pnlTourList;
+	private JPanel pnlBookingList;
 	private JPanel pnlCustomerList;
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane_2;
@@ -55,6 +55,7 @@ public class StatisticsContent extends JPanel {
 	private JTable CustomerTable;
 	
 	private CardLayout cardLayoutDetailList;
+
 	 
 	public JPanel getPnlDetailList() {
 		return pnlDetailList;
@@ -64,12 +65,12 @@ public class StatisticsContent extends JPanel {
 		this.pnlDetailList = pnlDetailList;
 	}
 
-	public JPanel getPnBookingList() {
-		return pnBookingList;
+	public JPanel getPnlBookingList() {
+		return pnlBookingList;
 	}
 
-	public void setPnBookingList(JPanel pnBookingList) {
-		this.pnBookingList = pnBookingList;
+	public void setPnlBookingList(JPanel pnlBookingList) {
+		this.pnlBookingList = pnlBookingList;
 	}
 
 	public JPanel getPnlTourList() {
@@ -198,12 +199,12 @@ public class StatisticsContent extends JPanel {
 		pnlDetailList.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Detail List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlStatisticContent.add(pnlDetailList, BorderLayout.CENTER);
 		
-		pnBookingList = new JPanel();
-		pnlDetailList.add(pnBookingList, "pnBookingList");
-		pnBookingList.setLayout(new BorderLayout(0, 0));
+		pnlBookingList = new JPanel();
+		pnlDetailList.add(pnlBookingList, "pnlBookingList");
+		pnlBookingList.setLayout(new BorderLayout(0, 0));
 		
 		scrollPane_1 = new JScrollPane();
-		pnBookingList.add(scrollPane_1, BorderLayout.CENTER);
+		pnlBookingList.add(scrollPane_1, BorderLayout.CENTER);
 		
 		Object [][] data14 = {
 				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
