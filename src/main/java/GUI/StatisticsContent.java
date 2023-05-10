@@ -18,9 +18,10 @@ import javax.swing.table.DefaultTableModel;
 
 import com.google.protobuf.TextFormat.ParseException;
 
-
+import DAO.BookingDAO;
 import DAO.CustomerDAO;
 import DAO.TourDAO;
+import DTO.BookingDTO;
 import DTO.CustomerDTO;
 import DTO.TourDTO;
 
@@ -207,7 +208,7 @@ public class StatisticsContent extends JPanel {
 		panel_5.add(lblSelectMonth);
 		
 		cbxMonth_Booking = new JComboBox();
-		cbxMonth_Booking.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		cbxMonth_Booking.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		panel_5.add(cbxMonth_Booking);
 		
 		lblSelectYear = new JLabel("                    Select Year            ");
@@ -232,6 +233,147 @@ public class StatisticsContent extends JPanel {
 		panel_6.add(btnShowChart_Booking);
 		
 		btnView_Booking = new JButton("View Booking");
+		btnView_Booking.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+//						year -----------------------------------------------------------------
+		        if(rdbtnByYear_Booking.isSelected() && rdbtnByMonth_Booking.isSelected() == false ) {	
+		            Boolean checkkqBoolean = false;
+		                String yearString = (String) cbxYear_Booking.getSelectedItem();
+		                ArrayList<BookingDTO> data = BookingDAO.getInstance().getAll();
+		                
+		                DefaultTableModel model = new DefaultTableModel();
+		                model.addColumn("ID");
+		                model.addColumn("Tour ID");
+		                model.addColumn("Customer");
+		                model.addColumn("Customer Number");
+		                model.addColumn("Total Price");
+		                model.addColumn("Create_At");
+		                for(BookingDTO BookingDTO: data) {
+		                        String date2 = BookingDTO.getCreate_at();
+		                        SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		                        try {
+		                            Date date4 = formatter4.parse(date2);
+		                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+		                             simpleDateFormat.applyPattern("yyyy");
+		                                String format = simpleDateFormat.format(date4); 
+
+		                                if(format.equals(yearString)) { 
+		                                     model.addRow(new Object[] {
+		                                        BookingDTO.getBooking_id(),BookingDTO.getTour_id(),BookingDTO.getCustomer_id(),BookingDTO.getCustomer_number(),BookingDTO.getTotal_cost(),BookingDTO.getCreate_at()
+		                                        });
+		                                     checkkqBoolean = true;
+		                                }
+		                        } catch (java.text.ParseException e1) {
+		                            // TODO Auto-generated catch block
+		                            e1.printStackTrace();
+		                        }
+		                }	
+		                if (checkkqBoolean == false) {
+		                    JOptionPane.showMessageDialog(null, "không có bill trong năm này !");
+		                    DefaultTableModel model2 = (DefaultTableModel) BookingTable.getModel();
+		                    while (model2.getRowCount() > 0) {
+		                        model2.removeRow(0);
+		                    }
+		                }
+		                BookingTable = new JTable();
+		                BookingTable.setModel(model);
+		                scrollPane_1.setViewportView(BookingTable);
+		        }
+//						Month
+		        if(rdbtnByYear_Booking.isSelected()==false && rdbtnByMonth_Booking.isSelected()) {
+		            Boolean checkkqBoolean = false;
+		            String MonthString = (String) cbxMonth_Booking.getSelectedItem();
+		            ArrayList<BookingDTO> data = BookingDAO.getInstance().getAll();
+		            
+		            DefaultTableModel model = new DefaultTableModel();
+		            model.addColumn("ID");
+		            model.addColumn("Tour ID");
+		            model.addColumn("Customer");
+		            model.addColumn("Customer Number");
+		            model.addColumn("Total Price");
+		            model.addColumn("Create_At");
+		            for(BookingDTO BookingDTO: data) {
+		                    String date2 = BookingDTO.getCreate_at();
+		                    SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		                    try {
+		                        Date date4 = formatter4.parse(date2);
+		                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+		                         simpleDateFormat.applyPattern("MM");
+		                           String format2 = simpleDateFormat.format(date4); 
+
+		                            if(format2.equals(MonthString)) { 
+		                                 model.addRow(new Object[] {
+		                                    BookingDTO.getBooking_id(),BookingDTO.getTour_id(),BookingDTO.getCustomer_id(),BookingDTO.getCustomer_number(),BookingDTO.getTotal_cost(),BookingDTO.getCreate_at()
+		                                    });
+		                                 checkkqBoolean = true;
+		                            }    
+		                    } catch (java.text.ParseException e1) {
+		                        // TODO Auto-generated catch block
+		                        e1.printStackTrace();
+		                    }
+		            }	
+		            if (checkkqBoolean == false) {
+		                JOptionPane.showMessageDialog(null, "không có bill trong tháng này !");
+		                DefaultTableModel model2 = (DefaultTableModel) BookingTable.getModel();
+		                while (model2.getRowCount() > 0) {
+		                    model2.removeRow(0);
+		                }
+		            }
+		            BookingTable = new JTable();
+		            BookingTable.setModel(model);
+		            scrollPane_1.setViewportView(BookingTable);
+		        }
+//						year - month -----------------------------------------------------------------------------------------------
+		        if(rdbtnByYear_Booking.isSelected() && rdbtnByMonth_Booking.isSelected()) {
+		            Boolean checkkqBoolean = false;
+		            String yearString = (String) cbxYear_Booking.getSelectedItem();
+		            String MonthString = (String) cbxMonth_Booking.getSelectedItem();
+		            ArrayList<BookingDTO> data = BookingDAO.getInstance().getAll();
+		            
+		            DefaultTableModel model = new DefaultTableModel();
+		            model.addColumn("ID");
+		            model.addColumn("Tour ID");
+		            model.addColumn("Customer");
+		            model.addColumn("Customer Number");
+		            model.addColumn("Total Price");
+		            model.addColumn("Create_At");
+		            
+		            for(BookingDTO BookingDTO: data) {
+		                    String date2 = BookingDTO.getCreate_at();
+		                    SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		                    try {
+		                        Date date4 = formatter4.parse(date2);
+		                        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat();
+		                         simpleDateFormat2.applyPattern("yyyy");
+		                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+		                         simpleDateFormat.applyPattern("MM");
+		                         String yearStringitem = simpleDateFormat2.format(date4); 
+		                           String monthStringitem = simpleDateFormat.format(date4); 
+		                           
+		                            if(yearStringitem .equals(yearString) && monthStringitem.equals(MonthString) ) { 
+		                                 model.addRow(new Object[] {
+		                                    BookingDTO.getBooking_id(),BookingDTO.getTour_id(),BookingDTO.getCustomer_id(),BookingDTO.getCustomer_number(),BookingDTO.getTotal_cost(),BookingDTO.getCreate_at()
+		                                    });
+		                                 checkkqBoolean = true;
+		                            }    
+		                    } catch (java.text.ParseException e1) {
+		                        // TODO Auto-generated catch block
+		                        e1.printStackTrace();
+		                    }
+		            }	
+		            if (checkkqBoolean == false) {
+		                JOptionPane.showMessageDialog(null, "không có bill trong năm hoặc tháng này !");
+		                DefaultTableModel model2 = (DefaultTableModel) BookingTable.getModel();
+		                while (model2.getRowCount() > 0) {
+		                    model2.removeRow(0);
+		                }
+		            }
+		            BookingTable = new JTable();
+		            BookingTable.setModel(model);
+		            scrollPane_1.setViewportView(BookingTable);
+		        }
+		    }
+		});
 		btnView_Booking.setFocusPainted(false);
 		panel_6.add(btnView_Booking);
 		
@@ -243,42 +385,42 @@ public class StatisticsContent extends JPanel {
 		scrollPane_1 = new JScrollPane();
 		pnlDetailBookingList.add(scrollPane_1, BorderLayout.CENTER);
 		
-		Object [][] data14 = {
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},            
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-      
-		};
-
-		String [] items14 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-		BookingTable = new JTable(data14, items14);
-		scrollPane_1.setViewportView(BookingTable);
+//		Object [][] data14 = {
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},            
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
+//				{"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
+//      
+//		};
+//
+//		String [] items14 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
+//		BookingTable = new JTable(data14, items14);
+//		scrollPane_1.setViewportView(BookingTable);
 		
 		//----------------------------------------------------------
 		pnlTourStatistical = new JPanel();
@@ -319,7 +461,7 @@ public class StatisticsContent extends JPanel {
 		panel_5.add(lblSelectMonth);
 		
 		cbxMonth_Tour = new JComboBox();
-		cbxMonth_Tour.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		cbxMonth_Tour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		panel_5.add(cbxMonth_Tour);
 		
 		lblSelectYear = new JLabel("                    Select Year            ");
@@ -346,7 +488,7 @@ public class StatisticsContent extends JPanel {
 		btnView_Tour = new JButton("View Tour");
 		btnView_Tour.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-//								year -----------------------------------------------------------------
+//							
 		        if(rdbtnByYear_Tour.isSelected() && rdbtnByMonth_Tour.isSelected() == false ) {	
 		            Boolean check = false;
 		                String year = (String) cbxYear_Tour.getSelectedItem();
@@ -362,8 +504,9 @@ public class StatisticsContent extends JPanel {
 		                model.addColumn("End Date");
 		                model.addColumn("Departure");
 		                model.addColumn("Describe");
+		                model.addColumn("Create_At");
 		                
-		                for(TourDTO TourDTO: data) {
+		                for(TourDTO TourDTO: data ) {
 		                        String date2 = TourDTO.getCreate_at();
 		                        SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		                        try {
@@ -394,14 +537,14 @@ public class StatisticsContent extends JPanel {
 		                TourTable.setModel(model);
 		                scrollPane_2.setViewportView(TourTable);
 		        }
-//								month ------------------------------------------------------------------------------------------
+//							
 		        if(rdbtnByYear_Tour.isSelected()==false && rdbtnByMonth_Tour.isSelected()) {
 		            Boolean check = false;
 		            String month = (String) cbxMonth_Tour.getSelectedItem();
 		            ArrayList<TourDTO> data = TourDAO.getInstance().getAll();
 		            
 		            DefaultTableModel model = new DefaultTableModel();
-		                model.addColumn("ID");;
+		                model.addColumn("ID");
 		                model.addColumn("Name");
 		                model.addColumn("Hotel");
 		                model.addColumn("Region Code");
@@ -451,7 +594,7 @@ public class StatisticsContent extends JPanel {
 		            ArrayList<TourDTO> data = TourDAO.getInstance().getAll();
 		            
 		            DefaultTableModel model = new DefaultTableModel();
-		                model.addColumn("ID");;
+		                model.addColumn("ID");
 		                model.addColumn("Name");
 		                model.addColumn("Hotel");
 		                model.addColumn("Region Code");
@@ -460,6 +603,8 @@ public class StatisticsContent extends JPanel {
 		                model.addColumn("End Date");
 		                model.addColumn("Departure");
 		                model.addColumn("Describe");
+		                model.addColumn("Create_At");
+		                
 		            
 		            for(TourDTO TourDTO: data) {
 		                    String date2 = TourDTO.getCreate_at();
@@ -479,8 +624,8 @@ public class StatisticsContent extends JPanel {
 		                                    });
 		                                 check = true;
 		                            }    
-		                    } catch (java.text.ParseException e1) {
-		                        e1.printStackTrace();
+		                    } catch (java.text.ParseException ee) {
+		                        ee.printStackTrace();
 		                    }
 		            }	
 		            if (check == false) {
@@ -747,7 +892,7 @@ public class StatisticsContent extends JPanel {
 							}
 			    	}	
 			    	if (checkkqBoolean == false) {
-			        	JOptionPane.showMessageDialog(null, "không có khách hàng trong năm hoặc  tháng này !");
+			        	JOptionPane.showMessageDialog(null, "không có khách hàng trong năm hoặc tháng này !");
 			        	DefaultTableModel model2 = (DefaultTableModel) CusTable.getModel();
 		                while (model2.getRowCount() > 0) {
 		                    model2.removeRow(0);
