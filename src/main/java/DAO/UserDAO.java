@@ -55,7 +55,7 @@ public class UserDAO implements DAO<UserDTO> {
             ResultSet rs = st.executeQuery();
             if (rs.next()){
                 user.setUser_id(rs.getInt("user_id"));
-                user.setUser_name(rs.getString("user_naname"));
+                user.setUser_name(rs.getString("user_name"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setTel(rs.getString("tel"));
@@ -87,7 +87,7 @@ public class UserDAO implements DAO<UserDTO> {
             ResultSet rs = st.executeQuery();
             if (rs.next()){
                 user.setUser_id(rs.getInt("user_id"));
-                user.setUser_name(rs.getString("user_naname"));
+                user.setUser_name(rs.getString("user_name"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setTel(rs.getString("tel"));
@@ -114,7 +114,7 @@ public class UserDAO implements DAO<UserDTO> {
 
         try {
             Connection conn = conndb.getConnection();
-            String sql = "insert into user value (?,?,?,?,?,?,?,?)";
+            String sql = "insert into user (user_id,user_name,password,fullname,tel,birthday,gender,role_id) value (?,?,?,?,?,?,?,?)";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1,userDTO.getUser_id());
             st.setString(2,userDTO.getUser_name());
@@ -151,7 +151,7 @@ public class UserDAO implements DAO<UserDTO> {
                     "fullname=?," +
                     "tel=?," +
                     "birthday=?," +
-                    "email=?," +
+                    "gender=?," +
                     "role_id=? " +
                     "where user_id = " + userDTO.getUser_id();
             PreparedStatement st = conn.prepareStatement(sql);

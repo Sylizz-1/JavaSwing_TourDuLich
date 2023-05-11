@@ -10,6 +10,7 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -195,10 +196,10 @@ public class TourContent extends JPanel{
 		});
 
         // Tạo icon tìm kiếm
-        lblSearchTour = new JLabel("Search");
+        lblSearchTour = new JLabel();
         lblSearchTour.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchTour, BorderLayout.EAST);
-//		lblSearchTour.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
+		lblSearchTour.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchTour.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Các JPanel này để căn chỉnh phần pnlIconSrc_Txt ở giữa
@@ -534,7 +535,7 @@ public class TourContent extends JPanel{
                     tour.getEnd_day(),
                     tour.getDeparture_place(),
                     tour.getSchedule_describe(),
-                    tour.getCreate_at().toString()
+                    tour.getCreate_at()
             });
         }
         tourListTable.setModel(model_tour);
@@ -739,6 +740,7 @@ public class TourContent extends JPanel{
                             txtSchedule.setText(tourdto.getSchedule_describe());
                             txtPriceTour.setText(String.valueOf(tourdto.getPrice()));
                             checkKQ = true;
+                            break;
                         }
                     }
                     if(!checkKQ) {
@@ -831,7 +833,7 @@ public class TourContent extends JPanel{
                 tour_details.add(tour_detail);
         }
         System.out.println(arrPlaces);
-        if (tour_details.size() == 0) {
+        if (tour_details.isEmpty()) {
             JOptionPane.showMessageDialog(null,"Bạn chưa chọn địa điểm du lịch!!");
             return;
         }
@@ -846,7 +848,7 @@ public class TourContent extends JPanel{
             return;
         }
 
-        if (txtIdTour.getText() == "" || txtNameTour.getText() == "" || txtSchedule.getText() == "" || txtPriceTour.getText() == "" || !isNumeric(txtIdTour.getText()) || !isNumeric(txtPriceTour.getText()) || arrPlaces.size() ==0) {
+        if ("".equals(txtIdTour.getText()) || "".equals(txtNameTour.getText()) || "".equals(txtSchedule.getText()) || "".equals(txtPriceTour.getText()) || !isNumeric(txtIdTour.getText()) || !isNumeric(txtPriceTour.getText()) || arrPlaces.isEmpty()) {
             JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống hoặc sai sót!!");
             return;
         }

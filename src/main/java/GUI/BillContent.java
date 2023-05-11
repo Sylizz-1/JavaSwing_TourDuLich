@@ -168,10 +168,10 @@ public class BillContent extends JPanel {
             }
         });
 
-        lblSearchBill = new JLabel("Search");
+        lblSearchBill = new JLabel();
         lblSearchBill.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchBill, BorderLayout.EAST);
-//		lblSearchBill.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
+		lblSearchBill.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchBill.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel = new JPanel();
@@ -424,7 +424,7 @@ public class BillContent extends JPanel {
                     booking.getCustomer_id(),
                     booking.getCustomer_number(),
                     booking.getTotal_cost(),
-                    booking.getCreate_at().toString()
+                    booking.getCreate_at()
             });
         }
         billListTable.setModel(model_bill);

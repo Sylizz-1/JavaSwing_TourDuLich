@@ -1,15 +1,28 @@
 package GUI;
 
+import BUS.HotelBUS;
+import BUS.RoleBUS;
+import BUS.TourBUS;
+import BUS.UserBUS;
+import DTO.HotelDTO;
+import DTO.RoleDTO;
+import DTO.TourDTO;
+import DTO.UserDTO;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
+import java.nio.file.attribute.UserPrincipal;
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class AccContent extends JPanel {
     private JPanel pnlIconSrc_Txt;
@@ -70,8 +83,31 @@ public class AccContent extends JPanel {
     private JButton btnListAcc;
     private JPanel pnlEdit_ListAccDetail;
     private CardLayout cardLayoutEdit_ListAccDetail;
+    private DefaultTableModel model_acc;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private JButton btnUpdateAcc;
+
+
     public AccContent() {
+        setUpTable();
         init();
+        loadAccData();
+        btnInteract();
+    }
+
+
+
+    private void setUpTable() {
+        model_acc = new DefaultTableModel();
+        model_acc.addColumn("Id");
+        model_acc.addColumn("User_name");
+        model_acc.addColumn("Password");
+        model_acc.addColumn("Fullname");
+        model_acc.addColumn("Tel");
+        model_acc.addColumn("Birthday");
+        model_acc.addColumn("Gender");
+        model_acc.addColumn("Role");
+
     }
 
     private void init() {
@@ -126,7 +162,7 @@ public class AccContent extends JPanel {
         lblSearchAcc = new JLabel("");
         lblSearchAcc.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         pnlIconSrc_Txt.add(lblSearchAcc, BorderLayout.EAST);
-//		lblSearchAcc.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
+		lblSearchAcc.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(Manager.class.getResource("../images/search.png"))));
         lblSearchAcc.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel = new JPanel();
@@ -328,6 +364,13 @@ public class AccContent extends JPanel {
         btnAddAcc.setPreferredSize(new Dimension(100, 25));
         pnlButtonAcc.add(btnAddAcc);
 
+        btnUpdateAcc = new JButton("Update");
+        btnUpdateAcc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnUpdateAcc.setFocusPainted(false);
+        btnUpdateAcc.setBackground(new Color(66, 165, 243));
+        btnUpdateAcc.setPreferredSize(new Dimension(100, 25));
+        pnlButtonAcc.add(btnUpdateAcc);
+
         btnDeleteAcc = new JButton("Delete");
         btnDeleteAcc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnDeleteAcc.setFocusPainted(false);
@@ -351,12 +394,8 @@ public class AccContent extends JPanel {
         sclListAcc = new JScrollPane();
         pnlListAcc.add(sclListAcc, BorderLayout.CENTER);
 
-        Object[][] data7 = {{"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}, {"111", "Nha Trang", "Miền Trung", "20", "20", "20", "20"}
 
-        };
-
-        String[] items7 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-        accListTable = new JTable(data7, items7);
+        accListTable = new JTable();
         sclListAcc.setViewportView(accListTable);
 
         panel_3 = new JPanel();
@@ -373,5 +412,239 @@ public class AccContent extends JPanel {
 
         // change form
         cardLayoutEdit_ListAccDetail = (CardLayout) (pnlEdit_ListAccDetail.getLayout());
+    }
+
+    private void loadAccData() {
+        // load account table
+        UserBUS ubs = new UserBUS();
+        ArrayList<UserDTO> users = ubs.getAll();
+        String new_id = String.valueOf(users.get(users.size()-1).getUser_id()+1);
+        txtIdAcc.setText(new_id);
+        for (UserDTO user : users) {
+            model_acc.addRow(new Object[] {
+                    user.getUser_id(),
+                    user.getUser_name(),
+                    user.getPassword(),
+                    user.getFullname(),
+                    user.getTel(),
+                    user.getBirthday(),
+                    user.getGender(),
+                    user.getRole_id()
+
+            });
+        }
+        accListTable.setModel(model_acc);
+
+        // load combobox Role
+        DefaultComboBoxModel<String> model_role = new DefaultComboBoxModel<String>();
+        RoleBUS rbs = new RoleBUS();
+        ArrayList<RoleDTO> roles = rbs.getAll();
+        for (RoleDTO role : roles) {
+            model_role.addElement(role.getRole_id()+"-"+role.getRole_name());
+        }
+        cbxPermissionAcc.setModel(model_role);
+    }
+
+    private void btnInteract() {
+        accListTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = accListTable.getSelectedRow();
+                // load form acc
+                txtIdAcc.setText(accListTable.getValueAt(row,0).toString());
+                txtUserNameAcc.setText(accListTable.getValueAt(row,1).toString());
+                txtPassAcc.setText(accListTable.getValueAt(row,2).toString());
+                RoleBUS rbs = new RoleBUS();
+                RoleDTO rdo = rbs.getById(Integer.parseInt(accListTable.getValueAt(row,7).toString()) );
+                cbxPermissionAcc.setSelectedItem(rdo.getRole_id()+"-"+rdo.getRole_name());
+                txtEmpName.setText(accListTable.getValueAt(row,3).toString());
+                String date = accListTable.getValueAt(row,5).toString();
+                try {
+                    OldEmp.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (Objects.equals(accListTable.getValueAt(row, 6).toString(), "nam")){
+                    rdbtnMaleEmp.setSelected(true);
+                }
+                else rdbtnFemaleEmp.setSelected(true);
+
+                txtEmpTel.setText(accListTable.getValueAt(row,4).toString());
+            }
+        });
+
+        btnAddAcc.addActionListener(e -> {
+            if ( txtUserNameAcc.getText() == "" || txtPassAcc.getText() == ""
+            || txtEmpName.getText() == "" || (!rdbtnFemaleEmp.isSelected() && !rdbtnMaleEmp.isSelected())
+            || txtEmpTel.getText() == "" || OldEmp.getDate() == null){
+                JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống!!");
+                return;
+            }
+            if ( Objects.equals(txtIdAcc.getText(), "") || !isNumeric(txtIdAcc.getText())) {
+                JOptionPane.showMessageDialog(null,"Id không được để trống và phải là số!!");
+                return;
+            }
+
+            if (!isNumeric(txtEmpTel.getText()) || txtEmpTel.getText().length() != 10) {
+                JOptionPane.showMessageDialog(null,"Số điện thoại phải là số và 10 chữ số!!");
+                return;
+            }
+
+            UserDTO udo = new UserDTO();
+            udo.setUser_id(Integer.parseInt(txtIdAcc.getText()));
+            udo.setUser_name(txtUserNameAcc.getText());
+            udo.setPassword(txtPassAcc.getText());
+            udo.setFullname(txtEmpName.getText());
+            udo.setTel(txtEmpTel.getText());
+            udo.setBirthday(sdf.format(OldEmp.getDate()));
+            udo.setRole_id(Integer.parseInt(Objects.requireNonNull(cbxPermissionAcc.getSelectedItem()).toString().split("-")[0]) );
+            if (rdbtnMaleEmp.isSelected()) {
+                udo.setGender("nam");
+            }
+            else udo.setGender("nữ");
+
+            UserBUS ubs = new UserBUS();
+            JOptionPane.showMessageDialog(null,ubs.add(udo));
+        });
+
+        btnUpdateAcc.addActionListener(e -> {
+            if ( txtUserNameAcc.getText() == "" || txtPassAcc.getText() == ""
+                    || txtEmpName.getText() == "" || (!rdbtnFemaleEmp.isSelected() && !rdbtnMaleEmp.isSelected())
+                    || txtEmpTel.getText() == "" || OldEmp.getDate() == null){
+                JOptionPane.showMessageDialog(null,"Dữ liệu không được để trống!!");
+                return;
+            }
+            if ( Objects.equals(txtIdAcc.getText(), "") || !isNumeric(txtIdAcc.getText())) {
+                JOptionPane.showMessageDialog(null,"Id không được để trống và phải là số!!");
+                return;
+            }
+
+            if (!isNumeric(txtEmpTel.getText()) || txtEmpTel.getText().length() != 10) {
+                JOptionPane.showMessageDialog(null,"Số điện thoại phải là số và 10 chữ số!!");
+                return;
+            }
+
+            UserDTO udo = new UserDTO();
+            udo.setUser_id(Integer.parseInt(txtIdAcc.getText()));
+            udo.setUser_name(txtUserNameAcc.getText());
+            udo.setPassword(txtPassAcc.getText());
+            udo.setFullname(txtEmpName.getText());
+            udo.setTel(txtEmpTel.getText());
+            udo.setBirthday(sdf.format(OldEmp.getDate()));
+            udo.setRole_id(Integer.parseInt(Objects.requireNonNull(cbxPermissionAcc.getSelectedItem()).toString().split("-")[0]) );
+            if (rdbtnMaleEmp.isSelected()) {
+                udo.setGender("nam");
+            }
+            else udo.setGender("nữ");
+
+            UserBUS ubs = new UserBUS();
+            JOptionPane.showMessageDialog(null,ubs.update(udo));
+        });
+
+        btnDeleteAcc.addActionListener(e -> {
+            if (Objects.equals(txtIdAcc.getText(), "") || !isNumeric(txtIdAcc.getText())){
+                JOptionPane.showMessageDialog(null,"Id không được để trống và phải là số!!");
+                return;
+            }
+
+            UserBUS ubs = new UserBUS();
+            JOptionPane.showMessageDialog(null,ubs.delete(Integer.parseInt(txtIdAcc.getText())));
+        });
+
+        btnRefreshAcc.addActionListener(e -> {
+            while (model_acc.getRowCount() >= 1){
+                model_acc.removeRow(0);
+            }
+            accListTable.setModel(model_acc);
+            loadAccData();
+            txtUserNameAcc.setText("");
+            txtPassAcc.setText("");
+            txtEmpName.setText("");
+            OldEmp.setDate(null);
+            rdbtnMaleEmp.setSelected(false);
+            rdbtnFemaleEmp.setSelected(false);
+            txtEmpTel.setText("");
+        });
+
+        lblSearchAcc.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+                if (Objects.equals(txtSearchAcc.getText(), "")) {
+                    JOptionPane.showMessageDialog(null,"Ô tìm kiếm đang trống!!");
+                    return;
+                }
+                String shString = txtSearchAcc.getText().trim();
+                UserBUS ubs = new UserBUS();
+                if(isNumeric(shString)) {
+                    UserDTO udo= ubs.getById(Integer.parseInt(shString.trim()));
+                    if(udo != null) {
+                        txtIdAcc.setText(String.valueOf(udo.getUser_id()) );
+                        txtUserNameAcc.setText(udo.getUser_name());
+                        txtPassAcc.setText(udo.getPassword());
+                        txtEmpName.setText(udo.getFullname());
+
+                        String date = udo.getBirthday();
+                        try {
+                            OldEmp.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        if (Objects.equals(udo.getGender(), "nam")) {
+                            rdbtnMaleEmp.isSelected();
+                        } else  rdbtnFemaleEmp.isSelected();
+
+                        txtEmpTel.setText(udo.getTel());
+                    }
+                    if(udo ==null) {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Account !");
+                    }
+                }
+                if (!isNumeric(shString)) {
+                    ArrayList<UserDTO> users = ubs.getAll();
+                    boolean checkKQ = false;
+                    for(UserDTO user : users) {
+                        String temp = Normalizer.normalize(user.getUser_name(), Normalizer.Form.NFD);
+                        String temp1 = Normalizer.normalize(user.getFullname(), Normalizer.Form.NFD);
+                        String temp2 = Normalizer.normalize(shString, Normalizer.Form.NFD);
+                        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+                        boolean check =pattern.matcher(temp).replaceAll("").equalsIgnoreCase(pattern.matcher(temp2).replaceAll(""));
+                        boolean check1 =pattern.matcher(temp1).replaceAll("").equalsIgnoreCase(pattern.matcher(temp2).replaceAll(""));
+                        if(check || check1) {
+                            txtIdAcc.setText(String.valueOf(user.getUser_id()) );
+                            txtUserNameAcc.setText(user.getUser_name());
+                            txtPassAcc.setText(user.getPassword());
+                            txtEmpName.setText(user.getFullname());
+
+                            String date = user.getBirthday();
+                            try {
+                                OldEmp.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            if (Objects.equals(user.getGender(), "nam")) {
+                                rdbtnMaleEmp.setSelected(true);
+                            } else  rdbtnFemaleEmp.setSelected(true);
+
+                            txtEmpTel.setText(user.getTel());
+                            checkKQ = true;
+                            break;
+                        }
+                    }
+                    if(!checkKQ) {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin Account !");
+                    }
+                }
+            }
+
+        });
+    }
+
+    private boolean isNumeric(String strNum) {
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (strNum == null) {
+            return false;
+        }
+        return pattern.matcher(strNum).matches();
     }
 }
