@@ -1,6 +1,10 @@
 package GUI;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
+
+import org.apache.poi.ss.formula.functions.Index;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -8,26 +12,34 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import DAO.CustomerDAO;
+import DTO.CustomerDTO;
+
 /**
  *
  * @author TVD
  */
-public class chart {
+public class ChartCustomer {
 
     public static JFreeChart createChart() {
         JFreeChart barChart = ChartFactory.createBarChart(
-                "BIỂU ĐỒ DÂN SỐ VIỆT NAM",
+                "BIỂU ĐỒ SỐ LƯỢNG KHÁCH HÀNG",
                 "Năm", "Số người",
                 createDataset(), PlotOrientation.VERTICAL, false, false, false);
         return barChart;
     }
 
     private static CategoryDataset createDataset() {
+    	ArrayList<CustomerDTO> fffArrayList = CustomerDAO.getInstance().getAll();
+    	int i =0;
+    	for(CustomerDTO customerDTO: fffArrayList) {
+    		i++;
+    	}
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(68000000, "Số người", "1990");
-        dataset.addValue(80000000, "Số người", "2000");
-        dataset.addValue(88000000, "Số người", "2010");
-        dataset.addValue(95000000, "Số người", "2020");
+        dataset.addValue(5, "Số người", "2020");
+        dataset.addValue(7, "Số người", "2010");
+        dataset.addValue(9, "Số người", "2000");
+        dataset.addValue(i, "Số người", "2023");
         return dataset;
     }
 
@@ -42,5 +54,6 @@ public class chart {
         frame.setResizable(false);
         frame.setVisible(true);
     }
+
 
 }

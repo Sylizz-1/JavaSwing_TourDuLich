@@ -112,7 +112,7 @@ public class ServiceDAO implements DAO<ServiceDTO> {
             String sql = "update service set " +
                     "service_name=?," +
                     "service_price=? " +
-                    "where place_id = " + serviceDTO.getService_id();
+                    "where service_id = " + serviceDTO.getService_id();
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1,serviceDTO.getService_name());
             st.setDouble(2,serviceDTO.getService_price());

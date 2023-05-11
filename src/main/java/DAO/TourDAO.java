@@ -29,7 +29,7 @@ public class TourDAO implements DAO<TourDTO> {
                 tour.setEnd_day(rs.getDate("end_day").toString());
                 tour.setDeparture_place(rs.getString("departure_place"));
                 tour.setSchedule_describe(rs.getString("schedule_describe"));
-                tour.setCreate_at(rs.getDate("create_at"));
+                tour.setCreate_at(rs.getString("create_at"));
 
                 arr.add(tour);
             }
@@ -67,7 +67,7 @@ public class TourDAO implements DAO<TourDTO> {
                 tour.setEnd_day(rs.getDate("end_day").toString());
                 tour.setDeparture_place(rs.getString("departure_place"));
                 tour.setSchedule_describe(rs.getString("schedule_describe"));
-                tour.setCreate_at(rs.getDate("create_at"));
+                tour.setCreate_at(rs.getString("create_at"));
             }
             else return null;
 
