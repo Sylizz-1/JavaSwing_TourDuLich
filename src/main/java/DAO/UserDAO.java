@@ -20,12 +20,12 @@ public class UserDAO implements DAO<UserDTO> {
             while (rs.next()) {
                 UserDTO user = new UserDTO();
                 user.setUser_id(rs.getInt("user_id"));
-                user.setUser_name(rs.getString("user_naname"));
+                user.setUser_name(rs.getString("user_name"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setTel(rs.getString("tel"));
-                user.setBirthday(rs.getDate("birthday"));
-                user.setEmail(rs.getString("email"));
+                user.setBirthday(rs.getString("birthday"));
+                user.setGender(rs.getString("gender"));
                 user.setCreate_at(rs.getDate("create_at"));
                 user.setRole_id(rs.getInt("role_id"));
                 arr.add(user);
@@ -59,8 +59,8 @@ public class UserDAO implements DAO<UserDTO> {
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setTel(rs.getString("tel"));
-                user.setBirthday(rs.getDate("birthday"));
-                user.setEmail(rs.getString("email"));
+                user.setBirthday(rs.getString("birthday"));
+                user.setGender(rs.getString("gender"));
                 user.setCreate_at(rs.getDate("create_at"));
                 user.setRole_id(rs.getInt("role_id"));
             }
@@ -91,8 +91,8 @@ public class UserDAO implements DAO<UserDTO> {
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setTel(rs.getString("tel"));
-                user.setBirthday(rs.getDate("birthday"));
-                user.setEmail(rs.getString("email"));
+                user.setBirthday(rs.getString("birthday"));
+                user.setGender(rs.getString("gender"));
                 user.setCreate_at(rs.getDate("create_at"));
                 user.setRole_id(rs.getInt("role_id"));
             }
@@ -121,8 +121,8 @@ public class UserDAO implements DAO<UserDTO> {
             st.setString(3,userDTO.getPassword());
             st.setString(4,userDTO.getFullname());
             st.setString(5,userDTO.getTel());
-            st.setDate(6,userDTO.getBirthday());
-            st.setString(7,userDTO.getEmail());
+            st.setString(6,userDTO.getBirthday());
+            st.setString(7,userDTO.getGender());
             st.setInt(8,userDTO.getRole_id());
             if (st.executeUpdate()>=1)
                 result = true;
@@ -159,8 +159,8 @@ public class UserDAO implements DAO<UserDTO> {
             st.setString(2,userDTO.getPassword());
             st.setString(3,userDTO.getFullname());
             st.setString(4,userDTO.getTel());
-            st.setDate(5,userDTO.getBirthday());
-            st.setString(6,userDTO.getEmail());
+            st.setString(5,userDTO.getBirthday());
+            st.setString(6,userDTO.getGender());
             st.setInt(7,userDTO.getRole_id());
             if (st.executeUpdate()>=1)
                 result = true;
