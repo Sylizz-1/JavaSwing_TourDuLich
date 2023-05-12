@@ -43,6 +43,7 @@ import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
+import javax.swing.border.TitledBorder;
 
 public class ExcelContent extends JPanel{
 	private JTable table_thongke;
@@ -63,46 +64,67 @@ public class ExcelContent extends JPanel{
 	private JButton btntkcustomer;
 	private JButton btnexcelcustomer;
 	private JButton btnexportcustomer;
+	private JPanel panel;
+	private JPanel panel_1;
+	private JPanel panel_2;
 	
 	public ExcelContent() {
 		setLayout(new BorderLayout(0, 0));
 				
 		pnlStatisticalTour = new JPanel();
 		pnlStatisticalTour.setPreferredSize(new Dimension(10, 80));
-		pnlStatisticalTour.setBackground(new Color(66, 165, 243));
+		pnlStatisticalTour.setBackground(new Color(240, 240, 240));
 		add(pnlStatisticalTour, BorderLayout.NORTH);
 		
-		lblTitle = new JLabel("Statistical Tour");
+		lblTitle = new JLabel("Excel");
+		lblTitle.setPreferredSize(new Dimension(70, 50));
 		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 24));
 		pnlStatisticalTour.add(lblTitle);
 		
 		pnlFunc = new JPanel();
+		pnlFunc.setBackground(new Color(240, 240, 240));
 		add(pnlFunc, BorderLayout.CENTER);
 		pnlFunc.setLayout(new GridLayout(0, 3, 0, 0));
 		
 		pnlFunc1 = new JPanel();
-		pnlFunc1.setBackground(new Color(66, 165, 243));
+		pnlFunc1.setBackground(new Color(240, 240, 240));
 		pnlFunc.add(pnlFunc1);
 		
 		pnlFunc2 = new JPanel();
-		pnlFunc2.setBackground(new Color(66, 165, 243));
+		pnlFunc2.setBackground(new Color(240, 240, 240));
 		pnlFunc.add(pnlFunc2);
 		
 		pnlFunc3 = new JPanel();
-		pnlFunc3.setBackground(new Color(66, 165, 243));
+		pnlFunc3.setBackground(new Color(240, 240, 240));
 		pnlFunc.add(pnlFunc3);
 
 		pnlList = new JPanel();
-		pnlList.setBackground(new Color(66, 165, 243));
-		pnlList.setPreferredSize(new Dimension(10, 410));
+		pnlList.setBackground(new Color(240, 240, 240));
+		pnlList.setPreferredSize(new Dimension(10, 400));
 		add(pnlList, BorderLayout.SOUTH);
 		pnlList.setLayout(new BorderLayout(0, 0));
 
 		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBorder(new TitledBorder(null, "Detail List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		pnlList.add(scrollPane_1);
 
 		table_thongke = new JTable();
 		scrollPane_1.setViewportView(table_thongke);
+		
+		panel = new JPanel();
+		panel.setBackground(new Color(240, 240, 240));
+		panel.setPreferredSize(new Dimension(35, 10));
+		pnlList.add(panel, BorderLayout.EAST);
+		
+		panel_1 = new JPanel();
+		panel_1.setBackground(new Color(240, 240, 240));
+		panel_1.setPreferredSize(new Dimension(10, 50));
+		pnlList.add(panel_1, BorderLayout.SOUTH);
+		
+		panel_2 = new JPanel();
+		panel_2.setBackground(new Color(240, 240, 240));
+		panel_2.setPreferredSize(new Dimension(35, 10));
+		pnlList.add(panel_2, BorderLayout.WEST);
 		
 
 

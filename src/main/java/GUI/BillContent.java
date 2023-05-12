@@ -274,12 +274,12 @@ public class BillContent extends JPanel {
         pnlIdSerOfBill.add(lblSerNameOfBill);
 
         txtSerBill = new JTextField();
-        txtSerBill.setPreferredSize(new Dimension(190, 25));
+        txtSerBill.setPreferredSize(new Dimension(130, 25));
         txtSerBill.setEditable(false);
         pnlIdSerOfBill.add(txtSerBill);
 
         btnSerBill = new JButton("Services");
-        btnSerBill.setPreferredSize(new Dimension(30,25));
+        btnSerBill.setPreferredSize(new Dimension(90, 25));
         pnlIdSerOfBill.add(btnSerBill);
 
         pnlCusName = new JPanel();

@@ -33,21 +33,25 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class StatisticsContent extends JPanel {
 
-	private JPanel pnlStatisticsList;
+	private JPanel pnlTitle_StatisticList;
 	private JButton btnStatisticBooking;
 	private JButton btnStatisticTour;
 	private JButton btnStatisticCustomer;
 	private JPanel pnlStatisticContent;
 	private JPanel pnlStatisticsBy;
 	private JPanel panel_4;
+	private JPanel panel_4_1;
 	private JLabel lblBy;
 	private JRadioButton rdbtnByYear_Booking;
 	private JLabel lblNewLabel_4;
 	private JRadioButton rdbtnByMonth_Booking;
 	private JPanel panel_5;
+	private JPanel panel_5_2;
+	private JPanel panel_5_1;
 	private JLabel lblSelectMonth;
 	private JComboBox cbxMonth_Booking;
 	private JLabel lblSelectYear;
@@ -86,6 +90,15 @@ public class StatisticsContent extends JPanel {
 	private JTable CusTable;
 	
 	private CardLayout cardLayoutPnlContent;
+	private JPanel panel;
+	private JPanel panel_1;
+	private JPanel panel_2;
+	private JPanel panel_7;
+	private JLabel lblNewLabel;
+	private JPanel pnlTitle;
+	private JPanel pnlBtnStatictical;
+	private JLabel lblNewLabel_1;
+	private JPanel panel_3;
 	public JPanel getPnlStatisticContent() {
 		return pnlStatisticContent;
 	}
@@ -127,21 +140,41 @@ public class StatisticsContent extends JPanel {
 		
 		setLayout(new BorderLayout(0, 0));
 		
-		pnlStatisticsList = new JPanel();
-		add(pnlStatisticsList, BorderLayout.NORTH);
-		pnlStatisticsList.setLayout(new BoxLayout(pnlStatisticsList, BoxLayout.X_AXIS));
+		pnlTitle_StatisticList = new JPanel();
+		pnlTitle_StatisticList.setPreferredSize(new Dimension(10, 80));
+		add(pnlTitle_StatisticList, BorderLayout.NORTH);
+		pnlTitle_StatisticList.setLayout(new BorderLayout(0, 0));
+		
+		pnlTitle = new JPanel();
+		pnlTitle.setPreferredSize(new Dimension(10, 60));
+		pnlTitle_StatisticList.add(pnlTitle, BorderLayout.NORTH);
+		
+		lblNewLabel_1 = new JLabel("Statistic");
+		lblNewLabel_1.setPreferredSize(new Dimension(85, 50));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+		pnlTitle.add(lblNewLabel_1);
+		
+		pnlBtnStatictical = new JPanel();
+		pnlTitle_StatisticList.add(pnlBtnStatictical);
+		pnlBtnStatictical.setLayout(new BoxLayout(pnlBtnStatictical, BoxLayout.X_AXIS));
 		
 		btnStatisticBooking = new JButton("Booking");
+		btnStatisticBooking.setContentAreaFilled(false);
 		btnStatisticBooking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayoutPnlContent.show(pnlStatisticContent,"pnlBookingStatistical");
 			}
 		});
+		
+		panel_3 = new JPanel();
+		panel_3.setPreferredSize(new Dimension(35, 10));
+		pnlBtnStatictical.add(panel_3);
 		btnStatisticBooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnStatisticBooking.setFocusPainted(false);
-		pnlStatisticsList.add(btnStatisticBooking);
+		pnlBtnStatictical.add(btnStatisticBooking);
 		
 		btnStatisticTour = new JButton("  Tour  ");
+		btnStatisticTour.setContentAreaFilled(false);
 		btnStatisticTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayoutPnlContent.show(pnlStatisticContent,"pnlTourStatistical");
@@ -149,9 +182,10 @@ public class StatisticsContent extends JPanel {
 		});
 		btnStatisticTour.setFocusPainted(false);
 		btnStatisticTour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		pnlStatisticsList.add(btnStatisticTour);
+		pnlBtnStatictical.add(btnStatisticTour);
 		
 		btnStatisticCustomer = new JButton("Customer");
+		btnStatisticCustomer.setContentAreaFilled(false);
 		btnStatisticCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayoutPnlContent.show(pnlStatisticContent,"pnlCusStatistical");
@@ -159,7 +193,15 @@ public class StatisticsContent extends JPanel {
 		});
 		btnStatisticCustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnStatisticCustomer.setFocusPainted(false);
-		pnlStatisticsList.add(btnStatisticCustomer);
+		pnlBtnStatictical.add(btnStatisticCustomer);
+		
+		panel_7 = new JPanel();
+		panel_7.setPreferredSize(new Dimension(550, 10));
+		pnlBtnStatictical.add(panel_7);
+		
+		
+		
+		
 		
 		
 		pnlStatisticContent = new JPanel();
@@ -172,16 +214,16 @@ public class StatisticsContent extends JPanel {
 		
 		
 		pnlStatisticsBy = new JPanel();
-		pnlStatisticsBy.setPreferredSize(new Dimension(10, 80));
+		pnlStatisticsBy.setPreferredSize(new Dimension(10, 135));
 		pnlBookingStatistical.add(pnlStatisticsBy, BorderLayout.NORTH);
 		pnlStatisticsBy.setLayout(new BorderLayout(0, 0));
 		
 		panel_4 = new JPanel();
-		panel_4.setPreferredSize(new Dimension(10, 25));
+		panel_4.setPreferredSize(new Dimension(10, 45));
 		pnlStatisticsBy.add(panel_4, BorderLayout.NORTH);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 		
-		lblBy = new JLabel(" Statistics Booking By             ");
+		lblBy = new JLabel("Statistics Booking By             ");
 		panel_4.add(lblBy);
 		
 		rdbtnByYear_Booking = new JRadioButton("By year");
@@ -198,8 +240,9 @@ public class StatisticsContent extends JPanel {
 		panel_4.add(rdbtnByMonth_Booking);
 		
 		panel_5 = new JPanel();
+		panel_5.setPreferredSize(new Dimension(10, 20));
 		pnlStatisticsBy.add(panel_5, BorderLayout.CENTER);
-		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
 		
 		lblSelectMonth = new JLabel("Select Month           ");
 		panel_5.add(lblSelectMonth);
@@ -215,21 +258,23 @@ public class StatisticsContent extends JPanel {
 		cbxYear_Booking.setModel(new DefaultComboBoxModel(new String[] {"2019", "2020", "2021", "2022", "2023"}));
 		panel_5.add(cbxYear_Booking);
 		
-		lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setPreferredSize(new Dimension(92, 14));
-		panel_5.add(lblNewLabel_3);
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setPreferredSize(new Dimension(92, 14));
+		panel_5.add(lblNewLabel);
 		
 		panel_6 = new JPanel();
-		panel_6.setPreferredSize(new Dimension(10, 30));
+		panel_6.setPreferredSize(new Dimension(10, 60));
 		pnlStatisticsBy.add(panel_6, BorderLayout.SOUTH);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
-		btnShowChart_Booking = new JButton("  Chart Booking ");
+		btnShowChart_Booking = new JButton("Chart Booking");
+		btnShowChart_Booking.setContentAreaFilled(false);
 		btnShowChart_Booking.setFocusPainted(false);
 		btnShowChart_Booking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_6.add(btnShowChart_Booking);
 		
 		btnView_Booking = new JButton("View Booking");
+		btnView_Booking.setContentAreaFilled(false);
 		btnView_Booking.setFocusPainted(false);
 		panel_6.add(btnView_Booking);
 		
@@ -284,16 +329,16 @@ public class StatisticsContent extends JPanel {
 		pnlTourStatistical.setLayout(new BorderLayout(0, 0));
 		
 		pnlStatisticsBy = new JPanel();
-		pnlStatisticsBy.setPreferredSize(new Dimension(10, 80));
+		pnlStatisticsBy.setPreferredSize(new Dimension(10, 135));
 		pnlTourStatistical.add(pnlStatisticsBy, BorderLayout.NORTH);
 		pnlStatisticsBy.setLayout(new BorderLayout(0, 0));
 		
 		panel_4 = new JPanel();
-		panel_4.setPreferredSize(new Dimension(10, 25));
+		panel_4.setPreferredSize(new Dimension(10, 45));
 		pnlStatisticsBy.add(panel_4, BorderLayout.NORTH);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 		
-		lblBy = new JLabel(" Statistics Tour By             ");
+		lblBy = new JLabel("Statistics Tour By             ");
 		panel_4.add(lblBy);
 		
 		rdbtnByYear_Tour = new JRadioButton("By year");
@@ -309,39 +354,42 @@ public class StatisticsContent extends JPanel {
 		rdbtnByMonth_Tour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_4.add(rdbtnByMonth_Tour);
 		
-		panel_5 = new JPanel();
-		pnlStatisticsBy.add(panel_5, BorderLayout.CENTER);
-		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_5_1 = new JPanel();
+		panel_5_1.setPreferredSize(new Dimension(10, 20));
+		pnlStatisticsBy.add(panel_5_1, BorderLayout.CENTER);
+		panel_5_1.setLayout(new BoxLayout(panel_5_1, BoxLayout.X_AXIS));
 		
 		lblSelectMonth = new JLabel("Select Month           ");
-		panel_5.add(lblSelectMonth);
+		panel_5_1.add(lblSelectMonth);
 		
 		cbxMonth_Tour = new JComboBox();
 		cbxMonth_Tour.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		panel_5.add(cbxMonth_Tour);
+		panel_5_1.add(cbxMonth_Tour);
 		
 		lblSelectYear = new JLabel("                    Select Year            ");
-		panel_5.add(lblSelectYear);
+		panel_5_1.add(lblSelectYear);
 		
 		cbxYear_Tour = new JComboBox();
 		cbxYear_Tour.setModel(new DefaultComboBoxModel(new String[] {"2019", "2020", "2021", "2022", "2023"}));
-		panel_5.add(cbxYear_Tour);
+		panel_5_1.add(cbxYear_Tour);
 		
 		lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setPreferredSize(new Dimension(92, 14));
-		panel_5.add(lblNewLabel_3);
+		panel_5_1.add(lblNewLabel_3);
 		
 		panel_6 = new JPanel();
-		panel_6.setPreferredSize(new Dimension(10, 30));
+		panel_6.setPreferredSize(new Dimension(10, 60));
 		pnlStatisticsBy.add(panel_6, BorderLayout.SOUTH);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
-		btnShowChart_Tour = new JButton("  Chart Tour ");
+		btnShowChart_Tour = new JButton("Chart Tour");
+		btnShowChart_Tour.setContentAreaFilled(false);
 		btnShowChart_Tour.setFocusPainted(false);
 		btnShowChart_Tour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_6.add(btnShowChart_Tour);
 		
 		btnView_Tour = new JButton("View Tour");
+		btnView_Tour.setContentAreaFilled(false);
 		btnView_Tour.setFocusPainted(false);
 		panel_6.add(btnView_Tour);
 		
@@ -398,59 +446,61 @@ public class StatisticsContent extends JPanel {
 		pnlCusStatistical.setLayout(new BorderLayout(0, 0));
 		
 		pnlStatisticsBy = new JPanel();
-		pnlStatisticsBy.setPreferredSize(new Dimension(10, 80));
+		pnlStatisticsBy.setPreferredSize(new Dimension(10, 135));
 		pnlCusStatistical.add(pnlStatisticsBy, BorderLayout.NORTH);
 		pnlStatisticsBy.setLayout(new BorderLayout(0, 0));
 		
-		panel_4 = new JPanel();
-		panel_4.setPreferredSize(new Dimension(10, 25));
-		pnlStatisticsBy.add(panel_4, BorderLayout.NORTH);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
+		panel_4_1 = new JPanel();
+		panel_4_1.setPreferredSize(new Dimension(10, 45));
+		pnlStatisticsBy.add(panel_4_1, BorderLayout.NORTH);
+		panel_4_1.setLayout(new BoxLayout(panel_4_1, BoxLayout.X_AXIS));
 		
-		lblBy = new JLabel(" Statistics Customer By             ");
-		panel_4.add(lblBy);
+		lblBy = new JLabel("Statistics Customer By             ");
+		panel_4_1.add(lblBy);
 		
 		rdbtnByYear_Cus = new JRadioButton("By year");
 		rdbtnByYear_Cus.setFocusPainted(false);
 		rdbtnByYear_Cus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_4.add(rdbtnByYear_Cus);
+		panel_4_1.add(rdbtnByYear_Cus);
 		
 		lblNewLabel_4 = new JLabel("             ");
-		panel_4.add(lblNewLabel_4);
+		panel_4_1.add(lblNewLabel_4);
 		
 		rdbtnByMonth_Cus = new JRadioButton("By month of the year");
 		rdbtnByMonth_Cus.setFocusPainted(false);
 		rdbtnByMonth_Cus.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_4.add(rdbtnByMonth_Cus);
+		panel_4_1.add(rdbtnByMonth_Cus);
 		
-		panel_5 = new JPanel();
-		pnlStatisticsBy.add(panel_5, BorderLayout.CENTER);
-		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_5_2 = new JPanel();
+		panel_5_2.setPreferredSize(new Dimension(10, 20));
+		pnlStatisticsBy.add(panel_5_2, BorderLayout.CENTER);
+		panel_5_2.setLayout(new BoxLayout(panel_5_2, BoxLayout.X_AXIS));
 		
 		lblSelectMonth = new JLabel("Select Month           ");
-		panel_5.add(lblSelectMonth);
+		panel_5_2.add(lblSelectMonth);
 		
 		cbxMonth_Cus = new JComboBox();
 		cbxMonth_Cus.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
-		panel_5.add(cbxMonth_Cus);
+		panel_5_2.add(cbxMonth_Cus);
 		
 		lblSelectYear = new JLabel("                    Select Year            ");
-		panel_5.add(lblSelectYear);
+		panel_5_2.add(lblSelectYear);
 		
 		cbxYear_Cus = new JComboBox();
 		cbxYear_Cus.setModel(new DefaultComboBoxModel(new String[] {"2019", "2020", "2021", "2022", "2023"}));
-		panel_5.add(cbxYear_Cus);
+		panel_5_2.add(cbxYear_Cus);
 		
 		lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setPreferredSize(new Dimension(92, 14));
-		panel_5.add(lblNewLabel_3);
+		panel_5_2.add(lblNewLabel_3);
 		
 		panel_6 = new JPanel();
-		panel_6.setPreferredSize(new Dimension(10, 30));
+		panel_6.setPreferredSize(new Dimension(10, 60));
 		pnlStatisticsBy.add(panel_6, BorderLayout.SOUTH);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
-		btnShowChart_Cus = new JButton("  Chart Customer  ");
+		btnShowChart_Cus = new JButton("Chart Customer");
+		btnShowChart_Cus.setContentAreaFilled(false);
 		btnShowChart_Cus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ChartCustomer ffffChart = new ChartCustomer();
@@ -462,6 +512,7 @@ public class StatisticsContent extends JPanel {
 		panel_6.add(btnShowChart_Cus);
 		
 		btnView_Cus = new JButton("View Customer");
+		btnView_Cus.setContentAreaFilled(false);
 		btnView_Cus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				year -----------------------------------------------------------------
@@ -619,6 +670,18 @@ public class StatisticsContent extends JPanel {
 		
 		
 		cardLayoutPnlContent =  (CardLayout)(this.getPnlStatisticContent().getLayout());
+		
+		panel = new JPanel();
+		panel.setPreferredSize(new Dimension(10, 50));
+		add(panel, BorderLayout.SOUTH);
+		
+		panel_1 = new JPanel();
+		panel_1.setPreferredSize(new Dimension(35, 10));
+		add(panel_1, BorderLayout.WEST);
+		
+		panel_2 = new JPanel();
+		panel_2.setPreferredSize(new Dimension(35, 10));
+		add(panel_2, BorderLayout.EAST);
 	
 	}
 	

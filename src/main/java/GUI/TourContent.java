@@ -344,13 +344,14 @@ public class TourContent extends JPanel{
         cbxDesTour.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 
         txtDesTour = new JTextField();
-        txtDesTour.setPreferredSize(new Dimension(140, 25));
+        txtDesTour.setPreferredSize(new Dimension(90, 25));
         txtDesTour.setEditable(false);
 //        txtDesTour.setColumns(15);
         pnlDesTour.add(txtDesTour);
 
         btnDesTour = new JButton("Places");
-        btnDesTour.setPreferredSize(new Dimension(30,25));
+        btnDesTour.setFocusPainted(false);
+        btnDesTour.setPreferredSize(new Dimension(75, 25));
         pnlDesTour.add(btnDesTour);
 
         pnlHotel = new JPanel();
