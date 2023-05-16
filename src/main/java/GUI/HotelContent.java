@@ -10,6 +10,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import BUS.HotelBUS;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.Normalizer;
@@ -129,7 +131,8 @@ public class HotelContent extends JPanel {
                 String shString = txtSearchHotel.getText().trim();
                 if(isNumeric(shString)== true) {
                     int idhotel = Integer.parseInt(shString.trim());
-                    HotelDTO hotelDTO = HotelDAO.getInstance().getById(idhotel);
+                    HotelBUS hotelBUS = new HotelBUS();
+                    HotelDTO hotelDTO = hotelBUS.getById(idhotel);
                     if(hotelDTO != null) {
                         String idhotelString = String.valueOf(hotelDTO.getHotel_id());
                         txtIdHotel.setText(idhotelString);
@@ -145,7 +148,9 @@ public class HotelContent extends JPanel {
                     }
                 }
                 if (isNumeric(shString)== false) {
-                    ArrayList<HotelDTO> arrhHotelDTOs = HotelDAO.getInstance().getAll();
+//                    ArrayList<HotelDTO> arrhHotelDTOs = HotelDAO.getInstance().getAll();
+                	HotelBUS hotelBUS = new HotelBUS();
+                	ArrayList<HotelDTO> arrhHotelDTOs = hotelBUS.getAll();
                     Boolean checkKQ = false;
                     for(HotelDTO jjjHotelDTO: arrhHotelDTOs) {
                         String temp = Normalizer.normalize(jjjHotelDTO.getHotel_name(), Normalizer.Form.NFD);
@@ -371,7 +376,9 @@ public class HotelContent extends JPanel {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if(result == JOptionPane.YES_OPTION){
-                        HotelDAO.getInstance().add(hotelDTO);
+//                        HotelDAO.getInstance().add(hotelDTO);
+                    	HotelBUS hotelBUS = new HotelBUS();
+                    	hotelBUS.add(hotelDTO);
                         ClassLoaddataHotel();
                     }
 //	                JOptionPane.showMessageDialog(null, "dsfasfasfasfasfas");
@@ -396,7 +403,9 @@ public class HotelContent extends JPanel {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if(result == JOptionPane.YES_OPTION){
-                    HotelDAO.getInstance().delete(idhotel);
+//                    HotelDAO.getInstance().delete(idhotel);
+                	HotelBUS hotelBUS = new HotelBUS();
+                	hotelBUS.delete(idhotel);
                     ClassLoaddataHotel();
                 }
                 RefreshHotel();
@@ -443,7 +452,8 @@ public class HotelContent extends JPanel {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if(result == JOptionPane.YES_OPTION){
-                        HotelDAO.getInstance().update(hotelDTO);
+                    	HotelBUS hotelBUS = new HotelBUS();
+                    	hotelBUS.update(hotelDTO);
                         ClassLoaddataHotel();
                     }
 //	                JOptionPane.showMessageDialog(null, "dsfasfasfasfasfas");
@@ -479,47 +489,7 @@ public class HotelContent extends JPanel {
         sclListHotel = new JScrollPane();
         pnlListHotel.add(sclListHotel, BorderLayout.CENTER);
 
-//        Object [][] data6 = {
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-//
-//        };
-
-//        String [] items6 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-//        hotelListTable = new JTable(data6,items6);
-//        sclListHotel.setViewportView(hotelListTable);
-//
-//        panel_3 = new JPanel();
-//        panel_3.setPreferredSize(new Dimension(50, 10));
-//        pnlContentHotelDetail.add(panel_3, BorderLayout.EAST);
+        
         ClassLoaddataHotel();
         panel_4 = new JPanel();
         panel_4.setPreferredSize(new Dimension(50, 10));
@@ -542,7 +512,8 @@ public class HotelContent extends JPanel {
         model.addColumn("Tell");
         model.addColumn("Website");
         model.addColumn("Star");
-        ArrayList<HotelDTO> htDTO = HotelDAO.getInstance().getAll();
+        HotelBUS hotelBUS = new HotelBUS();
+        ArrayList<HotelDTO> htDTO = hotelBUS.getAll();
         for(HotelDTO itemHotel : htDTO) {
             model.addRow(new Object[] {
                     itemHotel.getHotel_id(),itemHotel.getHotel_name(),itemHotel.getAddress(),itemHotel.getTel(),itemHotel.getWebsite(),itemHotel.getStar()

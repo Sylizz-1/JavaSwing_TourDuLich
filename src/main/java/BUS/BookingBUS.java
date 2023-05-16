@@ -77,4 +77,19 @@ public class BookingBUS {
         CustomerDAO cusDAO = new CustomerDAO();
         return cusDAO.getById(customer_id);
     }
+    public String addExcel(BookingDTO bookingDTO) {
+
+        if (booking.checkExistById(bookingDTO.getBooking_id())) {
+            return "ID hoá đơn booking đã tồn tại";
+        }
+
+        if (!booking.add(bookingDTO)) {
+        	return "Thêm booking thất bại!";        	
+        }
+        else {
+        	booking.add(bookingDTO);
+        	return "thêm booking thành công!";
+        }
+
+    }
 }

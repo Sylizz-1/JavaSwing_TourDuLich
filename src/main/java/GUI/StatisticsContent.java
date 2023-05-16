@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.google.protobuf.TextFormat.ParseException;
 
+import BUS.CustomerBUS;
 import DAO.BookingDAO;
 import DAO.CustomerDAO;
 import DAO.TourDAO;
@@ -753,7 +754,7 @@ public class StatisticsContent extends JPanel {
 		btnShowChart_Cus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ChartCustomer ffffChart = new ChartCustomer();
-				ffffChart.main(items15);
+//				ffffChart.main(items15);
 			}
 		});
 		btnShowChart_Cus.setFocusPainted(false);
@@ -767,7 +768,8 @@ public class StatisticsContent extends JPanel {
 				if(rdbtnByYear_Cus.isSelected() && rdbtnByMonth_Cus.isSelected() == false ) {	
 					Boolean checkkqBoolean = false;
 						String yearString = (String) cbxYear_Cus.getSelectedItem();
-						ArrayList<CustomerDTO> jjjj = CustomerDAO.getInstance().getAll();
+						CustomerBUS customerBUS = new CustomerBUS();
+				    	ArrayList<CustomerDTO> arrCustomer = customerBUS.getAll();
 						
 						DefaultTableModel model = new DefaultTableModel();
 			            model.addColumn("ID");;
@@ -777,7 +779,7 @@ public class StatisticsContent extends JPanel {
 			            model.addColumn("Email");
 			            model.addColumn("Create_At");
 			            
-				    	for(CustomerDTO customerDTO: jjjj) {
+				    	for(CustomerDTO customerDTO: arrCustomer) {
 				        		String date2 = customerDTO.getCreate_at();
 				        	    SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				        	    try {
@@ -812,7 +814,8 @@ public class StatisticsContent extends JPanel {
 				if(rdbtnByYear_Cus.isSelected()==false && rdbtnByMonth_Cus.isSelected()) {
 					Boolean checkkqBoolean = false;
 					String MonthString = (String) cbxMonth_Cus.getSelectedItem();
-					ArrayList<CustomerDTO> jjjj = CustomerDAO.getInstance().getAll();
+					CustomerBUS customerBUS = new CustomerBUS();
+			    	ArrayList<CustomerDTO> arrCustomer = customerBUS.getAll();
 					
 					DefaultTableModel model = new DefaultTableModel();
 		            model.addColumn("ID");;
@@ -822,7 +825,7 @@ public class StatisticsContent extends JPanel {
 		            model.addColumn("Email");
 		            model.addColumn("Create_At");
 		            
-			    	for(CustomerDTO customerDTO: jjjj) {
+			    	for(CustomerDTO customerDTO: arrCustomer) {
 			        		String date2 = customerDTO.getCreate_at();
 			        	    SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			        	    try {
@@ -858,7 +861,8 @@ public class StatisticsContent extends JPanel {
 					Boolean checkkqBoolean = false;
 					String yearString = (String) cbxYear_Cus.getSelectedItem();
 					String MonthString = (String) cbxMonth_Cus.getSelectedItem();
-					ArrayList<CustomerDTO> jjjj = CustomerDAO.getInstance().getAll();
+					CustomerBUS customerBUS = new CustomerBUS();
+			    	ArrayList<CustomerDTO> arrCustomer = customerBUS.getAll();
 					
 					DefaultTableModel model = new DefaultTableModel();
 		            model.addColumn("ID");;
@@ -868,7 +872,7 @@ public class StatisticsContent extends JPanel {
 		            model.addColumn("Email");
 		            model.addColumn("Create_At");
 		            
-			    	for(CustomerDTO customerDTO: jjjj) {
+			    	for(CustomerDTO customerDTO: arrCustomer ) {
 			        		String date2 = customerDTO.getCreate_at();
 			        	    SimpleDateFormat formatter4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			        	    try {
