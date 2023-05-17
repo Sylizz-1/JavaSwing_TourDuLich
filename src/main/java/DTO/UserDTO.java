@@ -49,20 +49,20 @@ public class UserDTO {
         this.tel = tel;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public String getEmail() {
-        return email;
+    public String getGender() {
+        return gender;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public Date getCreate_at() {
@@ -81,8 +81,8 @@ public class UserDTO {
         this.role_id = role_id;
     }
 
-    private Date birthday;
-    private String email;
+    private String birthday;
+    private String gender;
     private Date create_at;
     private int role_id;
 

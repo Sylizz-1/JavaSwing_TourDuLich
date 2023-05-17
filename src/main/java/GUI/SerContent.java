@@ -345,6 +345,31 @@ public class SerContent extends JPanel {
         pnlButtonSer.add(btnRefreshSer);
 
         btnUpdateSer = new JButton("Update");
+        btnUpdateSer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String idString = txtIdSer.getText().trim();
+                int idser = Integer.parseInt(idString);
+                String nameserString = txtNameSer.getText();
+                String serpriceString = txtPriceSer.getText().trim();
+                Double priceser = Double.parseDouble(serpriceString);
+                if(nameserString==""|| serpriceString=="" ) {
+                    JOptionPane.showMessageDialog(null, "Bạn chưa nhập đủ thông tin !");
+                }
+                else {
+                    ServiceDTO serviceDTO = new ServiceDTO(idser,nameserString,priceser);
+                    int result = JOptionPane.showConfirmDialog(null,
+                            "Bạn có muốn update Service  " +nameserString,
+                            "Xác nhận",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                    if(result == JOptionPane.YES_OPTION){
+                        ServiceDAO.getInstance().update(serviceDTO);
+                        ClassLoaddataService();
+                    }
+                    RefreshService();
+                }
+            }
+        });
         btnUpdateSer.setFocusPainted(false);
         btnUpdateSer.setBackground(new Color(66, 165, 243));
         btnUpdateSer.setPreferredSize(new Dimension(100, 25));

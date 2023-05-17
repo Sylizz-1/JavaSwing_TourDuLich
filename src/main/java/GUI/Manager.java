@@ -7,9 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 
 public class Manager extends JFrame {
@@ -38,6 +36,15 @@ public class Manager extends JFrame {
     private JPanel pnlBottom;
     private JScrollPane scrollMenuDeTail;
     private JPanel pnlListDetail;
+
+    public JPanel getPnlListDetail() {
+        return pnlListDetail;
+    }
+
+    public void setPnlListDetail(JPanel pnlListDetail) {
+        this.pnlListDetail = pnlListDetail;
+    }
+
     private JPanel pnlTourManager;
     private JPanel pnlCusManager;
     private JPanel pnlDesManager;
@@ -481,6 +488,16 @@ public class Manager extends JFrame {
         lblIconLogOut.addMouseListener(mouseListener);
         pnlLogOut.add(lblIconLogOut);
 
+
+        lblIconLogOut.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                close();
+                SignIn si = new SignIn();
+                si.setVisible(true);
+            }
+        });
+
         // Create pnlMenuDetail into pnlMenu
         pnlMenuDetail = new JPanel();
         pnlMenuDetail.setBackground(new Color(255, 255, 255));
@@ -745,6 +762,10 @@ public class Manager extends JFrame {
         font = font.deriveFont(Font.PLAIN | Font.BOLD);
         jTextField.setFont(font);
         jTextField.setForeground(Color.black);
+    }
+
+    private void close() {
+        this.dispose();
     }
 
 

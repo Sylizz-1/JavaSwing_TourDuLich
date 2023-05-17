@@ -9,7 +9,7 @@ public class BookingDTO {
     private int customer_number;
     private double total_cost;
 
-    private Date create_at;
+    private String create_at;
 
     public BookingDTO() {
         total_cost = 0;
@@ -56,11 +56,11 @@ public class BookingDTO {
         this.total_cost = total_cost;
     }
 
-    public Date getCreate_at() {
+    public String getCreate_at() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
+    public void setCreate_at(String create_at) {
         this.create_at = create_at;
     }
 

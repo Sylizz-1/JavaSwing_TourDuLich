@@ -29,7 +29,7 @@ public class BookingDAO implements DAO<BookingDTO> {
                 booking.setCustomer_id(rs.getInt("customer_id"));
                 booking.setCustomer_number(rs.getInt("customer_number"));
                 booking.setTotal_cost(rs.getDouble("total_cost"));
-                booking.setCreate_at(rs.getDate("create_at"));
+                booking.setCreate_at(rs.getString("create_at"));
                 arr.add(booking);
             }
 
@@ -61,7 +61,7 @@ public class BookingDAO implements DAO<BookingDTO> {
                 booking.setCustomer_id(rs.getInt("customer_id"));
                 booking.setCustomer_number(rs.getInt("customer_number"));
                 booking.setTotal_cost(rs.getDouble("total_cost"));
-                booking.setCreate_at(rs.getDate("create_at"));
+                booking.setCreate_at(rs.getString("create_at"));
             }
             else return null;
 

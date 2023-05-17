@@ -20,12 +20,12 @@ public class UserDAO implements DAO<UserDTO> {
             while (rs.next()) {
                 UserDTO user = new UserDTO();
                 user.setUser_id(rs.getInt("user_id"));
-                user.setUser_name(rs.getString("user_naname"));
+                user.setUser_name(rs.getString("user_name"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setTel(rs.getString("tel"));
-                user.setBirthday(rs.getDate("birthday"));
-                user.setEmail(rs.getString("email"));
+                user.setBirthday(rs.getString("birthday"));
+                user.setGender(rs.getString("gender"));
                 user.setCreate_at(rs.getDate("create_at"));
                 user.setRole_id(rs.getInt("role_id"));
                 arr.add(user);
@@ -55,12 +55,12 @@ public class UserDAO implements DAO<UserDTO> {
             ResultSet rs = st.executeQuery();
             if (rs.next()){
                 user.setUser_id(rs.getInt("user_id"));
-                user.setUser_name(rs.getString("user_naname"));
+                user.setUser_name(rs.getString("user_name"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setTel(rs.getString("tel"));
-                user.setBirthday(rs.getDate("birthday"));
-                user.setEmail(rs.getString("email"));
+                user.setBirthday(rs.getString("birthday"));
+                user.setGender(rs.getString("gender"));
                 user.setCreate_at(rs.getDate("create_at"));
                 user.setRole_id(rs.getInt("role_id"));
             }
@@ -87,12 +87,12 @@ public class UserDAO implements DAO<UserDTO> {
             ResultSet rs = st.executeQuery();
             if (rs.next()){
                 user.setUser_id(rs.getInt("user_id"));
-                user.setUser_name(rs.getString("user_naname"));
+                user.setUser_name(rs.getString("user_name"));
                 user.setPassword(rs.getString("password"));
                 user.setFullname(rs.getString("fullname"));
                 user.setTel(rs.getString("tel"));
-                user.setBirthday(rs.getDate("birthday"));
-                user.setEmail(rs.getString("email"));
+                user.setBirthday(rs.getString("birthday"));
+                user.setGender(rs.getString("gender"));
                 user.setCreate_at(rs.getDate("create_at"));
                 user.setRole_id(rs.getInt("role_id"));
             }
@@ -114,15 +114,15 @@ public class UserDAO implements DAO<UserDTO> {
 
         try {
             Connection conn = conndb.getConnection();
-            String sql = "insert into user value (?,?,?,?,?,?,?,?)";
+            String sql = "insert into user (user_id,user_name,password,fullname,tel,birthday,gender,role_id) value (?,?,?,?,?,?,?,?)";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1,userDTO.getUser_id());
             st.setString(2,userDTO.getUser_name());
             st.setString(3,userDTO.getPassword());
             st.setString(4,userDTO.getFullname());
             st.setString(5,userDTO.getTel());
-            st.setDate(6,userDTO.getBirthday());
-            st.setString(7,userDTO.getEmail());
+            st.setString(6,userDTO.getBirthday());
+            st.setString(7,userDTO.getGender());
             st.setInt(8,userDTO.getRole_id());
             if (st.executeUpdate()>=1)
                 result = true;
@@ -151,7 +151,7 @@ public class UserDAO implements DAO<UserDTO> {
                     "fullname=?," +
                     "tel=?," +
                     "birthday=?," +
-                    "email=?," +
+                    "gender=?," +
                     "role_id=? " +
                     "where user_id = " + userDTO.getUser_id();
             PreparedStatement st = conn.prepareStatement(sql);
@@ -159,8 +159,8 @@ public class UserDAO implements DAO<UserDTO> {
             st.setString(2,userDTO.getPassword());
             st.setString(3,userDTO.getFullname());
             st.setString(4,userDTO.getTel());
-            st.setDate(5,userDTO.getBirthday());
-            st.setString(6,userDTO.getEmail());
+            st.setString(5,userDTO.getBirthday());
+            st.setString(6,userDTO.getGender());
             st.setInt(7,userDTO.getRole_id());
             if (st.executeUpdate()>=1)
                 result = true;
