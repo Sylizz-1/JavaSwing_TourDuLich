@@ -8,9 +8,8 @@ import java.util.ArrayList;
 public class Main{
 	
     public static void main(String[] args) {
-
-        Manager mag = new Manager();
-        mag.setVisible(true);
+       SignIn si = new SignIn();
+       si.setVisible(true);
     }
 }
 
