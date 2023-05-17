@@ -11,6 +11,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import BUS.PlaceBUS;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
@@ -133,7 +136,9 @@ public class DesContent extends JPanel{
                 String desString = txtSearchDes.getText().trim();
                 if(isNumeric(desString)== true) {
                     int iddes = Integer.parseInt(desString.trim());
-                    PlaceDTO desDTO = PlaceDAO.getInstance().getById(iddes);
+                    PlaceBUS placeBUS = new PlaceBUS();
+                    
+                    PlaceDTO desDTO = placeBUS.getById(iddes);
                     if(desDTO != null) {
                         String iddesString = String.valueOf(desDTO.getPlace_id());
                         txtIdDes.setText(iddesString);
@@ -146,7 +151,8 @@ public class DesContent extends JPanel{
                     }
                 }
                 if (isNumeric(desString)== false) {
-                    ArrayList<PlaceDTO> desDTO = PlaceDAO.getInstance().getAll();
+                	PlaceBUS placeBUS = new PlaceBUS();
+                    ArrayList<PlaceDTO> desDTO = placeBUS.getAll();
                     Boolean checkKQ = false;
                     for(PlaceDTO itemDesDTO: desDTO) {
                         String temp = Normalizer.normalize(itemDesDTO.getPlace_name(), Normalizer.Form.NFD);
@@ -337,7 +343,8 @@ public class DesContent extends JPanel{
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if(result == JOptionPane.YES_OPTION){
-                        PlaceDAO.getInstance().add(PlaceDTO);
+                    	PlaceBUS placeBUS = new PlaceBUS();
+                    	placeBUS.add(PlaceDTO);
                         ClassLoaddataDes();
                     }
                     RefreshDes();
@@ -361,7 +368,8 @@ public class DesContent extends JPanel{
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if(result == JOptionPane.YES_OPTION){
-                    PlaceDAO.getInstance().delete(iddes);
+                	PlaceBUS placeBUS = new PlaceBUS();
+                	placeBUS.delete(iddes);
                     ClassLoaddataDes();
                 }
                 RefreshDes();
@@ -406,7 +414,8 @@ public class DesContent extends JPanel{
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if(result == JOptionPane.YES_OPTION){
-                        PlaceDAO.getInstance().update(PlaceDTO);
+                    	PlaceBUS placeBUS = new PlaceBUS();
+                    	placeBUS.update(PlaceDTO);
                         ClassLoaddataDes();
                     }
                     RefreshDes();
@@ -457,7 +466,8 @@ public class DesContent extends JPanel{
         model.addColumn("Describe");
         model.addColumn("Region Code");
         model.addColumn("Address");
-        ArrayList<PlaceDTO> desDTO = PlaceDAO.getInstance().getAll();
+        PlaceBUS placeBUS = new PlaceBUS();
+        ArrayList<PlaceDTO> desDTO = placeBUS.getAll();
         for(PlaceDTO itemDes : desDTO) {
             model.addRow(new Object[] {
                     itemDes.getPlace_id(),itemDes.getPlace_name(),itemDes.getPlace_describe(),itemDes.getRegion_code(),itemDes.getPlace_address()

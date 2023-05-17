@@ -10,6 +10,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import BUS.ServiceBUS;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.Normalizer;
@@ -121,7 +124,9 @@ public class SerContent extends JPanel {
                 String serString = txtSearchSer.getText().trim();
                 if(isNumeric(serString)== true) {
                     int idser = Integer.parseInt(serString.trim());
-                    ServiceDTO serviceDTO = ServiceDAO.getInstance().getById(idser);
+                    
+                    ServiceBUS serviceBUS = new ServiceBUS(); 
+                    ServiceDTO serviceDTO = serviceBUS.getById(idser);
                     if(serviceDTO != null) {
                         String idserString = String.valueOf(serviceDTO.getService_id());
                         txtIdSer.setText(idserString);
@@ -134,7 +139,9 @@ public class SerContent extends JPanel {
                     }
                 }
                 if (isNumeric(serString)== false) {
-                    ArrayList<ServiceDTO> serDTO = ServiceDAO.getInstance().getAll();
+                	ServiceBUS serviceBUS = new ServiceBUS(); 
+                	
+                    ArrayList<ServiceDTO> serDTO = serviceBUS.getAll();
                     Boolean checkKQ = false;
                     for(ServiceDTO itemServiceDTO: serDTO) {
                         String temp = Normalizer.normalize(itemServiceDTO.getService_name(), Normalizer.Form.NFD);
@@ -297,7 +304,9 @@ public class SerContent extends JPanel {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if(result == JOptionPane.YES_OPTION){
-                        ServiceDAO.getInstance().add(serviceDTO);
+
+                        ServiceBUS serviceBUS = new ServiceBUS(); 
+                        serviceBUS.add(serviceDTO);
                         ClassLoaddataService();
                     }
                     RefreshService();
@@ -320,7 +329,8 @@ public class SerContent extends JPanel {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if(result == JOptionPane.YES_OPTION){
-                    ServiceDAO.getInstance().delete(idser);
+                	ServiceBUS serviceBUS = new ServiceBUS(); 
+                	serviceBUS.delete(idser);
                     ClassLoaddataService();
                 }
                 RefreshService();
@@ -363,7 +373,8 @@ public class SerContent extends JPanel {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if(result == JOptionPane.YES_OPTION){
-                        ServiceDAO.getInstance().update(serviceDTO);
+                    	ServiceBUS serviceBUS = new ServiceBUS(); 
+                    	serviceBUS.update(serviceDTO);
                         ClassLoaddataService();
                     }
                     RefreshService();
@@ -447,7 +458,8 @@ public class SerContent extends JPanel {
         model.addColumn("ID");;
         model.addColumn("Name Service");
         model.addColumn("Price");
-        ArrayList<ServiceDTO> serDTO = ServiceDAO.getInstance().getAll();
+        ServiceBUS serviceBUS = new ServiceBUS(); 
+        ArrayList<ServiceDTO> serDTO = serviceBUS .getAll();
         for(ServiceDTO itemService : serDTO) {
             model.addRow(new Object[] {
                     itemService.getService_id(),itemService.getService_name(),itemService.getService_price()
