@@ -14,7 +14,9 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 
-
+import BUS.BookingBUS;
+import BUS.CustomerBUS;
+import BUS.TourBUS;
 import DAO.BookingDAO;
 import DAO.CustomerDAO;
 import DAO.TourDAO;
@@ -141,7 +143,8 @@ public class ExcelContent extends JPanel{
 		        model.addColumn("Customer_number");
 		        model.addColumn("Total_cost");
 		        model.addColumn("Create_At");
-		        ArrayList<BookingDTO> csDTO = BookingDAO.getInstance().getAll();
+		        BookingBUS bookingBUS = new BookingBUS();
+		        ArrayList<BookingDTO> csDTO = bookingBUS.getAll();
 		        for(BookingDTO bkDto : csDTO) {
 		        	System.out.println(bkDto.toString());
 		            model.addRow(new Object[] {
@@ -199,7 +202,8 @@ public class ExcelContent extends JPanel{
 		        model.addColumn("Departure_place");
 		        model.addColumn("Schedule-descripbe");
 		        model.addColumn("create_at");
-		        ArrayList<TourDTO> csDTO = TourDAO.getInstance().getAll();
+		        TourBUS tourBUS = new TourBUS();
+		        ArrayList<TourDTO> csDTO = tourBUS.getAll();
 		        for(TourDTO itemDao : csDTO) {
 		            model.addRow(new Object[] {
 		                    itemDao.getTour_id(),itemDao.getTour_name(),itemDao.getHotel_id(),itemDao.getPrice(),itemDao.getStart_day(),itemDao.getEnd_day(),itemDao.getDeparture_place(),
@@ -253,7 +257,8 @@ public class ExcelContent extends JPanel{
 			        model.addColumn("Birthday");
 			        model.addColumn("Email");
 			        model.addColumn("Create_At");
-			        ArrayList<CustomerDTO> csDTO = CustomerDAO.getInstance().getAll();
+			        CustomerBUS customerBUS = new CustomerBUS();
+			        ArrayList<CustomerDTO> csDTO = customerBUS.getAll();
 			        for(CustomerDTO itemCustomer : csDTO) {
 			            model.addRow(new Object[] {
 			                    itemCustomer.getCustomer_id(),itemCustomer.getCustomer_name(),itemCustomer.getTel(),itemCustomer.getBirthday(),itemCustomer.getEmail(),itemCustomer.getCreate_at()
@@ -308,7 +313,8 @@ public class ExcelContent extends JPanel{
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 HSSFSheet sheet = workbook.createSheet("account");
-                ArrayList<BookingDTO> list = BookingDAO.getInstance().getAll();
+                BookingBUS bookingBUS = new BookingBUS();
+                ArrayList<BookingDTO> list = bookingBUS.getAll();
                 int rowPos = 0;
                 HSSFRow row = sheet.createRow(rowPos);
                 row.createCell(0, CellType.NUMERIC).setCellValue("Booking_Id");
@@ -358,7 +364,8 @@ public class ExcelContent extends JPanel{
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 HSSFSheet sheet = workbook.createSheet("account");
-                ArrayList<TourDTO> list = TourDAO.getInstance().getAll();
+                TourBUS tourBUS = new TourBUS();
+                ArrayList<TourDTO> list = tourBUS.getAll();
                 int rowPos = 0;
                 HSSFRow row = sheet.createRow(rowPos);
                 row.createCell(0, CellType.NUMERIC).setCellValue("Tour_ID");
@@ -414,7 +421,8 @@ public class ExcelContent extends JPanel{
 
 	                HSSFWorkbook workbook = new HSSFWorkbook();
 	                HSSFSheet sheet = workbook.createSheet("account");
-	                ArrayList<CustomerDTO> list = CustomerDAO.getInstance().getAll();
+	                CustomerBUS customerBUS = new CustomerBUS();
+	                ArrayList<CustomerDTO> list = customerBUS.getAll();
 	                int rowPos = 0;
 	                HSSFRow row = sheet.createRow(rowPos);
 	                row.createCell(0, CellType.NUMERIC).setCellValue("Id");
@@ -536,7 +544,9 @@ public class ExcelContent extends JPanel{
 	                        td.setEnd_day(dateEndString);
 	                        td.setDeparture_place(item.get(6));
 	                        td.setSchedule_describe(item.get(7));
-	                        TourDAO.getInstance().add(td);
+	                        TourBUS tourBUS = new TourBUS();
+	                        tourBUS.addExcel(td);
+//	                        TourDAO.getInstance().add(td);
 	                    }
 
 	                    i++;
@@ -623,7 +633,9 @@ public class ExcelContent extends JPanel{
 	                        ddDto.setBirthday(dateString);
 	                        ddDto.setEmail(item.get(4));
 	                        ddDto.setCreate_at("");
-	                        CustomerDAO.getInstance().add(ddDto);
+	                        CustomerBUS customerBUS = new CustomerBUS();
+	                        customerBUS.add(ddDto);
+//	                        CustomerDAO.getInstance().add(ddDto);
 	                    }
 
 	                    i++;
@@ -709,7 +721,9 @@ public class ExcelContent extends JPanel{
 	                        float cusnum = Float.parseFloat(item.get(3));
 	                        bdo.setCustomer_number((int)cusnum);
 	                        bdo.setTotal_cost(Double.parseDouble(item.get(4)));
-	                       BookingDAO.getInstance().add(bdo);
+	                        BookingBUS bookingBUS = new BookingBUS();
+	                        bookingBUS.addExcel(bdo);
+//	                       BookingDAO.getInstance().add(bdo);
 
 	                    }
 

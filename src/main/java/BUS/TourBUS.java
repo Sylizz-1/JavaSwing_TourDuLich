@@ -69,7 +69,7 @@ public class TourBUS {
         else return "Xoá thất bại!";
     }
 
-
+    
     public boolean checkExistById(int id) {
         return tour.checkExistById(id);
     }
@@ -77,7 +77,20 @@ public class TourBUS {
     public ArrayList<PlaceDTO> getPlacesOfTour(int id)  {
         return tour.getPlacesOfTour(id);
     }
+    public String addExcel(TourDTO tourDTO) {
 
+        if (tour.checkExistById(tourDTO.getTour_id())) {
+            return "ID tour đã tồn tại";
+        }
+
+        if (!tour.add(tourDTO)) {
+        	return "Thêm tour thất bại!";        	
+        }
+        else {
+        	tour.add(tourDTO);
+        	return "thêm tour thành công!";
+        }
+    }
 
 
 }

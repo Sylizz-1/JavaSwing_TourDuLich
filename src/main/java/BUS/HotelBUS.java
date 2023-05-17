@@ -13,20 +13,42 @@ public class HotelBUS {
     }
 
     public ArrayList<HotelDTO> getAll() {
-        return hoteldao.getAll();
+        return hoteldao.getInstance().getAll();
     }
 
     public HotelDTO getById(int id) {
-        return hoteldao.getById(id);
+        return hoteldao.getInstance().getById(id);
     }
 
     public String add(HotelDTO hoteldto) {
-        if (hoteldao.checkExistById(hoteldto.getHotel_id())) {
+        if (hoteldao.getInstance().checkExistById(hoteldto.getHotel_id())) {
             return "ID đã tồn tại";
         }
-        if (!hoteldao.add(hoteldto)) {
+        if (!hoteldao.getInstance().add(hoteldto)) {
             return "Add thất bại";
         }
-        return "Add thành công";
+        else {
+        	hoteldao.getInstance().add(hoteldto);
+        	return "Add thành công";
+        }
+    }
+    
+    public String update(HotelDTO hoteldto) {
+       if(!hoteldao.getInstance().update(hoteldto)) {
+    	   return "update khong thanh cong";
+       }
+        else {
+        	hoteldao.getInstance().update(hoteldto);
+        	return "update thành công";
+        }
+    }
+    public String delete(int id) {
+    	if(!hoteldao.getInstance().delete(id)) {
+    		return "xóa không thành công !";
+    	}
+    	else {
+    		hoteldao.getInstance().delete(id);
+    		return "xoa thanh cong !";
+    	}
     }
 }
