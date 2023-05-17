@@ -214,6 +214,7 @@ public class SignUp extends JFrame {
 		pnlSignUp.add(sepPass);
 
 		iconHiddenPass = new JButton(new ImageIcon("../images/hidPass.png"));
+//		iconHiddenPass = new JButton();
 		iconHiddenPass.addActionListener(action);
 		iconHiddenPass.setFocusPainted(false);
 		iconHiddenPass.setBorderPainted(false);

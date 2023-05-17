@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,6 +36,9 @@ import java.awt.RenderingHints;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 import javax.swing.Icon;
+
+import BUS.UserBUS;
+import DTO.UserDTO;
 import controller.SignInControl;
 
 
@@ -217,6 +221,8 @@ public class SignIn extends JFrame {
 		pnlSignIn.add(sepPass);
 		
 		iconHiddenPass = new JButton(new ImageIcon("../images/hidPass.png"));
+//		iconHiddenPass = new JButton();f
+
 		iconHiddenPass.addActionListener(action);
 		iconHiddenPass.setFocusPainted(false);
 		iconHiddenPass.setBorderPainted(false);
@@ -227,6 +233,14 @@ public class SignIn extends JFrame {
 		
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(action);
+		
+		btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnLoginPerformed(e);
+			}
+		});
+		
 		btnLogin.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnLogin.setFocusPainted(false);
 		btnLogin.setBorderPainted(false);
@@ -278,6 +292,65 @@ public class SignIn extends JFrame {
 		iconShowPass.setVisible(false);
 		iconHiddenPass.setVisible(true);
 		txtPass.setEchoChar('*');	
+	}
+	
+	private void btnLoginPerformed(MouseEvent evt){
+
+		//Lay username & password
+		String username = txtUserName.getText();
+		String password = String.valueOf(txtPass.getPassword());
+		//Kiem tra Db
+		UserBUS ubs = new UserBUS();
+		System.out.println(ubs.CheckUser(username,password));
+		if (ubs.CheckUser(username,password)) {
+			Manager mag;
+			JOptionPane.showMessageDialog(null,"Dang nhap thanh cong");
+			
+			UserDTO role = ubs.getByName(username);
+			if (role.getRole_id() == 1) {
+				mag = new Manager();
+				mag.setVisible(true);
+				
+			}
+			else if (role.getRole_id() == 2) {
+				mag = new Manager();
+				mag.getPnlListDetail().remove(mag.getPnlTourManager());
+				mag.getPnlListDetail().remove(mag.getPnlDesManager());
+				mag.getPnlListDetail().remove(mag.getPnlHotelManager());
+				mag.getPnlListDetail().remove(mag.getPnlAccManager());
+				mag.getPnlListDetail().remove(mag.getPnlStatistical());
+				mag.getPnlListDetail().remove(mag.getPnlExportExcel());
+				mag.setVisible(true);
+			}
+			else if (role.getRole_id() == 3) {
+				mag = new Manager();
+				mag.getPnlListDetail().remove(mag.getPnlTourManager());
+				mag.getPnlListDetail().remove(mag.getPnlDesManager());
+				mag.getPnlListDetail().remove(mag.getPnlHotelManager());
+				mag.getPnlListDetail().remove(mag.getPnlAccManager());
+				mag.getPnlListDetail().remove(mag.getPnlSerManager());
+				mag.getPnlListDetail().remove(mag.getPnlBillManager());
+				mag.getPnlListDetail().remove(mag.getPnlCusManager());
+				mag.setVisible(true);
+			}
+			else {
+				mag = new Manager();
+				
+				mag.getPnlListDetail().remove(mag.getPnlStatistical());
+				mag.getPnlListDetail().remove(mag.getPnlExportExcel());
+				mag.getPnlListDetail().remove(mag.getPnlAccManager());
+				mag.getPnlListDetail().remove(mag.getPnlSerManager());
+				mag.getPnlListDetail().remove(mag.getPnlBillManager());
+				mag.getPnlListDetail().remove(mag.getPnlCusManager());
+				mag.setVisible(true);
+			}
+			
+			this.dispose();
+		}else {
+			JOptionPane.showMessageDialog(null,"Sai Thong Tin");
+		}
+
+
 	}
 	
 	// Change to Register form

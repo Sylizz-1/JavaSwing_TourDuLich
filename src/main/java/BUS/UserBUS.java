@@ -54,4 +54,23 @@ public class UserBUS {
         UserDTO udo = userdao.getByName(username);
         return Objects.equals(udo.getPassword(), password);
     }
+    
+    public UserDTO getByName(String username){
+		return userdao.getByName(username);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
