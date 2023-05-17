@@ -4,6 +4,8 @@ import DAO.CustomerDAO;
 import DTO.CustomerDTO;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.CustomerBUS;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -139,7 +141,8 @@ public class CusContent extends JPanel{
                 String shString = txtSearchCus.getText().trim();
                 if(isNumeric(shString)== true) {
                     int idcustomer = Integer.parseInt(shString.trim());
-                    CustomerDTO customerDTO = CustomerDAO.getInstance().getById(idcustomer);
+                    CustomerBUS customerBUS = new CustomerBUS();
+                    CustomerDTO customerDTO = customerBUS.getById(idcustomer);
                     if(customerDTO != null) {
                         String idcustomerString = String.valueOf(customerDTO.getCustomer_id());
                         txtIdCus.setText(idcustomerString);
@@ -160,7 +163,8 @@ public class CusContent extends JPanel{
                     }
                 }
                 if (isNumeric(shString)== false) {
-                    ArrayList<CustomerDTO> arrhCustomerDTOs = CustomerDAO.getInstance().getAll();
+                	CustomerBUS customerBUS = new CustomerBUS();
+                    ArrayList<CustomerDTO> arrhCustomerDTOs = customerBUS.getAll();
                     Boolean checkKQ = false;
                     for(CustomerDTO itemCustomerDTO: arrhCustomerDTOs) {
                         String temp = Normalizer.normalize(itemCustomerDTO.getCustomer_name(), Normalizer.Form.NFD);
@@ -429,8 +433,9 @@ public class CusContent extends JPanel{
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if(result == JOptionPane.YES_OPTION){
-                        CustomerDAO.getInstance().add(csCustomerDTO);
-                        ClassLoaddataCustomer();
+//                        CustomerDAO.getInstance().add(csCustomerDTO);
+                    	CustomerBUS customerBUS = new CustomerBUS();
+                    	customerBUS.add(csCustomerDTO);
                         ClassLoaddataCustomer();
                     }
                     RefreshCustomer();
@@ -459,7 +464,9 @@ public class CusContent extends JPanel{
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if(result == JOptionPane.YES_OPTION){
-                    CustomerDAO.getInstance().delete(idcs);
+                	CustomerBUS customerBUS = new CustomerBUS();
+                	customerBUS.delete(idcs);
+//                    CustomerDAO.getInstance().delete(idcs);
                     ClassLoaddataCustomer();
                 }
                 RefreshCustomer();
@@ -507,7 +514,8 @@ public class CusContent extends JPanel{
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if(result == JOptionPane.YES_OPTION){
-                        CustomerDAO.getInstance().update(csCustomerDTO);
+                    	CustomerBUS customerBUS= new CustomerBUS();
+                    	customerBUS.update(csCustomerDTO);
                         ClassLoaddataCustomer();
                     }
                     RefreshCustomer();
@@ -542,48 +550,7 @@ public class CusContent extends JPanel{
         sclListCus = new JScrollPane();
         pnlListCus.add(sclListCus, BorderLayout.CENTER);
 
-//        Object [][] data2 = {
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"},
-//                {"111", "Nha Trang", "Miền Trung", "20", "20","20", "20"}
-//
-//        };
-//
-//        String [] items2 = {"ID", "Name", "Area", "Number of days", "Number of peoples", "Number of peoples", "Number of peoples"};
-//        cusListTable = new JTable(data2,items2);
-//        sclListCus.setViewportView(cusListTable);
-//
-//
-//        panel_3 = new JPanel();
-//        panel_3.setPreferredSize(new Dimension(50, 10));
-//        pnlContentCusDetail.add(panel_3, BorderLayout.EAST);
+//  load du lieu
         ClassLoaddataCustomer();
         panel_4 = new JPanel();
         panel_4.setPreferredSize(new Dimension(50, 10));
@@ -607,8 +574,9 @@ public class CusContent extends JPanel{
         model.addColumn("Birthday");
         model.addColumn("Email");
         model.addColumn("Create_At");
-        ArrayList<CustomerDTO> csDTO = CustomerDAO.getInstance().getAll();
-        for(CustomerDTO itemCustomer : csDTO) {
+        CustomerBUS customerBUS = new CustomerBUS();
+    	ArrayList<CustomerDTO> arrCustomer = customerBUS.getAll();
+        for(CustomerDTO itemCustomer : arrCustomer ) {
             model.addRow(new Object[] {
                     itemCustomer.getCustomer_id(),itemCustomer.getCustomer_name(),itemCustomer.getTel(),itemCustomer.getBirthday(),itemCustomer.getEmail(),itemCustomer.getCreate_at()
             });

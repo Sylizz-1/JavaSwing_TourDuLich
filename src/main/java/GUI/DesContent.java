@@ -287,11 +287,11 @@ public class DesContent extends JPanel{
         pnlFillDes.add(pnlRegionCodeDes);
 
         lblRegionCodeDes = new JLabel("Region Code");
-        lblRegionCodeDes.setPreferredSize(new Dimension(170, 25));
+        lblRegionCodeDes.setPreferredSize(new Dimension(125, 25));
         pnlRegionCodeDes.add(lblRegionCodeDes);
 
         cmbRegionCode = new JComboBox();
-        cmbRegionCode.setPreferredSize(new Dimension(200, 25));
+        cmbRegionCode.setPreferredSize(new Dimension(223, 25));
         cmbRegionCode.setMaximumRowCount(10);
         regionCodeData(cmbRegionCode);
         pnlRegionCodeDes.add(cmbRegionCode);
@@ -305,6 +305,7 @@ public class DesContent extends JPanel{
         pnlAddDes.add(lblAddDes);
 
         txtAddressDes = new JTextField();
+        txtAddressDes.setPreferredSize(new Dimension(100, 25));
         pnlAddDes.add(txtAddressDes);
         txtAddressDes.setColumns(20);
 

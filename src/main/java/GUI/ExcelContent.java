@@ -14,7 +14,9 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 
-
+import BUS.BookingBUS;
+import BUS.CustomerBUS;
+import BUS.TourBUS;
 import DAO.BookingDAO;
 import DAO.CustomerDAO;
 import DAO.TourDAO;
@@ -43,6 +45,7 @@ import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
+import javax.swing.border.TitledBorder;
 
 public class ExcelContent extends JPanel{
 	private JTable table_thongke;
@@ -63,46 +66,67 @@ public class ExcelContent extends JPanel{
 	private JButton btntkcustomer;
 	private JButton btnexcelcustomer;
 	private JButton btnexportcustomer;
+	private JPanel panel;
+	private JPanel panel_1;
+	private JPanel panel_2;
 	
 	public ExcelContent() {
 		setLayout(new BorderLayout(0, 0));
 				
 		pnlStatisticalTour = new JPanel();
 		pnlStatisticalTour.setPreferredSize(new Dimension(10, 80));
-		pnlStatisticalTour.setBackground(new Color(66, 165, 243));
+		pnlStatisticalTour.setBackground(new Color(240, 240, 240));
 		add(pnlStatisticalTour, BorderLayout.NORTH);
 		
-		lblTitle = new JLabel("Statistical Tour");
+		lblTitle = new JLabel("Excel");
+		lblTitle.setPreferredSize(new Dimension(70, 50));
 		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 24));
 		pnlStatisticalTour.add(lblTitle);
 		
 		pnlFunc = new JPanel();
+		pnlFunc.setBackground(new Color(240, 240, 240));
 		add(pnlFunc, BorderLayout.CENTER);
 		pnlFunc.setLayout(new GridLayout(0, 3, 0, 0));
 		
 		pnlFunc1 = new JPanel();
-		pnlFunc1.setBackground(new Color(66, 165, 243));
+		pnlFunc1.setBackground(new Color(240, 240, 240));
 		pnlFunc.add(pnlFunc1);
 		
 		pnlFunc2 = new JPanel();
-		pnlFunc2.setBackground(new Color(66, 165, 243));
+		pnlFunc2.setBackground(new Color(240, 240, 240));
 		pnlFunc.add(pnlFunc2);
 		
 		pnlFunc3 = new JPanel();
-		pnlFunc3.setBackground(new Color(66, 165, 243));
+		pnlFunc3.setBackground(new Color(240, 240, 240));
 		pnlFunc.add(pnlFunc3);
 
 		pnlList = new JPanel();
-		pnlList.setBackground(new Color(66, 165, 243));
-		pnlList.setPreferredSize(new Dimension(10, 410));
+		pnlList.setBackground(new Color(240, 240, 240));
+		pnlList.setPreferredSize(new Dimension(10, 400));
 		add(pnlList, BorderLayout.SOUTH);
 		pnlList.setLayout(new BorderLayout(0, 0));
 
 		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBorder(new TitledBorder(null, "Detail List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		pnlList.add(scrollPane_1);
 
 		table_thongke = new JTable();
 		scrollPane_1.setViewportView(table_thongke);
+		
+		panel = new JPanel();
+		panel.setBackground(new Color(240, 240, 240));
+		panel.setPreferredSize(new Dimension(35, 10));
+		pnlList.add(panel, BorderLayout.EAST);
+		
+		panel_1 = new JPanel();
+		panel_1.setBackground(new Color(240, 240, 240));
+		panel_1.setPreferredSize(new Dimension(10, 50));
+		pnlList.add(panel_1, BorderLayout.SOUTH);
+		
+		panel_2 = new JPanel();
+		panel_2.setBackground(new Color(240, 240, 240));
+		panel_2.setPreferredSize(new Dimension(35, 10));
+		pnlList.add(panel_2, BorderLayout.WEST);
 		
 
 
@@ -119,7 +143,8 @@ public class ExcelContent extends JPanel{
 		        model.addColumn("Customer_number");
 		        model.addColumn("Total_cost");
 		        model.addColumn("Create_At");
-		        ArrayList<BookingDTO> csDTO = BookingDAO.getInstance().getAll();
+		        BookingBUS bookingBUS = new BookingBUS();
+		        ArrayList<BookingDTO> csDTO = bookingBUS.getAll();
 		        for(BookingDTO bkDto : csDTO) {
 		        	System.out.println(bkDto.toString());
 		            model.addRow(new Object[] {
@@ -177,7 +202,8 @@ public class ExcelContent extends JPanel{
 		        model.addColumn("Departure_place");
 		        model.addColumn("Schedule-descripbe");
 		        model.addColumn("create_at");
-		        ArrayList<TourDTO> csDTO = TourDAO.getInstance().getAll();
+		        TourBUS tourBUS = new TourBUS();
+		        ArrayList<TourDTO> csDTO = tourBUS.getAll();
 		        for(TourDTO itemDao : csDTO) {
 		            model.addRow(new Object[] {
 		                    itemDao.getTour_id(),itemDao.getTour_name(),itemDao.getHotel_id(),itemDao.getPrice(),itemDao.getStart_day(),itemDao.getEnd_day(),itemDao.getDeparture_place(),
@@ -231,7 +257,8 @@ public class ExcelContent extends JPanel{
 			        model.addColumn("Birthday");
 			        model.addColumn("Email");
 			        model.addColumn("Create_At");
-			        ArrayList<CustomerDTO> csDTO = CustomerDAO.getInstance().getAll();
+			        CustomerBUS customerBUS = new CustomerBUS();
+			        ArrayList<CustomerDTO> csDTO = customerBUS.getAll();
 			        for(CustomerDTO itemCustomer : csDTO) {
 			            model.addRow(new Object[] {
 			                    itemCustomer.getCustomer_id(),itemCustomer.getCustomer_name(),itemCustomer.getTel(),itemCustomer.getBirthday(),itemCustomer.getEmail(),itemCustomer.getCreate_at()
@@ -286,7 +313,8 @@ public class ExcelContent extends JPanel{
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 HSSFSheet sheet = workbook.createSheet("account");
-                ArrayList<BookingDTO> list = BookingDAO.getInstance().getAll();
+                BookingBUS bookingBUS = new BookingBUS();
+                ArrayList<BookingDTO> list = bookingBUS.getAll();
                 int rowPos = 0;
                 HSSFRow row = sheet.createRow(rowPos);
                 row.createCell(0, CellType.NUMERIC).setCellValue("Booking_Id");
@@ -336,7 +364,8 @@ public class ExcelContent extends JPanel{
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 HSSFSheet sheet = workbook.createSheet("account");
-                ArrayList<TourDTO> list = TourDAO.getInstance().getAll();
+                TourBUS tourBUS = new TourBUS();
+                ArrayList<TourDTO> list = tourBUS.getAll();
                 int rowPos = 0;
                 HSSFRow row = sheet.createRow(rowPos);
                 row.createCell(0, CellType.NUMERIC).setCellValue("Tour_ID");
@@ -392,7 +421,8 @@ public class ExcelContent extends JPanel{
 
 	                HSSFWorkbook workbook = new HSSFWorkbook();
 	                HSSFSheet sheet = workbook.createSheet("account");
-	                ArrayList<CustomerDTO> list = CustomerDAO.getInstance().getAll();
+	                CustomerBUS customerBUS = new CustomerBUS();
+	                ArrayList<CustomerDTO> list = customerBUS.getAll();
 	                int rowPos = 0;
 	                HSSFRow row = sheet.createRow(rowPos);
 	                row.createCell(0, CellType.NUMERIC).setCellValue("Id");
@@ -514,7 +544,9 @@ public class ExcelContent extends JPanel{
 	                        td.setEnd_day(dateEndString);
 	                        td.setDeparture_place(item.get(6));
 	                        td.setSchedule_describe(item.get(7));
-	                        TourDAO.getInstance().add(td);
+	                        TourBUS tourBUS = new TourBUS();
+	                        tourBUS.addExcel(td);
+//	                        TourDAO.getInstance().add(td);
 	                    }
 
 	                    i++;
@@ -601,7 +633,9 @@ public class ExcelContent extends JPanel{
 	                        ddDto.setBirthday(dateString);
 	                        ddDto.setEmail(item.get(4));
 	                        ddDto.setCreate_at("");
-	                        CustomerDAO.getInstance().add(ddDto);
+	                        CustomerBUS customerBUS = new CustomerBUS();
+	                        customerBUS.add(ddDto);
+//	                        CustomerDAO.getInstance().add(ddDto);
 	                    }
 
 	                    i++;
@@ -687,7 +721,9 @@ public class ExcelContent extends JPanel{
 	                        float cusnum = Float.parseFloat(item.get(3));
 	                        bdo.setCustomer_number((int)cusnum);
 	                        bdo.setTotal_cost(Double.parseDouble(item.get(4)));
-	                       BookingDAO.getInstance().add(bdo);
+	                        BookingBUS bookingBUS = new BookingBUS();
+	                        bookingBUS.addExcel(bdo);
+//	                       BookingDAO.getInstance().add(bdo);
 
 	                    }
 
