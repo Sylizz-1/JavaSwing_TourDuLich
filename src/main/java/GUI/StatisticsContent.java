@@ -536,6 +536,14 @@ public class StatisticsContent extends JPanel {
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
 		btnShowChart_Tour = new JButton("Chart Tour");
+		btnShowChart_Tour.addActionListener(new ActionListener() {
+			private String[] items16;
+
+			public void actionPerformed(ActionEvent e) {
+				ChartTour Chart_Tour = new ChartTour();
+				Chart_Tour.main(items16);
+			}
+		});
 		btnShowChart_Tour.setContentAreaFilled(false);
 		btnShowChart_Tour.setFocusPainted(false);
 		btnShowChart_Tour.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

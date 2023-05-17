@@ -1,7 +1,7 @@
 package GUI;
 
 import BUS.HotelBUS;
-import BUS.PlaceBus;
+import BUS.PlaceBUS;
 import BUS.RegionBUS;
 import BUS.TourBUS;
 import DAO.HotelDAO;
@@ -622,7 +622,7 @@ public class TourContent extends JPanel{
                 // load data following region
 
                 if (pnlPlaceDetail.getComponents().length == 0 ){
-                    PlaceBus pb = new PlaceBus();
+                    PlaceBUS pb = new PlaceBUS();
                     ArrayList<PlaceDTO> places = pb.getPlacesByRegionCode(cbxDesTour.getSelectedItem().toString());
                     for (PlaceDTO place : places) {
                         JCheckBox cb = new JCheckBox(place.getPlace_id() +"-" + place.getPlace_name());
@@ -648,7 +648,7 @@ public class TourContent extends JPanel{
             }
         });
         cbxDesTour.addItemListener(e1 -> {
-            PlaceBus pb1 = new PlaceBus();
+            PlaceBUS pb1 = new PlaceBUS();
             arrCheckBox.clear();
             pnlPlaceDetail.removeAll();
             ArrayList<PlaceDTO> places1 = pb1.getPlacesByRegionCode(Objects.requireNonNull(cbxDesTour.getSelectedItem()).toString());

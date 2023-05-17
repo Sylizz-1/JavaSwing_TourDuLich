@@ -656,7 +656,7 @@ public class BillContent extends JPanel {
             }
             ServiceBUS sbs = new ServiceBUS();
             for (String ser : arrServices) {
-                total += sbs.getByid(Integer.parseInt(ser)).getService_price();
+                total += sbs.getById(Integer.parseInt(ser)).getService_price();
             }
             total += tour_name*cus_num;
             txtTotalPrice.setText(String.valueOf(total));

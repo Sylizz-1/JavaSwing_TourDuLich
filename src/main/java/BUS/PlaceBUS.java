@@ -54,4 +54,11 @@ public class PlaceBUS {
     		return "xoa thanh cong !";
     	}
     }
+    public  ArrayList<PlaceDTO> getPlacesByRegionCode(String rc) {
+    	if(PlaceDAO.getInstance().getPlacesByRegionCode(rc) != null) {
+
+    	}
+		return null;
+
+    }
 }
