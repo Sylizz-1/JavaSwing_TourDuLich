@@ -9,10 +9,10 @@ import org.apache.poi.ss.formula.SheetRangeAndWorkbookIndexFormatter;
 import java.util.ArrayList;
 
 public class PlaceBUS {
-    private PlaceDAO PlaceDAO;
+    private PlaceDAO placedao;
 
     public PlaceBUS() {
-        PlaceDAO = new PlaceDAO();
+        placedao = new PlaceDAO();
     }
 
     public ArrayList<PlaceDTO> getAll() {
@@ -55,10 +55,6 @@ public class PlaceBUS {
     	}
     }
     public  ArrayList<PlaceDTO> getPlacesByRegionCode(String rc) {
-    	if(PlaceDAO.getInstance().getPlacesByRegionCode(rc) != null) {
-
-    	}
-		return null;
-
+        return placedao.getPlacesByRegionCode(rc);
     }
 }

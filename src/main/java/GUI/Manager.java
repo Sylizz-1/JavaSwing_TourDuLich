@@ -298,6 +298,10 @@ public class Manager extends JFrame {
         this.lblDesManager = lblDesManager;
     }
 
+    public JPanel getPnlTourContent() {
+		return this.pnlTourContent;
+	}
+    
     public JLabel getLblBillManager() {
         return lblBillManager;
     }

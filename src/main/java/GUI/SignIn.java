@@ -314,6 +314,7 @@ public class SignIn extends JFrame {
 			}
 			else if (role.getRole_id() == 2) {
 				mag = new Manager();
+				mag.getPnlMainContent().remove(mag.getPnlTourContent());
 				mag.getPnlListDetail().remove(mag.getPnlTourManager());
 				mag.getPnlListDetail().remove(mag.getPnlDesManager());
 				mag.getPnlListDetail().remove(mag.getPnlHotelManager());
@@ -324,6 +325,7 @@ public class SignIn extends JFrame {
 			}
 			else if (role.getRole_id() == 3) {
 				mag = new Manager();
+				mag.getPnlMainContent().remove(mag.getPnlTourContent());
 				mag.getPnlListDetail().remove(mag.getPnlTourManager());
 				mag.getPnlListDetail().remove(mag.getPnlDesManager());
 				mag.getPnlListDetail().remove(mag.getPnlHotelManager());
@@ -335,7 +337,7 @@ public class SignIn extends JFrame {
 			}
 			else {
 				mag = new Manager();
-				
+				mag.getPnlMainContent().remove(mag.getPnlTourContent());
 				mag.getPnlListDetail().remove(mag.getPnlStatistical());
 				mag.getPnlListDetail().remove(mag.getPnlExportExcel());
 				mag.getPnlListDetail().remove(mag.getPnlAccManager());
