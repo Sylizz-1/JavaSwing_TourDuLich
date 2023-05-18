@@ -12,6 +12,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import BUS.CustomerBUS;
 import DAO.CustomerDAO;
 import DTO.CustomerDTO;
 
@@ -30,7 +31,9 @@ public class ChartCustomer {
     }
 
     private static CategoryDataset createDataset() {
-    	ArrayList<CustomerDTO> fffArrayList = CustomerDAO.getInstance().getAll();
+    	CustomerBUS customerBUS = new CustomerBUS();
+    	ArrayList<CustomerDTO> fffArrayList = customerBUS.getAll();
+  
     	int i =0;
     	for(CustomerDTO customerDTO: fffArrayList) {
     		i++;

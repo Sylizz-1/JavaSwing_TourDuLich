@@ -825,7 +825,7 @@ public class StatisticsContent extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				ChartCustomer ffffChart = new ChartCustomer();
-//				ffffChart.main(items15);
+				ffffChart.main(items15);
 			}
 		});
 		btnShowChart_Cus.setFocusPainted(false);
