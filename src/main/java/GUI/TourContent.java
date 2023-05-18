@@ -623,7 +623,7 @@ public class TourContent extends JPanel{
 
                 if (pnlPlaceDetail.getComponents().length == 0 ){
                     PlaceBUS pb = new PlaceBUS();
-                    ArrayList<PlaceDTO> places = pb.getPlacesByRegionCode(cbxDesTour.getSelectedItem().toString());
+                    ArrayList<PlaceDTO> places = pb.getPlacesByRegionCode(Objects.requireNonNull(cbxDesTour.getSelectedItem()).toString());
                     for (PlaceDTO place : places) {
                         JCheckBox cb = new JCheckBox(place.getPlace_id() +"-" + place.getPlace_name());
                         arrCheckBox.add(cb);
